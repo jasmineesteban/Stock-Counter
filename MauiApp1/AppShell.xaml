@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MauiApp1.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:local="clr-namespace:MauiApp1"
+    xmlns:pages="clr-namespace:MauiApp1.Pages"
+    Shell.FlyoutBehavior="Flyout"
+    Title="Stock Count">
+
+    <Shell.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#0066CC"
+                                   StatusBarStyle="DarkContent"/>
+    </Shell.Behaviors>
+
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />-->
+
+    <ShellContent ContentTemplate="{DataTemplate pages:OnboardingPage}"
+                  Shell.FlyoutBehavior="Disabled"
+                  Shell.FlyoutItemIsVisible="False"/>
+
+    <TabBar FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+        Title="Home"
+        Icon ="home"
+        ContentTemplate="{DataTemplate pages:HomePage}"
+        Route="HomePage"/>
+        <ShellContent
+        Title="Stock Count Sheets"
+        Icon ="stock"
+        ContentTemplate="{DataTemplate pages:MyCountsPage}"
+        Route="MyCountsPage"/>
+        <ShellContent
+        Title="Menu"
+        Icon ="menu"
+        ContentTemplate="{DataTemplate pages:SettingsPage}"
+        Route="SettingsPage"/>
+    </TabBar>
+
+    <MenuItem Text="Sign Out"
+              IconImageSource="logout"
+              Clicked="SignOutMenuItem_Clicked" />
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="Auto, *, Auto"
+                  RowDefinitions="Auto, Auto"
+                  Padding="15"
+                  RowSpacing="10"
+                  ColumnSpacing="20">
+                <Image Grid.Column ="0"
+                       Grid.Row="0"
+                       Source="{Binding FlyoutIcon}" 
+                       HeightRequest="24"
+                       WidthRequest="24"/>
+                <Label Grid.Column="1"
+                       Grid.Row="0"
+                       Text="{Binding Title}"
+                       TextColor="#0066CC"
+                       FontSize="16"
+                       FontFamily="Poppins-SemiBold"/>
+                <Image Grid.Row="0"
+                       Grid.Column="3"
+                       Source="rightarrow"
+                       WidthRequest="15">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="#0066CC"/>
+                    </Image.Behaviors>
+                </Image>
+
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="Auto, *"
+                  RowDefinitions="Auto, Auto"
+                  Padding="15"
+                  RowSpacing="10"
+                  ColumnSpacing="20">
+                <Image Grid.Column ="0"
+                   Grid.Row="0"
+                   Source="{Binding Icon}" 
+                   HeightRequest="24"
+                   WidthRequest="24">
+                </Image>
+                <Label Grid.Column="1"
+                   Grid.Row="0"
+                   Text="{Binding Text}"
+                   TextColor="#0066CC"
+                   FontSize="16"
+                   FontFamily="Poppins-SemiBold"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+
+    <Shell.FlyoutHeader>
+        <Border BackgroundColor="#0066CC"
+                StrokeThickness="0"
+                Padding="10">
+            <VerticalStackLayout HorizontalOptions="Center">
+                <Image Source ="sticker"
+                       HeightRequest="150"
+                       WidthRequest="150"
+                       HorizontalOptions="Center"/>
+                <Label Text="Stock Counter"
+                       FontSize="25"
+                       FontFamily="Poppins-SemiBold"
+                       TextColor="White"
+                       TextTransform="Uppercase"
+                       CharacterSpacing="1.5"/>
+            </VerticalStackLayout>
+        </Border>
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <Border Background="White"
+                StrokeThickness="0"
+                Padding="10">
+            <Label Text="Developed by BLUEGATES CUBE INC"
+                   FontFamily="Poppins"
+                   HorizontalTextAlignment="Center"
+                   TextColor="Gray"
+                   FontSize="15"/>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="FlyoutFooter_Tapped"/>
+            </Border.GestureRecognizers>
+        </Border>
+    </Shell.FlyoutFooter>
+
+</Shell>
