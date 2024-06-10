@@ -35,7 +35,7 @@
         ContentTemplate="{DataTemplate pages:MyCountsPage}"
         Route="MyCountsPage"/>
         <ShellContent
-        Title="Menu"
+        Title="Settings"
         Icon ="menu"
         ContentTemplate="{DataTemplate pages:SettingsPage}"
         Route="SettingsPage"/>

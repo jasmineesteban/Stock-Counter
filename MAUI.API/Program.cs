@@ -1,3 +1,8 @@
+using MAUI.API.Data;
+using MAUI.API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,8 +10,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+var connectionString = builder.Configuration.GetConnectionString("Item");
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(jwtOptions =>
+        jwtOptions.TokenValidationParameters = TokenService.GetTokenValidationParameters(builder.Configuration));
+
+builder.Services.AddAuthentication();
+
+builder.Services.AddTransient<TokenService>();
+
 var app = builder.Build();
 
+#if DEBUG
+MigrateDatabase(app.Services);
+#endif
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -15,6 +40,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 var summaries = new[]
 {
@@ -38,7 +66,15 @@ app.MapGet("/weatherforecast", () =>
 
 app.Run();
 
+static void MigrateDatabase(IServiceProvider sp)
+{
+    var scope = sp.CreateScope();
+    var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+    if(dataContext.Database.GetPendingMigrations().Any())
+        dataContext.Database.Migrate();
+}
 internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
