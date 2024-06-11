@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.ModalPage"
+             Title="Start Inventory"
+             BackgroundColor="Transparent">
+    <Frame
+        BackgroundColor="White"
+        CornerRadius="0"
+        BorderColor="LightGray"
+        Padding="20"
+        HasShadow="True"
+        IsClippedToBounds="True"
+        VerticalOptions="CenterAndExpand"
+        HorizontalOptions="CenterAndExpand">
+        <VerticalStackLayout
+            MinimumWidthRequest="250"
+            MinimumHeightRequest="300">
+            <Label
+                Text="Inventory Name"
+                Margin="0,20,0,0"/>
+            <Entry
+                x:Name="CountSheet"
+                Placeholder="Enter Count Sheet Name"/>
+            <Label 
+                Text="Date"
+                Margin="0,20,0,0"/>
+            <DatePicker
+                x:Name="InventoryDate"/>
+            <Label
+                Text="Employee"
+                Margin="0,20,0,0"/>
+            <Picker
+                Title="Select Employee"
+                ItemsSource="{Binding Name}"
+                ItemDisplayBinding="{Binding Name}"/>
+            <Label
+                Text="Remarks"
+                Margin="0,20,0,0"/>
+            <Entry
+                x:Name="remarks"
+                Placeholder="Enter Remarks"/>
+            <StackLayout Orientation="Horizontal">
+                <Button
+                    Text="Save"
+                    Margin="23,20,10,0"
+                    WidthRequest="150"
+                    VerticalOptions="Center"
+                    Clicked="Save_Clicked"/>
+                <Button
+                    Text="Cancel"
+                    WidthRequest="150"
+                    VerticalOptions="Center"
+                    Margin="0,20,10,0"
+                    Clicked="Cancel_Clicked"/>
+            </StackLayout>
+        </VerticalStackLayout>
+    </Frame>
+</ContentPage>

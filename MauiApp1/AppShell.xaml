@@ -30,10 +30,10 @@
         ContentTemplate="{DataTemplate pages:HomePage}"
         Route="HomePage"/>
         <ShellContent
-        Title="Stock Count Sheets"
+        Title="Count Sheets Page"
         Icon ="stock"
-        ContentTemplate="{DataTemplate pages:MyCountsPage}"
-        Route="MyCountsPage"/>
+        ContentTemplate="{DataTemplate pages:CountSheetsPage}"
+        Route="CountSheetsPage"/>
         <ShellContent
         Title="Settings"
         Icon ="menu"
