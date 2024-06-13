@@ -1,21 +1,69 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiApp1.Pages.HomePage"
              Title="Home Page"
-             Shell.NavBarIsVisible="False">
-    <VerticalStackLayout Grid.Row="0"
-                         Spacing="20"
-                         VerticalOptions="End"
-                         HorizontalOptions="End"
-                         Margin="20">
-        <Button
-            Text="+"
-            FontSize="30"
-            CornerRadius="100"
-            FontAttributes="Bold"
-            WidthRequest="60"
-            HeightRequest="60"
-            Clicked="Form_Clicked"/>
-    </VerticalStackLayout>
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+    <AbsoluteLayout>
+        
+        <!--Frame-->
+        <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Frame BorderColor="LightGray"
+                   Margin="1,20,0,0"
+                   HorizontalOptions="FillAndExpand"
+                   HeightRequest="120"
+                   CornerRadius="3"
+                   HasShadow="True">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Frame_Tapped" />
+                </Frame.GestureRecognizers>
+                <!-- Two Labels inside the Frame -->
+                <StackLayout VerticalOptions="Center">
+                    <Label Text="Count Sheet A"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Start"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           AbsoluteLayout.LayoutBounds="0.5,1,250,200"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"/>
+                    <Label Text="See Products"
+                           TextColor="#0066CC"
+                           HorizontalOptions="End"
+                           VerticalOptions="End"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           AbsoluteLayout.LayoutBounds="0.5,1,250,200"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"/>
+                </StackLayout>
+            </Frame>
+            <!--End of Frame-->
+            
+            
+        </StackLayout>
+        <Image Source="empty"
+               HeightRequest="250"
+               WidthRequest="250"
+               Aspect="AspectFit"
+               AbsoluteLayout.LayoutBounds="0.5,0.4,250,200"
+               AbsoluteLayout.LayoutFlags="PositionProportional"/>
+        <Label Text="No Items Available"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               AbsoluteLayout.LayoutBounds="0.5,0.65,Autosize,200"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               FontAttributes="Bold"
+               FontSize="30"
+               TextColor="#D0D0D0"/>
+        <Button Text="+" 
+                FontSize="30" 
+                CornerRadius="100" 
+                FontAttributes="Bold" 
+                WidthRequest="60" 
+                HeightRequest="60"
+                AbsoluteLayout.LayoutBounds="1,1,90,90"
+                Clicked="Form_Clicked"
+                AbsoluteLayout.LayoutFlags="PositionProportional"/>
+    </AbsoluteLayout>
 </ContentPage>

@@ -14,10 +14,6 @@
                                    StatusBarStyle="DarkContent"/>
     </Shell.Behaviors>
 
-    <!--<ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />-->
 
     <ShellContent ContentTemplate="{DataTemplate pages:OnboardingPage}"
                   Shell.FlyoutBehavior="Disabled"

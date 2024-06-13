@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.ApplicationModel;assembly=CommunityToolkit.Maui.Core"
+             x:Class="MauiApp1.Pages.AddItemPage"
+             Title="Add Item Page"
+             Shell.TabBarIsVisible="False">
+    <VerticalStackLayout>
+        <!--Header-->
+        <Grid HeightRequest="50"
+              BackgroundColor="White">
+            <BoxView BackgroundColor="#555555"
+                     HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="End"/>
+            <Label Text="ITEM DETAILS"
+                   FontSize="20"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="Center"
+                   Margin="10,0,0,0"/>
+        </Grid>
+
+        <!--ProductReference-->
+        <Grid HeightRequest="30"
+              BackgroundColor="#555555">
+            <BoxView BackgroundColor="#555555"
+                     HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="End"/>
+            <Label Text="Product Reference"
+                   FontSize="14"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   TextColor="White"
+                   Margin="10,0,0,0"/>
+        </Grid>
+        <!--Item Code-->
+        <Frame BorderColor="#f9f9f9"
+               CornerRadius="0"
+               HasShadow="False"
+               Padding="0"
+               HeightRequest="40"
+               BackgroundColor="White"
+               Margin="10,15,10,0">
+            <SearchBar Placeholder="Item Code"
+                       BackgroundColor="White"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       CancelButtonColor="Gray"/>
+        </Frame>
+        <Entry Placeholder="Barcode"
+               Margin="10,15,10,0"
+               TextColor="#646464">
+        </Entry>
+        <Entry Placeholder="Product Name"
+               Margin="10,15,10,0"
+               TextColor="#646464">
+        </Entry>
+        
+        <!--Other Details-->
+        <Grid HeightRequest="30"
+              BackgroundColor="#555555"
+              Margin="0,15,0,0">
+            <BoxView BackgroundColor="#555555"
+                     HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="End"/>
+            <Label Text="Other Details"
+                   FontSize="14"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   TextColor="White"
+                   Margin="10,0,0,0"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- First column -->
+            <StackLayout Grid.Column="0" Orientation="Vertical">
+                <Entry Placeholder="UOM"
+                       Margin="10,15,10,0"
+                       TextColor="#646464"/>
+
+                <Entry Placeholder="Batch No."
+                       Margin="10,15,10,0"
+                       TextColor="#646464"/>
+
+                <Entry Placeholder="Quantity"
+                       Keyboard="Numeric"
+                       Margin="10,15,10,0"
+                       TextColor="#646464"/>
+            </StackLayout>
+
+            <!-- Second column -->
+            <StackLayout Grid.Column="1"
+                         Orientation="Vertical">
+                <Entry Placeholder="Expiry"
+                        Margin="10,15,10,0"
+                        TextColor="#646464"/>
+
+
+                <Entry Placeholder="Lot No."
+                       Margin="10,15,10,0"
+                       TextColor="#646464"/>
+            </StackLayout>
+        </Grid>
+
+    </VerticalStackLayout>
+</ContentPage>

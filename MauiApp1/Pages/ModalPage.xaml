@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.ModalPage"
              Title="Start Inventory"
-             BackgroundColor="Transparent">
+             BackgroundColor="#60000000">
     <Frame
         BackgroundColor="White"
         CornerRadius="0"
@@ -26,12 +26,13 @@
                 Text="Date"
                 Margin="0,20,0,0"/>
             <DatePicker
-                x:Name="InventoryDate"/>
+                x:Name="InventoryDate"
+                HorizontalOptions="CenterAndExpand"
+                DateSelected="InventoryDate_DateSelected"/>
             <Label
                 Text="Employee"
                 Margin="0,20,0,0"/>
             <Picker
-                Title="Select Employee"
                 ItemsSource="{Binding Name}"
                 ItemDisplayBinding="{Binding Name}"/>
             <Label
