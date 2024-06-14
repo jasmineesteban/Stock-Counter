@@ -7,16 +7,15 @@ namespace MauiApp1
         public AppShell()
         {
             InitializeComponent();
-            //Routing.RegisterRoute(nameof(SignInPage), typeof(SignInPage));
             RegisterRoutes();
         }
 
         private readonly static Type[] _routablePageTypes = 
             [
             typeof(SignInPage),
-            typeof(MyCountsPage),
-            typeof(CountDetailsPage),
-            typeof(itemDetailsPage)
+            typeof(CountSheetsPage),
+            typeof(ModalPage),
+            typeof(AddItemPage),
             ];
 
         private static void RegisterRoutes()
@@ -24,6 +23,10 @@ namespace MauiApp1
             foreach (var pageType in _routablePageTypes)
             {
                 Routing.RegisterRoute(pageType.Name, pageType);
+            }
+            foreach (var viewType in _routablePageTypes)
+            {
+                Routing.RegisterRoute(viewType.Name, viewType);
             }
         }
 

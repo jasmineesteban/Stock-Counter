@@ -8,6 +8,7 @@ namespace MauiApp1
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -18,7 +19,7 @@ namespace MauiApp1
                 .UseMauiCommunityToolkit();
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

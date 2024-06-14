@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.ApplicationModel;assembly=CommunityToolkit.Maui.Core"
+             x:Class="MauiApp1.Pages.AddItemPage"
+             Title="Item Details"
+             Shell.TabBarIsVisible="False">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add"
+                     Clicked="AddItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <VerticalStackLayout>
+        <!--Header-->
+        <!--<Grid HeightRequest="50"
+              BackgroundColor="White">
+            <BoxView BackgroundColor="#555555"
+                     HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="End"/>
+            <Label Text="ITEM DETAILS"
+                   FontSize="20"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="Center"
+                   Margin="10,0,0,0"/>
+        </Grid>-->
+
+        <!--ProductReference-->
+        <Grid HeightRequest="30"
+              BackgroundColor="#555555">
+            <BoxView BackgroundColor="#555555"
+                     HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="End"/>
+            <Label Text="Product Reference"
+                   FontSize="14"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   TextColor="White"
+                   Margin="10,0,0,0"/>
+        </Grid>
+        <!--Item Code-->
+        <Frame BorderColor="#f9f9f9"
+               CornerRadius="0"
+               HasShadow="False"
+               Padding="0"
+               HeightRequest="40"
+               BackgroundColor="White"
+               Margin="10,15,10,10">
+            <SearchBar Placeholder="Item Code"
+                       BackgroundColor="White"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       CancelButtonColor="Gray"/>
+        </Frame>
+        <Label Text="Barcode"
+               Margin="10,0,0,0"/>
+        <Entry x:Name="EntryBarcode"
+               Placeholder="Barcode"
+               Margin="10,8,10,10"
+               TextColor="#646464"
+               IsReadOnly="True"
+               Text="{Binding Barcode}">
+        </Entry>
+        <Label
+                Text="Product Name"
+                Margin="10,0,0,0"/>
+        <Entry x:Name="EntryProductName"
+               Placeholder="Product Name"
+               Margin="10,8,10,0"
+               TextColor="#646464"
+               IsReadOnly="True"
+               Text="{Binding ProductName}">
+        </Entry>
+        
+        <!--Other Details-->
+        <Grid HeightRequest="30"
+              BackgroundColor="#555555"
+              Margin="0,15,0,0">
+            <BoxView BackgroundColor="#555555"
+                     HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="End"/>
+            <Label Text="Other Details"
+                   FontSize="14"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   TextColor="White"
+                   Margin="10,0,0,0"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- First column -->
+            <StackLayout Grid.Column="0" Orientation="Vertical">
+                <Label Text="UOM"
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryUOM"
+                       Placeholder="UOM"
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Text="{Binding Uom}">
+                </Entry>
+
+                <Label Text="Batch No."
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryBatchNo"
+                       Placeholder="Batch No."
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Text="{Binding Batch}">
+                </Entry>
+
+                <Label Text="Quantity"
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryQuantity"
+                       Placeholder="Quantity"
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Keyboard="Numeric">
+                </Entry>
+            </StackLayout>
+
+            <!-- Second column -->
+            <StackLayout Grid.Column="1"
+                         Orientation="Vertical">
+                <Label Text="Expiry Date"
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryExpiryDate"
+                       Placeholder="Enter Expiry Date (YYYY-MM-DD)"
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Text="{Binding ExpiryDate, StringFormat='yyyy-MM-dd', Mode=TwoWay}" >
+                </Entry>
+
+
+                <Label Text="Lot No."
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryLotNo"
+                       Placeholder="Lot No."
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Text="{Binding Lot}">
+                </Entry>
+            </StackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

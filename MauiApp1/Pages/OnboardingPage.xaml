@@ -26,7 +26,7 @@
                              HorizontalOptions="Center"
                              VerticalOptions="Center"
                              Padding="20,20,20,100">
-            <Button Text="Sign In" Clicked="SignIn_Clicked"/>
+            <!--<Button Text="Sign In" Clicked="SignIn_Clicked"/>-->
         </VerticalStackLayout>
     </Grid>
     

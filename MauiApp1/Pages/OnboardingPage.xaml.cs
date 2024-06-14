@@ -1,19 +1,20 @@
-namespace MauiApp1.Pages;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 
-public partial class OnboardingPage : ContentPage
+namespace MauiApp1.Pages
 {
-	public OnboardingPage()
-	{
-		InitializeComponent();
-	}
-
-  //  private async void Button_Clicked(object sender, EventArgs e)
-  //  {
-		//await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
-  //  }
-
-    private async void SignIn_Clicked(object sender, EventArgs e)
+    public partial class OnboardingPage : ContentPage
     {
-        await Shell.Current.GoToAsync(nameof(SignInPage));
+        public OnboardingPage()
+        {
+            InitializeComponent();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await Task.Delay(3000); //3 seconds
+            await Shell.Current.GoToAsync(nameof(SignInPage));
+        }
     }
 }

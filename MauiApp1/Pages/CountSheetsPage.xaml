@@ -1,0 +1,155 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.ApplicationModel;assembly=CommunityToolkit.Maui.Core"
+             x:Class="MauiApp1.Pages.CountSheetsPage"
+             Title="Sample Count Sheet"
+             Shell.TabBarIsVisible="False">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+"
+                     IconImageSource="application"
+                     Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <!-- Main Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Row for Frame with Labels -->
+            <RowDefinition Height="*" />
+            <!-- Row for ScrollView with CollectionView -->
+            <RowDefinition Height="Auto" />
+            <!-- Row for Add Item Button -->
+        </Grid.RowDefinitions>
+
+        <!-- Frame with Labels -->
+        <Frame Grid.Row="0"
+               BackgroundColor="Transparent"
+               BorderColor="LightGray"
+               CornerRadius="0"
+               Padding="10"
+               HasShadow="True">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Name" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="0" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="{Binding CountSheetName}" VerticalOptions="Center" Padding="0,0,0,3"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Date" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="1" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
+                <Label Grid.Row="1" Grid.Column="2" Text="{Binding Date}" VerticalOptions="Center" Padding="0,0,0,3"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Text="User" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="2" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
+                <Label Grid.Row="2" Grid.Column="2" Text="{Binding User}" VerticalOptions="Center" Padding="0,0,0,3"/>
+
+                <Label Grid.Row="3" Grid.Column="0" Text="Remarks" VerticalOptions="Center" Padding="0,0,5,5"/>
+                <Label Grid.Row="3" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
+                <Label Grid.Row="3" Grid.Column="2" Text="{Binding CountSheetName}" VerticalOptions="Center" Padding="0,0,0,5"/>
+            </Grid>
+
+
+
+
+
+
+        </Frame>
+
+        <!-- ScrollView with CollectionView -->
+        <ScrollView Grid.Row="1"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All">
+            <Grid>
+                <!-- Header Row -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"
+                      BackgroundColor="#0066CC"
+                      HeightRequest="30"
+                      Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                           Text="Name"
+                           FontAttributes="Italic"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="1"
+                           Text="Quantity"
+                           FontAttributes="Italic"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="2"
+                           Text="UOM"
+                           FontAttributes="Italic"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- CollectionView -->
+                <CollectionView Grid.Row="1"
+                                x:Name="dataGrid"
+                                ItemsSource="{Binding Items}"
+                                VerticalOptions="FillAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Padding="5" Stroke="Gray" StrokeThickness="0.3">
+                                    <Label Text="{Binding Name}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="1" Padding="5" Stroke="Gray" StrokeThickness="0.3">
+                                    <Label Text="{Binding Quantity}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="2" Padding="5" Stroke="Gray" StrokeThickness="0.3">
+                                    <Label Text="{Binding UOM}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </ScrollView>
+
+        <!-- Add Item Button -->
+        <Button Grid.Row="2"
+                Text="Add Item"
+                BackgroundColor="#0066CC"
+                TextColor="White"
+                CornerRadius="25"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"
+                Margin="20"
+                Clicked="AddItem_Clicked"/>
+    </Grid>
+</ContentPage>

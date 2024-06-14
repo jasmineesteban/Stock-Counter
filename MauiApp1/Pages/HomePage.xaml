@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiApp1.Pages.HomePage"
              Title="Home Page"
-             Shell.NavBarIsVisible="False">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Shell.NavBarIsVisible="True"
+             Shell.TabBarIsVisible="False">
+    <AbsoluteLayout>
+
+        <!-- Vertical Stack Layout to hold Frames -->
+        <VerticalStackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"                
+                     AbsoluteLayout.LayoutFlags="All">
+            <!-- Frame 1 -->
+            <Frame BorderColor="LightGray"
+                   Margin="10"
+                   HorizontalOptions="FillAndExpand"
+                   HeightRequest="60"
+                   CornerRadius="10"
+                   HasShadow="True">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Frame_Tapped" />
+                </Frame.GestureRecognizers>
+                <!-- Two Labels inside the Frame -->
+                <StackLayout VerticalOptions="Center">
+                    <!--Label Text="{Binding FrameName}"-->
+                    <Label Text="Count Sheet A"
+                            HorizontalOptions="Start"
+                           VerticalOptions="Start"
+                           FontSize="15"
+                           FontAttributes="Bold"/>
+                </StackLayout>
+            </Frame>
+            <!-- End of Frame 1 -->
+
+            <!-- Frame 2 -->
+            
+            <!-- End of Frame 2 -->
+        </VerticalStackLayout>
+        <!-- End of Vertical Stack Layout -->
+
+        <!-- Image -->
+        <Image Source="empty"
+               HeightRequest="250"
+               WidthRequest="250"
+               Aspect="AspectFit"
+               AbsoluteLayout.LayoutBounds="0.5,0.4,250,200"
+               AbsoluteLayout.LayoutFlags="PositionProportional"/>
+        <!-- Label -->
+        <Label Text="No Items Available"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               AbsoluteLayout.LayoutBounds="0.5,0.65,Autosize,200"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               FontAttributes="Bold"
+               FontSize="30"
+               TextColor="#D0D0D0"/>
+        <!-- Button -->
+        <Button x:Name="inventoryStack" Padding="10"
+                Text="+"
+                FontSize="30" 
+                CornerRadius="100" 
+                FontAttributes="Bold" 
+                WidthRequest="60" 
+                HeightRequest="60"
+                AbsoluteLayout.LayoutBounds="1,1,90,90"
+                Clicked="Form_Clicked"
+                AbsoluteLayout.LayoutFlags="PositionProportional"/>
+    </AbsoluteLayout>
 </ContentPage>

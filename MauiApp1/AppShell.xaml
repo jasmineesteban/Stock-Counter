@@ -14,10 +14,6 @@
                                    StatusBarStyle="DarkContent"/>
     </Shell.Behaviors>
 
-    <!--<ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />-->
 
     <ShellContent ContentTemplate="{DataTemplate pages:OnboardingPage}"
                   Shell.FlyoutBehavior="Disabled"
@@ -25,25 +21,25 @@
 
     <TabBar FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
-        Title="Home"
-        Icon ="home"
-        ContentTemplate="{DataTemplate pages:HomePage}"
-        Route="HomePage"/>
+            Title="Home"
+            Icon ="home"
+            ContentTemplate="{DataTemplate pages:HomePage}"
+            Route="HomePage"/>
         <ShellContent
-        Title="Stock Count Sheets"
-        Icon ="stock"
-        ContentTemplate="{DataTemplate pages:MyCountsPage}"
-        Route="MyCountsPage"/>
+            Title="Count Sheets Page"
+            Icon ="stock"
+            ContentTemplate="{DataTemplate pages:CountSheetsPage}"
+            Route="CountSheetsPage"/>
         <ShellContent
-        Title="Menu"
-        Icon ="menu"
-        ContentTemplate="{DataTemplate pages:SettingsPage}"
-        Route="SettingsPage"/>
+            Title="Settings"
+            Icon ="gear"
+            ContentTemplate="{DataTemplate pages:SettingsPage}"
+            Route="SettingsPage"/>
     </TabBar>
 
     <MenuItem Text="Sign Out"
               IconImageSource="logout"
-              Clicked="SignOutMenuItem_Clicked" />
+              Clicked="SignOutMenuItem_Clicked"/>
 
     <Shell.ItemTemplate>
         <DataTemplate>
@@ -132,5 +128,6 @@
             </Border.GestureRecognizers>
         </Border>
     </Shell.FlyoutFooter>
+
 
 </Shell>
