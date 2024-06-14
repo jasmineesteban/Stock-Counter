@@ -15,7 +15,6 @@
             <Frame BorderColor="LightGray"
                    Margin="10"
                    HorizontalOptions="FillAndExpand"
-                   HeightRequest="120"
                    HeightRequest="60"
                    CornerRadius="10"
                    HasShadow="True">
