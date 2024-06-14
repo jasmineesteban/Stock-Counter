@@ -15,19 +15,14 @@ public partial class ModalPage : ContentPage
 
     private void InventoryDate_DateSelected(object sender, DateChangedEventArgs e)
     {
-        // Get the selected date
         DateTime selectedDate = e.NewDate;
 
-        // Get today's date
         DateTime today = DateTime.Today;
 
-        // Compare selected date with today's date
         if (selectedDate > today)
         {
-            // If selected date is in the future, reset to today
             InventoryDate.Date = today;
 
-            // Display alert message
             DisplayAlert("Alert", "Please select a date on or before today.", "OK");
         }
     }
@@ -36,5 +31,19 @@ public partial class ModalPage : ContentPage
 
     private void Save_Clicked(object sender, EventArgs e)
     {
+    }
+    private async void OnAppearing(object sender, EventArgs e)
+    {
+        base.OnAppearing();
+
+        await FadeInModalFrame();
+    }
+
+
+    private async Task FadeInModalFrame()
+    {
+        this.Opacity = 0;
+
+        await this.FadeTo(1, 250, Easing.Linear);
     }
 }

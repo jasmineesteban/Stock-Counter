@@ -4,50 +4,50 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiApp1.Pages.HomePage"
              Title="Home Page"
-             Shell.NavBarIsVisible="False"
+             Shell.NavBarIsVisible="True"
              Shell.TabBarIsVisible="False">
     <AbsoluteLayout>
-        
-        <!--Frame-->
-        <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+
+        <!-- Vertical Stack Layout to hold Frames -->
+        <VerticalStackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"                
+                     AbsoluteLayout.LayoutFlags="All">
+            <!-- Frame 1 -->
             <Frame BorderColor="LightGray"
-                   Margin="1,20,0,0"
+                   Margin="10"
                    HorizontalOptions="FillAndExpand"
                    HeightRequest="120"
-                   CornerRadius="3"
+                   HeightRequest="60"
+                   CornerRadius="10"
                    HasShadow="True">
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Tapped="Frame_Tapped" />
                 </Frame.GestureRecognizers>
                 <!-- Two Labels inside the Frame -->
                 <StackLayout VerticalOptions="Center">
+                    <!--Label Text="{Binding FrameName}"-->
                     <Label Text="Count Sheet A"
-                           HorizontalOptions="Start"
+                            HorizontalOptions="Start"
                            VerticalOptions="Start"
                            FontSize="15"
-                           FontAttributes="Bold"
-                           AbsoluteLayout.LayoutBounds="0.5,1,250,200"
-                           AbsoluteLayout.LayoutFlags="PositionProportional"/>
-                    <Label Text="See Products"
-                           TextColor="#0066CC"
-                           HorizontalOptions="End"
-                           VerticalOptions="End"
-                           FontSize="15"
-                           FontAttributes="Bold"
-                           AbsoluteLayout.LayoutBounds="0.5,1,250,200"
-                           AbsoluteLayout.LayoutFlags="PositionProportional"/>
+                           FontAttributes="Bold"/>
                 </StackLayout>
             </Frame>
-            <!--End of Frame-->
+            <!-- End of Frame 1 -->
+
+            <!-- Frame 2 -->
             
-            
-        </StackLayout>
+            <!-- End of Frame 2 -->
+        </VerticalStackLayout>
+        <!-- End of Vertical Stack Layout -->
+
+        <!-- Image -->
         <Image Source="empty"
                HeightRequest="250"
                WidthRequest="250"
                Aspect="AspectFit"
                AbsoluteLayout.LayoutBounds="0.5,0.4,250,200"
                AbsoluteLayout.LayoutFlags="PositionProportional"/>
+        <!-- Label -->
         <Label Text="No Items Available"
                VerticalOptions="Center"
                HorizontalOptions="Center"
@@ -56,7 +56,9 @@
                FontAttributes="Bold"
                FontSize="30"
                TextColor="#D0D0D0"/>
-        <Button Text="+" 
+        <!-- Button -->
+        <Button x:Name="inventoryStack" Padding="10"
+                Text="+"
                 FontSize="30" 
                 CornerRadius="100" 
                 FontAttributes="Bold" 

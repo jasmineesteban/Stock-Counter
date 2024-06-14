@@ -21,25 +21,25 @@
 
     <TabBar FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
-        Title="Home"
-        Icon ="home"
-        ContentTemplate="{DataTemplate pages:HomePage}"
-        Route="HomePage"/>
+            Title="Home"
+            Icon ="home"
+            ContentTemplate="{DataTemplate pages:HomePage}"
+            Route="HomePage"/>
         <ShellContent
-        Title="Count Sheets Page"
-        Icon ="stock"
-        ContentTemplate="{DataTemplate pages:CountSheetsPage}"
-        Route="CountSheetsPage"/>
+            Title="Count Sheets Page"
+            Icon ="stock"
+            ContentTemplate="{DataTemplate pages:CountSheetsPage}"
+            Route="CountSheetsPage"/>
         <ShellContent
-        Title="Settings"
-        Icon ="menu"
-        ContentTemplate="{DataTemplate pages:SettingsPage}"
-        Route="SettingsPage"/>
+            Title="Settings"
+            Icon ="gear"
+            ContentTemplate="{DataTemplate pages:SettingsPage}"
+            Route="SettingsPage"/>
     </TabBar>
 
     <MenuItem Text="Sign Out"
               IconImageSource="logout"
-              Clicked="SignOutMenuItem_Clicked" />
+              Clicked="SignOutMenuItem_Clicked"/>
 
     <Shell.ItemTemplate>
         <DataTemplate>
@@ -128,5 +128,6 @@
             </Border.GestureRecognizers>
         </Border>
     </Shell.FlyoutFooter>
+
 
 </Shell>

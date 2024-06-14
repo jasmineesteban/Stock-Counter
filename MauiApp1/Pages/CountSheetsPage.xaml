@@ -5,6 +5,12 @@
              Title="Sample Count Sheet"
              Shell.TabBarIsVisible="False">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+"
+                     IconImageSource="application"
+                     Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+
     <Grid>
         <!-- Main Grid -->
         <Grid.RowDefinitions>
@@ -30,28 +36,34 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <!-- Labels -->
-                <Label Grid.Row="0"
-                       Text="Name:"
-                       VerticalOptions="Center"
-                       Padding="0,0,0,3"/>
+                <Label Grid.Row="0" Grid.Column="0" Text="Name" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="0" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="{Binding CountSheetName}" VerticalOptions="Center" Padding="0,0,0,3"/>
 
-                <Label Grid.Row="1"
-                       Text="Date:"
-                       VerticalOptions="Center"
-                       Padding="0,0,0,3"/>
+                <Label Grid.Row="1" Grid.Column="0" Text="Date" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="1" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
+                <Label Grid.Row="1" Grid.Column="2" Text="{Binding Date}" VerticalOptions="Center" Padding="0,0,0,3"/>
 
-                <Label Grid.Row="2"
-                       Text="User:"
-                       VerticalOptions="Center"
-                       Padding="0,0,0,3"/>
+                <Label Grid.Row="2" Grid.Column="0" Text="User" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="2" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
+                <Label Grid.Row="2" Grid.Column="2" Text="{Binding User}" VerticalOptions="Center" Padding="0,0,0,3"/>
 
-                <Label Grid.Row="3"
-                       Text="Remarks:"
-                       VerticalOptions="Center"
-                       Padding="0,0,0,5"/>
+                <Label Grid.Row="3" Grid.Column="0" Text="Remarks" VerticalOptions="Center" Padding="0,0,5,5"/>
+                <Label Grid.Row="3" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
+                <Label Grid.Row="3" Grid.Column="2" Text="{Binding CountSheetName}" VerticalOptions="Center" Padding="0,0,0,5"/>
             </Grid>
+
+
+
+
+
+
         </Frame>
 
         <!-- ScrollView with CollectionView -->

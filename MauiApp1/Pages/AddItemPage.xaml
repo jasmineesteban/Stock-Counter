@@ -3,11 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.ApplicationModel;assembly=CommunityToolkit.Maui.Core"
              x:Class="MauiApp1.Pages.AddItemPage"
-             Title="Add Item Page"
+             Title="Item Details"
              Shell.TabBarIsVisible="False">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add"
+                     Clicked="AddItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+
     <VerticalStackLayout>
         <!--Header-->
-        <Grid HeightRequest="50"
+        <!--<Grid HeightRequest="50"
               BackgroundColor="White">
             <BoxView BackgroundColor="#555555"
                      HeightRequest="1"
@@ -18,7 +23,7 @@
                    HorizontalOptions="CenterAndExpand"
                    VerticalOptions="Center"
                    Margin="10,0,0,0"/>
-        </Grid>
+        </Grid>-->
 
         <!--ProductReference-->
         <Grid HeightRequest="30"
@@ -41,20 +46,31 @@
                Padding="0"
                HeightRequest="40"
                BackgroundColor="White"
-               Margin="10,15,10,0">
+               Margin="10,15,10,10">
             <SearchBar Placeholder="Item Code"
                        BackgroundColor="White"
                        HorizontalOptions="FillAndExpand"
                        VerticalOptions="Center"
                        CancelButtonColor="Gray"/>
         </Frame>
-        <Entry Placeholder="Barcode"
-               Margin="10,15,10,0"
-               TextColor="#646464">
+        <Label Text="Barcode"
+               Margin="10,0,0,0"/>
+        <Entry x:Name="EntryBarcode"
+               Placeholder="Barcode"
+               Margin="10,8,10,10"
+               TextColor="#646464"
+               IsReadOnly="True"
+               Text="{Binding Barcode}">
         </Entry>
-        <Entry Placeholder="Product Name"
-               Margin="10,15,10,0"
-               TextColor="#646464">
+        <Label
+                Text="Product Name"
+                Margin="10,0,0,0"/>
+        <Entry x:Name="EntryProductName"
+               Placeholder="Product Name"
+               Margin="10,8,10,0"
+               TextColor="#646464"
+               IsReadOnly="True"
+               Text="{Binding ProductName}">
         </Entry>
         
         <!--Other Details-->
@@ -80,33 +96,56 @@
 
             <!-- First column -->
             <StackLayout Grid.Column="0" Orientation="Vertical">
-                <Entry Placeholder="UOM"
-                       Margin="10,15,10,0"
-                       TextColor="#646464"/>
+                <Label Text="UOM"
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryUOM"
+                       Placeholder="UOM"
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Text="{Binding Uom}">
+                </Entry>
 
-                <Entry Placeholder="Batch No."
-                       Margin="10,15,10,0"
-                       TextColor="#646464"/>
+                <Label Text="Batch No."
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryBatchNo"
+                       Placeholder="Batch No."
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Text="{Binding Batch}">
+                </Entry>
 
-                <Entry Placeholder="Quantity"
-                       Keyboard="Numeric"
-                       Margin="10,15,10,0"
-                       TextColor="#646464"/>
+                <Label Text="Quantity"
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryQuantity"
+                       Placeholder="Quantity"
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Keyboard="Numeric">
+                </Entry>
             </StackLayout>
 
             <!-- Second column -->
             <StackLayout Grid.Column="1"
                          Orientation="Vertical">
-                <Entry Placeholder="Expiry"
-                        Margin="10,15,10,0"
-                        TextColor="#646464"/>
+                <Label Text="Expiry Date"
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryExpiryDate"
+                       Placeholder="Enter Expiry Date (YYYY-MM-DD)"
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Text="{Binding ExpiryDate, StringFormat='yyyy-MM-dd', Mode=TwoWay}" >
+                </Entry>
 
 
-                <Entry Placeholder="Lot No."
-                       Margin="10,15,10,0"
-                       TextColor="#646464"/>
+                <Label Text="Lot No."
+                       Margin="10,10,0,0"/>
+                <Entry x:Name="EntryLotNo"
+                       Placeholder="Lot No."
+                       Margin="10,8,10,0"
+                       TextColor="#646464"
+                       Text="{Binding Lot}">
+                </Entry>
             </StackLayout>
         </Grid>
-
     </VerticalStackLayout>
 </ContentPage>

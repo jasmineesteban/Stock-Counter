@@ -73,10 +73,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MAUI.Shared\MAUI.Shared.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Folder Include="Components\" />
 	  <Folder Include="Models\" />
 	  <Folder Include="Data\" />

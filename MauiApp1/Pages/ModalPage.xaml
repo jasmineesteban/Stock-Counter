@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.ModalPage"
              Title="Start Inventory"
-             BackgroundColor="#60000000">
+             BackgroundColor="#60000000"
+             Appearing="OnAppearing">
     <Frame
         BackgroundColor="White"
         CornerRadius="0"
@@ -12,48 +13,56 @@
         HasShadow="True"
         IsClippedToBounds="True"
         VerticalOptions="CenterAndExpand"
-        HorizontalOptions="CenterAndExpand">
+        HorizontalOptions="FillAndExpand">
         <VerticalStackLayout
             MinimumWidthRequest="250"
-            MinimumHeightRequest="300">
+            MinimumHeightRequest="300"
+            HorizontalOptions="FillAndExpand">
             <Label
                 Text="Inventory Name"
                 Margin="0,20,0,0"/>
             <Entry
                 x:Name="CountSheet"
-                Placeholder="Enter Count Sheet Name"/>
+                Placeholder="Enter Count Sheet Name"
+                HorizontalOptions="FillAndExpand"/>
             <Label 
                 Text="Date"
                 Margin="0,20,0,0"/>
             <DatePicker
                 x:Name="InventoryDate"
-                HorizontalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
                 DateSelected="InventoryDate_DateSelected"/>
             <Label
                 Text="Employee"
                 Margin="0,20,0,0"/>
             <Picker
-                ItemsSource="{Binding Name}"
-                ItemDisplayBinding="{Binding Name}"/>
+                ItemsSource="{Binding User}"
+                ItemDisplayBinding="{Binding User}"
+                HorizontalOptions="FillAndExpand"/>
             <Label
                 Text="Remarks"
                 Margin="0,20,0,0"/>
             <Entry
                 x:Name="remarks"
-                Placeholder="Enter Remarks"/>
-            <StackLayout Orientation="Horizontal">
+                Placeholder="Enter Remarks"
+                HorizontalOptions="FillAndExpand"/>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Margin="20">
                 <Button
                     Text="Save"
-                    Margin="23,20,10,0"
                     WidthRequest="150"
+                    HorizontalOptions="FillAndExpand"
                     VerticalOptions="Center"
-                    Clicked="Save_Clicked"/>
+                    Clicked="Save_Clicked"
+                    Margin="0,0,20,0"/>
                 <Button
                     Text="Cancel"
                     WidthRequest="150"
+                    HorizontalOptions="FillAndExpand"
                     VerticalOptions="Center"
-                    Margin="0,20,10,0"
-                    Clicked="Cancel_Clicked"/>
+                    Clicked="Cancel_Clicked"
+                    Margin="20,0,0,0"/>
             </StackLayout>
         </VerticalStackLayout>
     </Frame>

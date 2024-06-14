@@ -4,11 +4,22 @@
              x:Class="MauiApp1.Pages.SignInPage"
              Title="Sign In"
              Shell.FlyoutBehavior="Disabled">
-    <VerticalStackLayout VerticalOptions="Center">
-        <Label 
+    <Grid>
+        <VerticalStackLayout VerticalOptions="Center"
+                         Grid.Row="1">
+            <Label 
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <Button Text="Get Started" Clicked="Button_Clicked"/>
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+        <Button Grid.Row="2"
+                Text="Get Started"
+                BackgroundColor="#0066CC"
+                TextColor="White"
+                CornerRadius="25"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"
+                Margin="20"
+                Clicked="Button_Clicked"/>
+    </Grid>
 </ContentPage>
