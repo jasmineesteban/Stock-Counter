@@ -41,7 +41,7 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
+   <AndroidResource Include="Resources\xml\network_security_config.xml" />
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
@@ -57,29 +57,48 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Components\**" />
+	  <AndroidResource Remove="Data\**" />
+	  <AndroidResource Remove="Models\**" />
 	  <AndroidResource Remove="NewFolder1\**" />
+	  <AndroidResource Remove="ViewModels\**" />
+	  <Compile Remove="Components\**" />
+	  <Compile Remove="Data\**" />
+	  <Compile Remove="Models\**" />
 	  <Compile Remove="NewFolder1\**" />
+	  <Compile Remove="ViewModels\**" />
+	  <EmbeddedResource Remove="Components\**" />
+	  <EmbeddedResource Remove="Data\**" />
+	  <EmbeddedResource Remove="Models\**" />
 	  <EmbeddedResource Remove="NewFolder1\**" />
+	  <EmbeddedResource Remove="ViewModels\**" />
+	  <MauiCss Remove="Components\**" />
+	  <MauiCss Remove="Data\**" />
+	  <MauiCss Remove="Models\**" />
 	  <MauiCss Remove="NewFolder1\**" />
+	  <MauiCss Remove="ViewModels\**" />
+	  <MauiXaml Remove="Components\**" />
+	  <MauiXaml Remove="Data\**" />
+	  <MauiXaml Remove="Models\**" />
 	  <MauiXaml Remove="NewFolder1\**" />
+	  <MauiXaml Remove="ViewModels\**" />
+	  <None Remove="Components\**" />
+	  <None Remove="Data\**" />
+	  <None Remove="Models\**" />
 	  <None Remove="NewFolder1\**" />
+	  <None Remove="ViewModels\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="ClosedXML" Version="0.102.2" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="MySqlConnector" Version="2.3.7" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.8.1" />
 		<PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.1.41" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Components\" />
-	  <Folder Include="Data\" />
-	  <Folder Include="Models\" />
-	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 
 	<ItemGroup>
