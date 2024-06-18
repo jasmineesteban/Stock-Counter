@@ -1,1 +1,1 @@
-# MauiApp1
+# Stock Counter Mobile App using .NET MAUI
