@@ -10,7 +10,8 @@
                      Clicked="AddItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
         <!--Header-->
         <!--<Grid HeightRequest="50"
               BackgroundColor="White">
@@ -88,64 +89,65 @@
                    TextColor="White"
                    Margin="10,0,0,0"/>
         </Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <!-- First column -->
-            <StackLayout Grid.Column="0" Orientation="Vertical">
-                <Label Text="UOM"
+                <!-- First column -->
+                <StackLayout Grid.Column="0" Orientation="Vertical">
+                    <Label Text="UOM"
                        Margin="10,10,0,0"/>
-                <Entry x:Name="EntryUOM"
+                    <Entry x:Name="EntryUOM"
                        Placeholder="UOM"
                        Margin="10,8,10,0"
                        TextColor="#646464"
                        Text="{Binding Uom}">
-                </Entry>
+                    </Entry>
 
-                <Label Text="Batch No."
+                    <Label Text="Batch No."
                        Margin="10,10,0,0"/>
-                <Entry x:Name="EntryBatchNo"
+                    <Entry x:Name="EntryBatchNo"
                        Placeholder="Batch No."
                        Margin="10,8,10,0"
                        TextColor="#646464"
                        Text="{Binding Batch}">
-                </Entry>
+                    </Entry>
 
-                <Label Text="Quantity"
+                    <Label Text="Quantity"
                        Margin="10,10,0,0"/>
-                <Entry x:Name="EntryQuantity"
+                    <Entry x:Name="EntryQuantity"
                        Placeholder="Quantity"
                        Margin="10,8,10,0"
                        TextColor="#646464"
                        Keyboard="Numeric">
-                </Entry>
-            </StackLayout>
+                    </Entry>
+                </StackLayout>
 
-            <!-- Second column -->
-            <StackLayout Grid.Column="1"
+                <!-- Second column -->
+                <StackLayout Grid.Column="1"
                          Orientation="Vertical">
-                <Label Text="Expiry Date"
+                    <Label Text="Expiry Date"
                        Margin="10,10,0,0"/>
-                <Entry x:Name="EntryExpiryDate"
+                    <Entry x:Name="EntryExpiryDate"
                        Placeholder="Enter Expiry Date (YYYY-MM-DD)"
                        Margin="10,8,10,0"
                        TextColor="#646464"
                        Text="{Binding ExpiryDate, StringFormat='yyyy-MM-dd', Mode=TwoWay}" >
-                </Entry>
+                    </Entry>
 
 
-                <Label Text="Lot No."
+                    <Label Text="Lot No."
                        Margin="10,10,0,0"/>
-                <Entry x:Name="EntryLotNo"
+                    <Entry x:Name="EntryLotNo"
                        Placeholder="Lot No."
                        Margin="10,8,10,0"
                        TextColor="#646464"
                        Text="{Binding Lot}">
-                </Entry>
-            </StackLayout>
-        </Grid>
+                    </Entry>
+                </StackLayout>
+            </Grid>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
