@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 
 namespace MauiApp1
 {
@@ -17,7 +17,6 @@ namespace MauiApp1
                     fonts.AddFont("Poppins-Semibold.ttf", "Poppins");
                 })
                 .UseMauiCommunityToolkit();
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

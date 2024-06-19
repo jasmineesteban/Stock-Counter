@@ -54,16 +54,37 @@
                        VerticalOptions="Center"
                        CancelButtonColor="Gray"/>
         </Frame>
-        <Label Text="Barcode"
+            <Label Text="Barcode"
                Margin="10,0,0,0"/>
-        <Entry x:Name="EntryBarcode"
-               Placeholder="Barcode"
-               Margin="10,8,10,10"
-               TextColor="#646464"
-               IsReadOnly="True"
-               Text="{Binding Barcode}">
-        </Entry>
-        <Label
+            <Grid ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <!-- Entry column -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- ImageButton column -->
+                </Grid.ColumnDefinitions>
+
+                <Entry x:Name="EntryBarcode"
+                       Placeholder="Barcode"
+                       TextColor="#646464"
+                       Text="{Binding Barcode}"
+                       Grid.Column="0"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="CenterAndExpand"
+                       Margin="10,8,10,0"/>
+                <ImageButton Source="scan"
+                             Grid.Column="1"
+                             BackgroundColor="Transparent"
+                             Margin="0,0,10,0"
+                             HeightRequest="45"
+                             WidthRequest="50"
+                             HorizontalOptions="End"
+                             VerticalOptions="Center"
+                             Clicked="Scan_Clicked"/>
+            </Grid>
+
+
+            <Label
                 Text="Product Name"
                 Margin="10,0,0,0"/>
         <Entry x:Name="EntryProductName"
@@ -106,7 +127,7 @@
                        Text="{Binding Uom}">
                     </Entry>
 
-                    <Label Text="Batch No."
+                    <Label Text="Batch &amp; Lot No."
                        Margin="10,10,0,0"/>
                     <Entry x:Name="EntryBatchNo"
                        Placeholder="Batch No."
@@ -114,7 +135,11 @@
                        TextColor="#646464"
                        Text="{Binding Batch}">
                     </Entry>
+                </StackLayout>
 
+                <!-- Second column -->
+                <StackLayout Grid.Column="1"
+                         Orientation="Vertical">
                     <Label Text="Quantity"
                        Margin="10,10,0,0"/>
                     <Entry x:Name="EntryQuantity"
@@ -123,28 +148,14 @@
                        TextColor="#646464"
                        Keyboard="Numeric">
                     </Entry>
-                </StackLayout>
 
-                <!-- Second column -->
-                <StackLayout Grid.Column="1"
-                         Orientation="Vertical">
                     <Label Text="Expiry Date"
                        Margin="10,10,0,0"/>
                     <Entry x:Name="EntryExpiryDate"
                        Placeholder="Enter Expiry Date (YYYY-MM-DD)"
                        Margin="10,8,10,0"
                        TextColor="#646464"
-                       Text="{Binding ExpiryDate, StringFormat='yyyy-MM-dd', Mode=TwoWay}" >
-                    </Entry>
-
-
-                    <Label Text="Lot No."
-                       Margin="10,10,0,0"/>
-                    <Entry x:Name="EntryLotNo"
-                       Placeholder="Lot No."
-                       Margin="10,8,10,0"
-                       TextColor="#646464"
-                       Text="{Binding Lot}">
+                       Text="{Binding ExpiryDate, StringFormat='yyyy-MM-dd'}" >
                     </Entry>
                 </StackLayout>
             </Grid>
