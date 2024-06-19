@@ -1,4 +1,6 @@
 ﻿using MauiApp1.Pages;
+using System.Diagnostics;
+
 
 namespace MauiApp1
 {
@@ -37,7 +39,15 @@ namespace MauiApp1
 
         private async void SignOutMenuItem_Clicked(object sender, EventArgs e)
         {
-            await Shell.Current.DisplayAlert("Sign Out?", "Are you sure you want to Sign Out?", "Cancel", "OK");
+            bool answer = await Shell.Current.DisplayAlert("Sign Out?", "Are you sure you want to Sign Out?", "OK", "Cancel");
+            if (answer)
+            {
+#if ANDROID
+                Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+#elif WINDOWS
+                System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+#endif
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui;
 using MauiApp1.Pages;
 using MauiApp1.Services;
 using Microsoft.Extensions.Logging;
