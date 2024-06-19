@@ -124,8 +124,8 @@ public partial class CountSheetsPage : ContentPage
 
     public class MyData
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public int Quantity { get; set; }
-        public string UOM { get; set; }
+        public string? UOM { get; set; }
     }
 }
