@@ -1,6 +1,4 @@
 using MauiApp1.Services;
-using MySqlConnector;
-using System.Data;
 #if ANDROID
 using Android.Content;
 using Android.OS;
@@ -33,24 +31,16 @@ namespace MauiApp1.Pages
             {
                 try
                 {
-                    var connectionString = await File.ReadAllTextAsync(filePath);
-                    var validationResult = await Task.Run(() => ValidateConnectionString(connectionString));
+                    var encryptedConnectionString = await File.ReadAllTextAsync(filePath);
+                    var apiResult = await _httpClientService.SetConnectionStringAsync(encryptedConnectionString);
 
-                    if (validationResult?.StartsWith("Upload success") == true)
+                    if (apiResult)
                     {
-                        var apiResult = await _httpClientService.SetConnectionStringAsync(connectionString);
-                        if (apiResult)
-                        {
-                            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
-                        }
-                        else
-                        {
-                            await DisplayAlert("API Error", "Validation successful, but failed to send connection string to API.", "OK");
-                        }
+                        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                     }
                     else
                     {
-                        await DisplayAlert("Validation Error", validationResult ?? "Validation result is null", "OK");
+                        await DisplayAlert("Connection failed.", "The file is invalid or connection cannot be established!", "OK");
                     }
                 }
                 catch (Exception ex)
@@ -71,39 +61,11 @@ namespace MauiApp1.Pages
 #if ANDROID
             downloadPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
 #else
-                    // Placeholder for future async operation, if any
-                    await Task.CompletedTask;
-                    downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            await Task.CompletedTask;
+            downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 #endif
 
             return downloadPath;
-        }
-
-
-
-        private string ValidateConnectionString(string connStr)
-        {
-            try
-            {
-                if (!connStr.Contains("Connection Timeout", StringComparison.OrdinalIgnoreCase))
-                {
-                    connStr += ";Connection Timeout=30;";
-                }
-
-                using (var connection = new MySqlConnection(connStr))
-                {
-                    connection.Open();
-                    return connection.State == ConnectionState.Open ? "Upload success. Connected to the database." : "Failed to connect to the database.";
-                }
-            }
-            catch (MySqlException ex)
-            {
-                return $"MySQL error: {ex.Message}";
-            }
-            catch (Exception ex)
-            {
-                return $"Error: {ex.Message}";
-            }
         }
 
 #if ANDROID
@@ -129,7 +91,7 @@ namespace MauiApp1.Pages
                     intent.SetAction(Settings.ActionManageAppAllFilesAccessPermission);
                     Android.Net.Uri uri = Android.Net.Uri.FromParts("package", Android.App.Application.Context.PackageName, null);
                     intent.SetData(uri);
-                    intent.AddFlags(ActivityFlags.NewTask); // Add this line to set the FLAG_ACTIVITY_NEW_TASK flag
+                    intent.AddFlags(ActivityFlags.NewTask);
                     Android.App.Application.Context.StartActivity(intent);
                 }
             }
