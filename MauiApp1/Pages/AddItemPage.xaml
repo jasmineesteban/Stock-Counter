@@ -82,8 +82,6 @@
                              VerticalOptions="Center"
                              Clicked="Scan_Clicked"/>
             </Grid>
-
-
             <Label
                 Text="Product Name"
                 Margin="10,0,0,0"/>
