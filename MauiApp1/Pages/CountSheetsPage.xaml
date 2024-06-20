@@ -58,12 +58,6 @@
                 <Label Grid.Row="3" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
                 <Label Grid.Row="3" Grid.Column="2" Text="{Binding CountSheetName}" VerticalOptions="Center" Padding="0,0,0,5"/>
             </Grid>
-
-
-
-
-
-
         </Frame>
 
         <!-- ScrollView with CollectionView -->
