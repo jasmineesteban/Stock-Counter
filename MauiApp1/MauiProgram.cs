@@ -30,7 +30,7 @@ namespace MauiApp1
                     ? (DeviceInfo.DeviceType == DeviceType.Virtual
                         ? "http://10.0.2.2:7054/"
                         : "http://192.168.254.130:7055/")
-                        : "http://192.168.254.130:7055/";
+                        : "http://localhost:7059/";
                     
                 client.BaseAddress = new Uri(baseAddress);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
