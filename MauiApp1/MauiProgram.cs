@@ -21,13 +21,14 @@ namespace MauiApp1
                 .UseMauiCommunityToolkit();
 
             builder.Services.AddSingleton<SignInPage>();
+            builder.Services.AddSingleton<EmployeeSelectorPage>();
             builder.Services.AddHttpClient<HttpClientService>(client =>
             {
                 var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
                     ? (DeviceInfo.DeviceType == DeviceType.Virtual
                         ? "http://10.0.2.2:7054/"
                         : "http://192.168.254.130:7055/")
-                        : "http://localhost:7054/";
+                        : "http://localhost:7059/";
                     
                 client.BaseAddress = new Uri(baseAddress);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
