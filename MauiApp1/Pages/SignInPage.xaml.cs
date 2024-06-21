@@ -36,7 +36,7 @@ namespace MauiApp1.Pages
 
                     if (apiResult)
                     {
-                        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                        await Shell.Current.GoToAsync(nameof(EmployeeSelectorPage));
                     }
                     else
                     {

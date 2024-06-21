@@ -23,6 +23,7 @@ namespace MauiApp1
                 .UseBarcodeReader();
 
             builder.Services.AddSingleton<SignInPage>();
+            builder.Services.AddSingleton<EmployeeSelectorPage>();
             builder.Services.AddHttpClient<HttpClientService>(client =>
             {
                 var baseAddress = DeviceInfo.Platform == DevicePlatform.Android

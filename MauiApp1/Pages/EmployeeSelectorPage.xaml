@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.EmployeeSelectorPage"
+             Title="Employee Selector">
+
+    <StackLayout Padding="10">
+        <SearchBar Placeholder="Search employees"
+                   TextChanged="SearchBar_TextChanged"/>
+
+        <StackLayout Orientation="Horizontal" Padding="10">
+            <Label Text="Employee ID" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
+            <Label Text="Employee Name" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Margin="10,0,0,0"/>
+        </StackLayout>
+
+        <CollectionView ItemsSource="{Binding Employees}" 
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                        HeightRequest="400">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" Padding="10">
+                        <Label Text="{Binding EmployeeId}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
+                        <Label Text="{Binding EmployeeName}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Margin="10,0,0,0"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Next" IsEnabled="{Binding IsNextButtonEnabled}" Command="{Binding OnNextButtonClickedCommand}"/>
+    </StackLayout>
+</ContentPage>
