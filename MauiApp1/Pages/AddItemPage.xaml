@@ -41,22 +41,8 @@
                    Margin="10,0,0,0"/>
         </Grid>
         <!--Item Code-->
-        <Frame BorderColor="#f9f9f9"
-               CornerRadius="0"
-               HasShadow="False"
-               Padding="0"
-               HeightRequest="40"
-               BackgroundColor="White"
-               Margin="10,15,10,10">
-            <SearchBar Placeholder="Item Code"
-                       BackgroundColor="White"
-                       HorizontalOptions="FillAndExpand"
-                       VerticalOptions="Center"
-                       CancelButtonColor="Gray"
-                       TextChanged="OnSearchTextChanged"/>
-        </Frame>
-            <Label Text="Barcode"
-                   Margin="10,0,0,0"/>
+            <Label Text="Search Item"
+                   Margin="10,10,0,0"/>
             <Grid ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -65,8 +51,8 @@
                     <!-- ImageButton column -->
                 </Grid.ColumnDefinitions>
 
-                <Entry x:Name="EntryBarcode"
-                       Placeholder="Barcode"
+                <SearchBar x:Name="EntryBarcode"
+                       Placeholder="Search Item"
                        TextColor="#646464"
                        Text="{Binding Barcode}"
                        Grid.Column="0"
