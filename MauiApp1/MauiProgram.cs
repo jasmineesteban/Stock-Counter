@@ -2,6 +2,7 @@ using CommunityToolkit.Maui;
 using MauiApp1.Pages;
 using MauiApp1.Services;
 using Microsoft.Extensions.Logging;
+using ZXing.Net.Maui.Controls;
 
 namespace MauiApp1
 {
@@ -18,7 +19,8 @@ namespace MauiApp1
                     fonts.AddFont("Poppins-Regular.ttf", "Poppins");
                     fonts.AddFont("Poppins-Semibold.ttf", "Poppins");
                 })
-                .UseMauiCommunityToolkit();
+                .UseMauiCommunityToolkit()
+                .UseBarcodeReader();
 
             builder.Services.AddSingleton<SignInPage>();
             builder.Services.AddHttpClient<HttpClientService>(client =>
@@ -27,7 +29,7 @@ namespace MauiApp1
                     ? (DeviceInfo.DeviceType == DeviceType.Virtual
                         ? "http://10.0.2.2:7054/"
                         : "http://192.168.254.130:7055/")
-                        : "http://localhost:7054/";
+                        : "http://192.168.254.130:7055/";
                     
                 client.BaseAddress = new Uri(baseAddress);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
