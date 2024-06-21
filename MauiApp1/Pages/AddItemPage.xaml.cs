@@ -30,8 +30,6 @@ public partial class AddItemPage : ContentPage
         {
             TopText = "Hold the camera up to the barcode",
             BottomText = "Scanning will happen automatically",
-            CancelButtonText = "Cancel",
-            FlashButtonText = "OK",
         };
 
         var result = await scanner.Scan(options);
