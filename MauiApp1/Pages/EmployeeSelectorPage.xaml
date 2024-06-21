@@ -4,29 +4,48 @@
              x:Class="MauiApp1.Pages.EmployeeSelectorPage"
              Title="Employee Selector">
 
-    <StackLayout Padding="10">
-        <SearchBar Placeholder="Search employees"
-                   TextChanged="SearchBar_TextChanged"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Search bar -->
+            <RowDefinition Height="Auto"/>
+            <!-- Header labels -->
+            <RowDefinition Height="*"/>
+            <!-- CollectionView (scrollable) -->
+            <RowDefinition Height="Auto"/>
+            <!-- Button -->
+        </Grid.RowDefinitions>
 
-        <StackLayout Orientation="Horizontal" Padding="10">
-            <Label Text="Employee ID" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
-            <Label Text="Employee Name" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Margin="10,0,0,0"/>
+        <!-- Header Labels -->
+        <StackLayout Grid.Row="1" Orientation="Horizontal" Padding="10">
+            <Label Text="Select Employee" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
         </StackLayout>
+        
+        <!-- SearchBar -->
+        <SearchBar Grid.Row="0" Placeholder="Search employees"
+                   TextChanged="SearchBar_TextChanged" Margin="10"/>
 
-        <CollectionView ItemsSource="{Binding Employees}" 
+
+
+        <!-- CollectionView -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Employees}" 
                         SelectionMode="Single"
-                        SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
-                        HeightRequest="400">
+                        SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Orientation="Horizontal" Padding="10">
                         <Label Text="{Binding EmployeeId}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
-                        <Label Text="{Binding EmployeeName}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Margin="10,0,0,0"/>
+                        <Label Text="{Binding EmployeeName}" FontSize="Medium" VerticalOptions="Center" Margin="10,0,0,0"/>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Text="Next" IsEnabled="{Binding IsNextButtonEnabled}" Command="{Binding OnNextButtonClickedCommand}"/>
-    </StackLayout>
+        <!-- Button -->
+        <Button Grid.Row="3"
+                Text="Next"
+                IsEnabled="{Binding IsNextButtonEnabled}"
+                Command="{Binding OnNextButtonClickedCommand}"
+                Margin="10,10,10,10"/>
+    </Grid>
 </ContentPage>
