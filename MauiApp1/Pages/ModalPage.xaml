@@ -37,7 +37,7 @@
                 Margin="0,20,0,0"/>
             <Entry
                 x:Name="EmployeeEntry"
-                Text="{Binding SelectedEmployee.EmployeeName}"
+                Text="{Binding Employee}"
                 HorizontalOptions="FillAndExpand"
                 IsReadOnly="True"/>
             <Label

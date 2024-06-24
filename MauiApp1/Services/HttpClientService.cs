@@ -35,6 +35,14 @@ namespace MauiApp1.Services
             return JsonConvert.DeserializeObject<IEnumerable<Employee>>(json);
         }
 
+        public async Task<IEnumerable<Item>> GetItemsAsync(string databaseName, string pattern)
+        {
+            var response = await _httpClient.GetAsync($"api/Item/GetItems?databaseName={databaseName}&pattern={pattern}");
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<IEnumerable<Item>>(json);
+        }
+
 
         public async Task<bool> SetConnectionStringAsync(string connectionString)
         {

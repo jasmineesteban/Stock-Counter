@@ -24,6 +24,7 @@ namespace MauiApp1
 
             builder.Services.AddSingleton<SignInPage>();
             builder.Services.AddSingleton<EmployeeSelectorPage>();
+            builder.Services.AddSingleton<ItemSelectorPage>();
             builder.Services.AddHttpClient<HttpClientService>(client =>
             {
                 var baseAddress = DeviceInfo.Platform == DevicePlatform.Android

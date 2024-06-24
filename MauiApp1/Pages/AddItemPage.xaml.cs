@@ -1,19 +1,23 @@
 using System;
 using Microsoft.Maui.Controls;
 using ZXing.Mobile;
+using MauiApp1.Services;
 
 namespace MauiApp1.Pages;
 
 public partial class AddItemPage : ContentPage
 {
+    private readonly HttpClientService _httpClientService;
 
     public AddItemPage()
     {
         InitializeComponent();
+
     }
 
     private void AddItem_Clicked(object sender, EventArgs e)
     {
+
 
     }
 
@@ -35,7 +39,7 @@ public partial class AddItemPage : ContentPage
         var result = await scanner.Scan(options);
         if (result != null)
         {
-            EntryBarcode.Text = result.Text;
+            searchItem.Text = result.Text;
         }
     }
 
@@ -71,5 +75,10 @@ public partial class AddItemPage : ContentPage
         // Update the Entry text and cursor position
         entry.Text = cleanedText;
         entry.CursorPosition = cleanedText.Length;
+    }
+
+    private async void ToItemSelector_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(ItemSelectorPage));
     }
 }
