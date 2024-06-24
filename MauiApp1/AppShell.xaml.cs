@@ -38,9 +38,9 @@ namespace MauiApp1
             await Launcher.OpenAsync("https://www.facebook.com/BGCiPOS.Net");
         }
 
-        private async void SignOutMenuItem_Clicked(object sender, EventArgs e)
+        private async void Exit_Clicked(object sender, EventArgs e)
         {
-            bool answer = await Shell.Current.DisplayAlert("Sign Out?", "Are you sure you want to Sign Out?", "OK", "Cancel");
+            bool answer = await Shell.Current.DisplayAlert("Exit App?", "Are you sure you want to Exit?", "Yes", "Cancel");
             if (answer)
             {
 #if ANDROID

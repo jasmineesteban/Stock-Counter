@@ -21,7 +21,7 @@ public partial class ModalPage : ContentPage
 
         if (selectedDate > today)
         {
-            InventoryDate.Date = today;
+            DateEntry.Date = today;
 
             DisplayAlert("Alert", "Please select a date on or before today.", "OK");
         }

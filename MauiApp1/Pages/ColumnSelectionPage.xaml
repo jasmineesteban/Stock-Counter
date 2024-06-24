@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.ColumnSelectionPage"
+             Title="Select Columns"
+             BackgroundColor="#60000000"
+             Appearing="OnAppearing">
+
+    <Frame HorizontalOptions="Center"
+           VerticalOptions="Center"
+           BackgroundColor="White"
+           Padding="20"
+           CornerRadius="10"
+           WidthRequest="300"
+           HeightRequest="300"
+           HasShadow="True">
+        <StackLayout>
+            <Label Text="Select Columns to Display:" FontAttributes="Bold" Margin="0,0,0,10"/>
+            <HorizontalStackLayout>
+                <CheckBox x:Name="NameCheckBox" IsChecked="{Binding ShowName}" />
+                <Label Text="Name" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <CheckBox x:Name="QuantityCheckBox" IsChecked="{Binding ShowQuantity}" />
+                <Label Text="Quantity" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <CheckBox x:Name="UOMCheckBox" IsChecked="{Binding ShowUOM}" />
+                <Label Text="UOM" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="20,20,0,0">
+                <Button Text="Save" Clicked="Save_Clicked" 
+                        Margin="0,0,10,0"
+                        WidthRequest="100"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>      
+            </StackLayout>
+        </StackLayout>
+    </Frame>
+</ContentPage>

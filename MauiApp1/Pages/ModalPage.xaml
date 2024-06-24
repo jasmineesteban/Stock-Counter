@@ -22,23 +22,24 @@
                 Text="Inventory Name"
                 Margin="0,20,0,0"/>
             <Entry
-                x:Name="CountSheet"
+                x:Name="CountSheetEntry"
                 Placeholder="Enter Count Sheet Name"
                 HorizontalOptions="FillAndExpand"/>
             <Label 
                 Text="Date"
                 Margin="0,20,0,0"/>
             <DatePicker
-                x:Name="InventoryDate"
+                x:Name="DateEntry"
                 HorizontalOptions="FillAndExpand"
                 DateSelected="InventoryDate_DateSelected"/>
             <Label
                 Text="Employee"
                 Margin="0,20,0,0"/>
-            <Picker
-                ItemsSource="{Binding User}"
-                ItemDisplayBinding="{Binding User}"
-                HorizontalOptions="FillAndExpand"/>
+            <Entry
+                x:Name="EmployeeEntry"
+                Text="{Binding SelectedEmployee.EmployeeName}"
+                HorizontalOptions="FillAndExpand"
+                IsReadOnly="True"/>
             <Label
                 Text="Remarks"
                 Margin="0,20,0,0"/>
