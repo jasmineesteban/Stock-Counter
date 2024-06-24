@@ -7,28 +7,21 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Search bar -->
             <RowDefinition Height="Auto"/>
-            <!-- Header labels -->
             <RowDefinition Height="*"/>
-            <!-- CollectionView (scrollable) -->
             <RowDefinition Height="Auto"/>
-            <!-- Button -->
         </Grid.RowDefinitions>
 
-        <!-- Header Labels -->
         <StackLayout Grid.Row="0" Orientation="Horizontal" Padding="10">
             <Label Text="Select Employee" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
         </StackLayout>
-        
-        <!-- SearchBar -->
+
         <SearchBar x:Name="searchEmployee" Grid.Row="1" Placeholder="Search employees"
                    TextChanged="SearchBar_TextChanged" Margin="10"/>
 
-        <!-- CollectionView -->
         <CollectionView Grid.Row="2" ItemsSource="{Binding Employees}" 
-                SelectionMode="Single"
-                SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
@@ -43,12 +36,9 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-
-        <!-- Button -->
         <Button Grid.Row="3"
                 Text="Next"
-                IsEnabled="{Binding IsNextButtonEnabled}"
-                Command="{Binding OnNextButtonClickedCommand}"
+                Clicked="NextButton_Clicked"
                 Margin="10,10,10,10"/>
     </Grid>
 </ContentPage>

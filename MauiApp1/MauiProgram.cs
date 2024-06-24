@@ -28,11 +28,9 @@ namespace MauiApp1
             builder.Services.AddHttpClient<HttpClientService>(client =>
             {
                 var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-                    ? (DeviceInfo.DeviceType == DeviceType.Virtual
-                        ? "http://10.0.2.2:7054/"
-                        : "http://192.168.254.130:7055/")
-                        : "http://localhost:7059/";
-                    
+                                  ? "http://192.168.254.130:7055/"
+                                  : "http://localhost:7054/";
+
                 client.BaseAddress = new Uri(baseAddress);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 client.Timeout = TimeSpan.FromSeconds(30); // Increase timeout to 30 seconds
