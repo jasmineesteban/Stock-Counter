@@ -26,7 +26,7 @@
                 <DataTemplate>
                     <Grid Padding="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="70"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Text="{Binding EmployeeId}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Grid.Column="0"/>

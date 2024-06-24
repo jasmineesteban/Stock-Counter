@@ -3,53 +3,88 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.ItemSelectorPage"
              Shell.TabBarIsVisible="False"
-             Title="Item Selector">
+             Shell.NavBarIsVisible="False"
+             Background="#60000000">
+    
+    <Frame HorizontalOptions="CenterAndExpand"
+           VerticalOptions="CenterAndExpand"
+           BackgroundColor="White"
+           Padding="5"
+           HeightRequest="500"
+           CornerRadius="5"
+           HasShadow="True">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Search bar -->
-            <RowDefinition Height="Auto"/>
-            <!-- Header labels -->
-            <RowDefinition Height="*"/>
-            <!-- CollectionView (scrollable) -->
-            <RowDefinition Height="Auto"/>
-            <!-- Button -->
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Search bar -->
+                <RowDefinition Height="Auto"/>
+                <!-- Header labels -->
+                <RowDefinition Height="*"/>
+                <!-- CollectionView (scrollable) -->
+                <RowDefinition Height="Auto"/>
+                <!-- Button -->
+            </Grid.RowDefinitions>
 
-        <!-- Header Labels -->
-        <StackLayout Grid.Row="0" Orientation="Horizontal" Padding="10">
-            <Label Text="Select Item" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
-        </StackLayout>
+            <!-- Header Labels -->
+            <StackLayout Grid.Row="0" Orientation="Horizontal" Padding="10">
+                <Label Text="Select Item" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
+            </StackLayout>
 
-        <!-- SearchBar -->
-        <SearchBar x:Name="searchItem" Grid.Row="1" Placeholder="Search items"
-                   TextChanged="SearchBar_TextChanged" Margin="10"/>
+            <!-- SearchBar and ImageButton in Grid -->
+            <Grid Grid.Row="1" Padding="10,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-        <!-- CollectionView -->
-        <CollectionView Grid.Row="2" ItemsSource="{Binding Items}" 
+                <SearchBar x:Name="searchItem"
+               Grid.Column="0"
+               Placeholder="Search item"
+               TextChanged="SearchBar_TextChanged"
+               Margin="0,8,0,0"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="CenterAndExpand"/>
+
+                <ImageButton Source="scan"
+                 Grid.Column="1"
+                 BackgroundColor="Transparent"
+                 Margin="10,8,0,0"
+                 HeightRequest="45"
+                 WidthRequest="50"
+                 HorizontalOptions="End"
+                 VerticalOptions="Center"
+                 Clicked="ScanBarcode_Clicked"/>
+            </Grid>
+
+
+
+            <!-- CollectionView -->
+            <CollectionView Grid.Row="2" ItemsSource="{Binding Items}" 
                 SelectionMode="Single"
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Text="{Binding ItemNumber}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Grid.Column="0"/>
-                        <Label Text="{Binding ItemDescription}" FontSize="Medium" VerticalOptions="Center" Margin="20,0,0,0" Grid.Column="1"/>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding ItemNumber}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Grid.Column="0"/>
+                            <Label Text="{Binding ItemDescription}" FontSize="Medium" VerticalOptions="Center" Margin="20,0,0,0" Grid.Column="1"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
 
-        <!-- Button -->
-        <Button Grid.Row="3"
+            <!-- Button -->
+            <Button Grid.Row="3"
                 Text="Next"
                 IsEnabled="{Binding IsNextButtonEnabled}"
                 Command="{Binding OnNextButtonClickedCommand}"
-                Margin="10,10,10,10"/>
-    </Grid>
+                Margin="5"
+                    HorizontalOptions="FillAndExpand"/>
+        </Grid>
+    </Frame>
 </ContentPage>

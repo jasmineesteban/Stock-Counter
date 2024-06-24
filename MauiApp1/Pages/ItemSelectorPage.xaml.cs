@@ -1,5 +1,8 @@
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
+using ZXing.Mobile;
+using CommunityToolkit;
+
 
 namespace MauiApp1.Pages
 {
@@ -22,6 +25,28 @@ namespace MauiApp1.Pages
             if (viewModel != null && !string.IsNullOrWhiteSpace(e.NewTextValue))
             {
                 viewModel.OnSearchBarTextChangedCommand.Execute(e.NewTextValue);
+            }
+        }
+
+        private async void ScanBarcode_Clicked(object sender, EventArgs e)
+        {
+            var options = new MobileBarcodeScanningOptions
+            {
+                AutoRotate = true,
+                UseFrontCameraIfAvailable = false,
+            };
+
+
+            var scanner = new MobileBarcodeScanner
+            {
+                TopText = "Hold the camera up to the barcode",
+                BottomText = "Scanning will happen automatically",
+            };
+
+            var result = await scanner.Scan(options);
+            if (result != null)
+            {
+                searchItem.Text = result.Text;
             }
         }
     }
