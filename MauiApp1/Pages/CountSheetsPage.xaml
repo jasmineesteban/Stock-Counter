@@ -72,6 +72,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0"
+                      x:Name="HeaderGrid"
                       BackgroundColor="#0066CC"
                       HeightRequest="30"
                       Margin="0,0,0,0">
@@ -113,17 +114,17 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Padding="5" Stroke="Gray" StrokeThickness="0.3">
+                                <Border Grid.Column="0" Padding="1" Stroke="Black" StrokeThickness="0.2">
                                     <Label Text="{Binding Name}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
                                 </Border>
-                                <Border Grid.Column="1" Padding="5" Stroke="Gray" StrokeThickness="0.3">
+                                <Border Grid.Column="1" Padding="1" Stroke="Black" StrokeThickness="0.3">
                                     <Label Text="{Binding Quantity}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
                                 </Border>
-                                <Border Grid.Column="2" Padding="5" Stroke="Gray" StrokeThickness="0.3">
+                                <Border Grid.Column="2" Padding="1" Stroke="Black" StrokeThickness="0.3">
                                     <Label Text="{Binding UOM}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>

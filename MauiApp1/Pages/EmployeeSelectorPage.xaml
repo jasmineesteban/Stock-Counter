@@ -29,17 +29,22 @@
 
         <!-- CollectionView -->
         <CollectionView Grid.Row="2" ItemsSource="{Binding Employees}" 
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Horizontal" Padding="10">
-                        <Label Text="{Binding EmployeeId}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
-                        <Label Text="{Binding EmployeeName}" FontSize="Medium" VerticalOptions="Center" Margin="10,0,0,0"/>
-                    </StackLayout>
+                    <Grid Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding EmployeeId}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Grid.Column="0"/>
+                        <Label Text="{Binding EmployeeName}" FontSize="Medium" VerticalOptions="Center" Margin="20,0,0,0" Grid.Column="1"/>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
 
         <!-- Button -->
         <Button Grid.Row="3"

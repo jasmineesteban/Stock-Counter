@@ -37,9 +37,9 @@
             Route="SettingsPage"/>
     </TabBar>
 
-    <MenuItem Text="Sign Out"
+    <MenuItem Text="Exit"
               IconImageSource="logout"
-              Clicked="SignOutMenuItem_Clicked"/>
+              Clicked="Exit_Clicked"/>
 
     <Shell.ItemTemplate>
         <DataTemplate>
