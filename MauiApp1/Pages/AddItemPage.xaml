@@ -9,6 +9,7 @@
         <ToolbarItem Text="Add"
                      Clicked="AddItem_Clicked"/>
     </ContentPage.ToolbarItems>
+    
 
     <ScrollView>
         <VerticalStackLayout>
@@ -51,7 +52,7 @@
                     <!-- ImageButton column -->
                 </Grid.ColumnDefinitions>
 
-                <SearchBar x:Name="EntryBarcode"
+                <SearchBar x:Name="searchItem"
                        Placeholder="Search Item"
                        TextColor="#646464"
                        Text="{Binding Barcode}"
@@ -146,6 +147,9 @@
                     </Entry>
                 </StackLayout>
             </Grid>
-    </VerticalStackLayout>
+            <Button x:Name="ToItemSelector"
+                    Text="To Item Selector"
+                    Clicked="ToItemSelector_Clicked"></Button>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
