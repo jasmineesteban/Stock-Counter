@@ -1,11 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DocumentFormat.OpenXml.Spreadsheet;
-using MauiApp1.Models;
 using MauiApp1.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Item = MauiApp1.Models.Item;
 
 namespace MauiApp1.ViewModels
@@ -29,8 +26,6 @@ namespace MauiApp1.ViewModels
             LoadItemsCommand = new AsyncRelayCommand<string>(LoadItemsAsync);
             OnSearchBarTextChangedCommand = new AsyncRelayCommand<string>(OnSearchBarTextChanged);
             OnNextButtonClickedCommand = new AsyncRelayCommand(OnNextButtonClicked);
-
-            // Load all employees on initialization
             LoadItemsCommand.Execute(null);
         }
 
@@ -38,7 +33,7 @@ namespace MauiApp1.ViewModels
         public IAsyncRelayCommand<string> OnSearchBarTextChangedCommand { get; }
         public IAsyncRelayCommand OnNextButtonClickedCommand { get; }
 
-        private async Task LoadItemsAsync(string pattern)
+        private async Task LoadItemsAsync(string? pattern)
         {
             try
             {
@@ -58,13 +53,11 @@ namespace MauiApp1.ViewModels
             Items.Clear();
             foreach (var item in items)
             {
-                Items.Add(item);
+                if (item != null)
+                {
+                    Items.Add(item);
+                }
             }
-        }
-
-        private async Task OnSearchBarTextChanged(string newTextValue)
-        {
-            await LoadItemsAsync(newTextValue);
         }
 
         private async Task OnNextButtonClicked()
@@ -75,8 +68,13 @@ namespace MauiApp1.ViewModels
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Please select an employee before proceeding.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Please select an item before proceeding.", "OK");
             }
+        }
+
+        private async Task OnSearchBarTextChanged(string? newTextValue)
+        {
+            await LoadItemsAsync(newTextValue);
         }
     }
 }

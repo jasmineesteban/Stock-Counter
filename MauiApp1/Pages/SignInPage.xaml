@@ -5,12 +5,22 @@
              Title="Sign In"
              Shell.FlyoutBehavior="Disabled">
     <Grid>
+        <!-- ActivityIndicator for loading transition -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           IsVisible="False"
+                           IsRunning="False"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           Color="Blue"
+                           WidthRequest="100"
+                           HeightRequest="100" />
+
         <VerticalStackLayout VerticalOptions="Center"
-                         Grid.Row="1">
+                             Grid.Row="1">
             <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+                Text="Welcome to .NET MAUI!"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
         </VerticalStackLayout>
         <Button Grid.Row="2"
                 Text="Get Started"

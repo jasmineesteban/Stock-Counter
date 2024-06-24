@@ -11,6 +11,7 @@ namespace MauiApp1.Pages
     {
         private readonly HttpClientService _httpClientService;
         private readonly string _fileName = "config.bgc";
+        private bool _isNavigating;
 
         public SignInPage(HttpClientService httpClientService)
         {
@@ -20,6 +21,11 @@ namespace MauiApp1.Pages
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
+            if (_isNavigating)
+                return;
+
+            _isNavigating = true;
+
 #if ANDROID
             await CheckAndRequestStoragePermissions();
 #endif
@@ -31,6 +37,9 @@ namespace MauiApp1.Pages
             {
                 try
                 {
+                    LoadingIndicator.IsVisible = true;
+                    LoadingIndicator.IsRunning = true;
+
                     var encryptedConnectionString = await File.ReadAllTextAsync(filePath);
                     var apiResult = await _httpClientService.SetConnectionStringAsync(encryptedConnectionString);
 
@@ -47,12 +56,20 @@ namespace MauiApp1.Pages
                 {
                     await DisplayAlert("File Read Error", $"Error reading file: {ex.Message}", "OK");
                 }
+                finally
+                {
+                    LoadingIndicator.IsVisible = false;
+                    LoadingIndicator.IsRunning = false;
+                }
             }
             else
             {
                 await DisplayAlert("File Not Found", $"File not found: {filePath}", "OK");
             }
+
+            _isNavigating = false;
         }
+
 
         private async Task<string> GetDownloadPath()
         {
@@ -61,12 +78,13 @@ namespace MauiApp1.Pages
 #if ANDROID
             downloadPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
 #else
-            await Task.CompletedTask;
-            downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    await Task.Delay(1); // Dummy await
+    downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 #endif
 
             return downloadPath;
         }
+
 
 #if ANDROID
         private async Task CheckAndRequestStoragePermissions()
@@ -97,5 +115,6 @@ namespace MauiApp1.Pages
             }
         }
 #endif
+
     }
 }

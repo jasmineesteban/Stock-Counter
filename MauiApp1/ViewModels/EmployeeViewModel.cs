@@ -26,9 +26,6 @@ namespace MauiApp1.ViewModels
             _httpClientService = httpClientService;
             LoadEmployeesCommand = new AsyncRelayCommand<string>(LoadEmployeesAsync);
             OnSearchBarTextChangedCommand = new AsyncRelayCommand<string>(OnSearchBarTextChanged);
-            OnNextButtonClickedCommand = new AsyncRelayCommand(OnNextButtonClicked);
-
-            // Load all employees on initialization
             LoadEmployeesCommand.Execute(null);
         }
 
@@ -63,18 +60,6 @@ namespace MauiApp1.ViewModels
         private async Task OnSearchBarTextChanged(string newTextValue)
         {
             await LoadEmployeesAsync(newTextValue);
-        }
-
-        private async Task OnNextButtonClicked()
-        {
-            if (SelectedEmployee != null)
-            {
-                await Shell.Current.GoToAsync("///HomePage");
-            }
-            else
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "Please select an employee before proceeding.", "OK");
-            }
         }
     }
 }

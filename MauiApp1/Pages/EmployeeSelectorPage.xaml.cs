@@ -6,22 +6,34 @@ namespace MauiApp1.Pages
     public partial class EmployeeSelectorPage : ContentPage
     {
         private readonly HttpClientService _httpClientService;
+        private readonly EmployeeViewModel _viewModel;
 
         public EmployeeSelectorPage(HttpClientService httpClientService)
         {
             InitializeComponent();
             _httpClientService = httpClientService;
 
-            var viewModel = new EmployeeViewModel(httpClientService);
-            BindingContext = viewModel;
+            _viewModel = new EmployeeViewModel(httpClientService);
+            BindingContext = _viewModel;
         }
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var viewModel = BindingContext as EmployeeViewModel;
-            if (viewModel != null && !string.IsNullOrWhiteSpace(e.NewTextValue))
+            if (_viewModel != null && !string.IsNullOrWhiteSpace(e.NewTextValue))
             {
-                viewModel.OnSearchBarTextChangedCommand.Execute(e.NewTextValue);
+                _viewModel.OnSearchBarTextChangedCommand.Execute(e.NewTextValue);
+            }
+        }
+
+        private async void NextButton_Clicked(object sender, EventArgs e)
+        {
+            if (_viewModel.SelectedEmployee != null)
+            {
+                await Shell.Current.GoToAsync("///HomePage");
+            }
+            else
+            {
+                await DisplayAlert("Oops", "Choose your name first.", "OK");
             }
         }
     }
