@@ -12,7 +12,7 @@
            Padding="20"
            CornerRadius="10"
            WidthRequest="300"
-           HeightRequest="300"
+           HeightRequest="250"
            HasShadow="True">
         <StackLayout>
             <Label Text="Select Columns to Display:" FontAttributes="Bold" Margin="0,0,0,10"/>
@@ -28,9 +28,9 @@
                 <CheckBox x:Name="UOMCheckBox" IsChecked="{Binding ShowUOM}" />
                 <Label Text="UOM" VerticalOptions="Center"/>
             </HorizontalStackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="20,20,0,0">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Button Text="Save" Clicked="Save_Clicked" 
-                        Margin="0,0,10,0"
+                        Margin="0,0,0,0"
                         WidthRequest="100"
                         HeightRequest="50"
                         HorizontalOptions="Center"
