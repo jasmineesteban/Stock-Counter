@@ -3,6 +3,7 @@ using MauiApp1.Pages;
 using MauiApp1.Services;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
+using Microsoft.Maui.Hosting;
 
 namespace MauiApp1
 {
@@ -25,6 +26,7 @@ namespace MauiApp1
             builder.Services.AddSingleton<SignInPage>();
             builder.Services.AddSingleton<EmployeeSelectorPage>();
             builder.Services.AddSingleton<ItemSelectorPage>();
+
             builder.Services.AddHttpClient<HttpClientService>(client =>
             {
                 var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
@@ -48,3 +50,4 @@ namespace MauiApp1
         }
     }
 }
+
