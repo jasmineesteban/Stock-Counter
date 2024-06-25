@@ -2,10 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.ApplicationModel;assembly=CommunityToolkit.Maui.Core"
              x:Class="MauiApp1.Pages.CountSheetsPage"
-             Title="Sample Count Sheet"
+             Title="Count Sheet"
              Shell.TabBarIsVisible="False">
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Filter"
+                     IconImageSource="filter"
+                     Clicked="Filter_Clicked"/>
         <ToolbarItem Text="+"
                      IconImageSource="application"
                      Clicked="ToolbarItem_Clicked"/>
@@ -59,6 +62,7 @@
                 <Label Grid.Row="3" Grid.Column="2" Text="{Binding CountSheetName}" VerticalOptions="Center" Padding="0,0,0,5"/>
             </Grid>
         </Frame>
+    
 
         <!-- ScrollView with CollectionView -->
         <ScrollView Grid.Row="1"
@@ -144,7 +148,7 @@
                 CornerRadius="25"
                 VerticalOptions="End"
                 HorizontalOptions="FillAndExpand"
-                Margin="20"
+                Margin="10"
                 Clicked="AddItem_Clicked"/>
     </Grid>
 </ContentPage>

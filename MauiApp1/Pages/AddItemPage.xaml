@@ -13,21 +13,8 @@
 
     <ScrollView>
         <VerticalStackLayout>
-        <!--Header-->
-        <!--<Grid HeightRequest="50"
-              BackgroundColor="White">
-            <BoxView BackgroundColor="#555555"
-                     HeightRequest="1"
-                     HorizontalOptions="FillAndExpand"
-                     VerticalOptions="End"/>
-            <Label Text="ITEM DETAILS"
-                   FontSize="20"
-                   HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="Center"
-                   Margin="10,0,0,0"/>
-        </Grid>-->
 
-        <!--ProductReference-->
+            <!--ProductReference-->
         <Grid HeightRequest="30"
               BackgroundColor="#555555">
             <BoxView BackgroundColor="#555555"
@@ -41,9 +28,7 @@
                    TextColor="White"
                    Margin="10,0,0,0"/>
         </Grid>
-        <!--Item Code-->
-            <Label Text="Search Item"
-                   Margin="10,10,0,0"/>
+        
             <Grid ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -51,51 +36,25 @@
                     <ColumnDefinition Width="Auto" />
                     <!-- ImageButton column -->
                 </Grid.ColumnDefinitions>
-
-                <SearchBar x:Name="searchItem"
-                       Placeholder="Search Item"
-                       TextColor="#646464"
-                       Text="{Binding Barcode}"
-                       Grid.Column="0"
-                       HorizontalOptions="FillAndExpand"
-                       VerticalOptions="CenterAndExpand"
-                       Margin="10,8,10,0"/>
-                <ImageButton Source="scan"
-                             Grid.Column="1"
-                             BackgroundColor="Transparent"
-                             Margin="0,0,10,0"
-                             HeightRequest="45"
-                             WidthRequest="50"
-                             HorizontalOptions="End"
-                             VerticalOptions="Center"
-                             Clicked="Scan_Clicked"/>
+                <Label
+                    Text="Product Name"
+                    Margin="10,8,0,0"/>
+            <Entry x:Name="EntryProductName"
+                   Placeholder="Product Name"
+                   Margin="10,40,10,0"
+                   TextColor="#646464"
+                   IsReadOnly="True">
+            </Entry>
+                <ImageButton Source="search"
+                 Grid.Column="1"
+                 BackgroundColor="Transparent"
+                 Margin="0,0,10,0"
+                 HeightRequest="45"
+                 WidthRequest="50"
+                 HorizontalOptions="End"
+                 VerticalOptions="Center"
+                 Clicked="ToItemSelector_Clicked"/>
             </Grid>
-            <Label
-                Text="Product Name"
-                Margin="10,8,0,0"/>
-        <Entry x:Name="EntryProductName"
-               Placeholder="Product Name"
-               Margin="10,8,10,0"
-               TextColor="#646464"
-               IsReadOnly="True"
-               Text="{Binding ProductName}">
-        </Entry>
-        
-        <!--Other Details-->
-        <Grid HeightRequest="30"
-              BackgroundColor="#555555"
-              Margin="0,15,0,0">
-            <BoxView BackgroundColor="#555555"
-                     HeightRequest="1"
-                     HorizontalOptions="FillAndExpand"
-                     VerticalOptions="End"/>
-            <Label Text="Other Details"
-                   FontSize="14"
-                   HorizontalOptions="Start"
-                   VerticalOptions="Center"
-                   TextColor="White"
-                   Margin="10,0,0,0"/>
-        </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -110,7 +69,7 @@
                            Placeholder="UOM"
                            Margin="10,8,10,0"
                            TextColor="#646464"
-                           Text="{Binding Uom}">
+                           IsReadOnly="True">
                     </Entry>
 
                     <Label Text="Batch &amp; Lot No."
@@ -147,9 +106,6 @@
                     </Entry>
                 </StackLayout>
             </Grid>
-            <Button x:Name="ToItemSelector"
-                    Text="To Item Selector"
-                    Clicked="ToItemSelector_Clicked"></Button>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

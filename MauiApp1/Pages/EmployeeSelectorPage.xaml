@@ -2,24 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.EmployeeSelectorPage"
-             Title="Employee Selector">
+             Title="Select Employee">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackLayout Grid.Row="0" Orientation="Horizontal" Padding="10">
-            <Label Text="Select Employee" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold"/>
-        </StackLayout>
-
-        <SearchBar x:Name="searchEmployee" Grid.Row="1" Placeholder="Search employees"
+        <SearchBar x:Name="searchEmployee" Grid.Row="0" Placeholder="Search employees"
                    TextChanged="SearchBar_TextChanged" Margin="10"/>
 
-        <CollectionView Grid.Row="2" ItemsSource="{Binding Employees}" 
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Employees}" 
                         SelectionMode="Single"
                         SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
             <CollectionView.ItemTemplate>
@@ -36,7 +31,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="3"
+        <Button Grid.Row="2"
                 Text="Next"
                 Clicked="NextButton_Clicked"
                 Margin="10,10,10,10"/>

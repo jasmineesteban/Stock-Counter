@@ -29,7 +29,7 @@ namespace MauiApp1
             {
                 var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
                                   ? "http://192.168.254.130:7055/"
-                                  : "http://localhost:7054/";
+                                  : "http://localhost:7059/";
 
                 client.BaseAddress = new Uri(baseAddress);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
