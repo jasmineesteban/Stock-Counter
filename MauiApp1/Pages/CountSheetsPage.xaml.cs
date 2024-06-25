@@ -75,13 +75,10 @@ public partial class CountSheetsPage : ContentPage
 
     private async void ToolbarItem_Clicked(object sender, EventArgs e)
     {
-        string action = await DisplayActionSheet("Action", "Cancel", null, "Select Columns","Save", "Delete", "Export");
+        string action = await DisplayActionSheet("Action", "Cancel", null,"Save", "Delete", "Export");
 
         switch (action)
         {
-            case "Select Columns":
-                await SelectColumnsAsync();
-                break;
             case "Save":
                 await SaveDataAsync();
                 break;
@@ -95,10 +92,6 @@ public partial class CountSheetsPage : ContentPage
                 // Handle cancellation or unexpected actions
                 break;
         }
-    }
-    private async Task SelectColumnsAsync()
-    {
-        Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
     }
 
     private async Task SaveDataAsync()
@@ -168,4 +161,8 @@ public partial class CountSheetsPage : ContentPage
         }
     }
 
+    private void Filter_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
+    }
 }

@@ -32,29 +32,8 @@
                 </StackLayout>
             </Frame>
             <!-- End of Frame 1 -->
-
-            <!-- Frame 2 -->
-            
-            <!-- End of Frame 2 -->
         </VerticalStackLayout>
-        <!-- End of Vertical Stack Layout -->
 
-        <!-- Image -->
-        <Image Source="empty"
-               HeightRequest="250"
-               WidthRequest="250"
-               Aspect="AspectFit"
-               AbsoluteLayout.LayoutBounds="0.5,0.4,250,200"
-               AbsoluteLayout.LayoutFlags="PositionProportional"/>
-        <!-- Label -->
-        <Label Text="No Items Available"
-               VerticalOptions="Center"
-               HorizontalOptions="Center"
-               AbsoluteLayout.LayoutBounds="0.5,0.65,Autosize,200"
-               AbsoluteLayout.LayoutFlags="PositionProportional"
-               FontAttributes="Bold"
-               FontSize="30"
-               TextColor="#D0D0D0"/>
         <!-- Button -->
         <Button x:Name="inventoryStack" Padding="10"
                 Text="+"

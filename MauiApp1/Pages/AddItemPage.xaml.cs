@@ -5,9 +5,22 @@ using MauiApp1.Services;
 
 namespace MauiApp1.Pages;
 
+[QueryProperty(nameof(ItemDescription), "ItemDescription")]
+[QueryProperty(nameof(SellingUom), "SellingUom")]
 public partial class AddItemPage : ContentPage
 {
+
     private readonly HttpClientService _httpClientService;
+
+    public string? ItemDescription
+    {
+        set => EntryProductName.Text = value;
+    }
+
+    public string? SellingUom
+    {
+        set => EntryUOM.Text = value;
+    }
 
     public AddItemPage()
     {
@@ -18,33 +31,6 @@ public partial class AddItemPage : ContentPage
     private void AddItem_Clicked(object sender, EventArgs e)
     {
 
-
-    }
-
-    private async void Scan_Clicked(object sender, EventArgs e)
-    {
-        var options = new MobileBarcodeScanningOptions
-        {
-            AutoRotate = true,
-            UseFrontCameraIfAvailable = false,
-        };
-
-
-        var scanner = new MobileBarcodeScanner
-        {
-            TopText = "Hold the camera up to the barcode",
-            BottomText = "Scanning will happen automatically",
-        };
-
-        var result = await scanner.Scan(options);
-        if (result != null)
-        {
-            searchItem.Text = result.Text;
-        }
-    }
-
-    private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
-    {
 
     }
 

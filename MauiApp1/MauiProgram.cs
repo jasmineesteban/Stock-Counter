@@ -42,21 +42,6 @@ namespace MauiApp1
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
             });
 
-            builder.Services.AddHttpClient<TokenService>(client =>
-            {
-                var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-                                  ? "http://192.168.254.130:7055/"
-                                  : "http://localhost:7059/";
-
-                client.BaseAddress = new Uri(baseAddress);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.Timeout = TimeSpan.FromSeconds(30); // Increase timeout to 30 seconds
-            })
-            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            });
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
