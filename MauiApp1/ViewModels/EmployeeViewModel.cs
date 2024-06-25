@@ -37,8 +37,8 @@ namespace MauiApp1.ViewModels
         {
             try
             {
-                var databaseName = await _httpClientService.GetRemoteDatabaseAsync();
-                var employees = await _httpClientService.GetEmployeesAsync(databaseName, pattern);
+
+                var employees = await _httpClientService.GetEmployeesAsync(pattern);
                 PopulateEmployeesList(employees);
             }
             catch (Exception ex)
