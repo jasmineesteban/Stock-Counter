@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using MauiApp1.Models;
 using Newtonsoft.Json;
@@ -33,5 +32,4 @@ namespace MauiApp1.Services
             _token = token;
         }
     }
-
 }
