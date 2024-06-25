@@ -20,13 +20,6 @@ namespace MauiApp1.Services
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<string> GetPatternAsync()
-        {
-            var response = await _httpClient.GetAsync("api/Database/GetPattern");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
-        }
-
         public async Task<IEnumerable<Employee>> GetEmployeesAsync(string databaseName, string pattern)
         {
             var response = await _httpClient.GetAsync($"api/Employee/GetEmployees?databaseName={databaseName}&pattern={pattern}");
