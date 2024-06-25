@@ -37,8 +37,7 @@ namespace MauiApp1.ViewModels
         {
             try
             {
-                var databaseName = await _httpClientService.GetRemoteDatabaseAsync();
-                var items = await _httpClientService.GetItemsAsync(databaseName, pattern);
+                var items = await _httpClientService.GetItemsAsync(pattern);
                 PopulateItemsList(items);
             }
             catch (Exception ex)
