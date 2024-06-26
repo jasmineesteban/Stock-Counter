@@ -14,10 +14,40 @@ namespace MauiApp1.Pages
             BindingContext = this;
         }
 
-        public bool ShowName
+        public bool ShowCtr
         {
-            get => _countSheetsPage.ShowName;
-            set => _countSheetsPage.ShowName = value;
+            get => _countSheetsPage.ShowCtr;
+            set => _countSheetsPage.ShowCtr = value;
+        }
+
+        public bool ShowItemNo
+        {
+            get => _countSheetsPage.ShowItemNo;
+            set => _countSheetsPage.ShowItemNo = value;
+        }
+
+        public bool ShowDescription
+        {
+            get => _countSheetsPage.ShowDescription;
+            set => _countSheetsPage.ShowDescription = value;
+        }
+
+        public bool ShowUom
+        {
+            get => _countSheetsPage.ShowUom;
+            set => _countSheetsPage.ShowUom = value;
+        }
+
+        public bool ShowBatchLot
+        {
+            get => _countSheetsPage.ShowBatchLot;
+            set => _countSheetsPage.ShowBatchLot = value;
+        }
+
+        public bool ShowExpiry
+        {
+            get => _countSheetsPage.ShowExpiry;
+            set => _countSheetsPage.ShowExpiry = value;
         }
 
         public bool ShowQuantity
@@ -26,18 +56,11 @@ namespace MauiApp1.Pages
             set => _countSheetsPage.ShowQuantity = value;
         }
 
-        public bool ShowUOM
-        {
-            get => _countSheetsPage.ShowUOM;
-            set => _countSheetsPage.ShowUOM = value;
-        }
-
         private async void Save_Clicked(object sender, EventArgs e)
         {
             // Close the column selection page
             await Shell.Current.Navigation.PopModalAsync();
         }
-
 
         private async void OnAppearing(object sender, EventArgs e)
         {
