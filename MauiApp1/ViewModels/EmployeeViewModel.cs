@@ -5,6 +5,8 @@ using MauiApp1.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MauiApp1.ViewModels
 {
@@ -20,6 +22,8 @@ namespace MauiApp1.ViewModels
         private Employee _selectedEmployee;
 
         public bool IsNextButtonEnabled => SelectedEmployee != null;
+
+        public string SelectedEmployeeDetails => SelectedEmployee?.FullDetails ?? string.Empty;
 
         public EmployeeViewModel(HttpClientService httpClientService)
         {
@@ -37,7 +41,6 @@ namespace MauiApp1.ViewModels
         {
             try
             {
-
                 var employees = await _httpClientService.GetEmployeesAsync(pattern);
                 PopulateEmployeesList(employees);
             }

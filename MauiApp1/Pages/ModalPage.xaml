@@ -4,7 +4,7 @@
              x:Class="MauiApp1.Pages.ModalPage"
              Title="Start Inventory"
              BackgroundColor="#60000000"
-             Appearing="OnAppearing">
+             >
     <Frame
         BackgroundColor="White"
         CornerRadius="0"
@@ -37,16 +37,8 @@
                 Margin="0,20,0,0"/>
             <Entry
                 x:Name="EmployeeEntry"
-                Text="{Binding Employee}"
                 HorizontalOptions="FillAndExpand"
                 IsReadOnly="True"/>
-            <Label
-                Text="Remarks"
-                Margin="0,20,0,0"/>
-            <Entry
-                x:Name="remarks"
-                Placeholder="Enter Remarks"
-                HorizontalOptions="FillAndExpand"/>
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
                          Margin="20">
