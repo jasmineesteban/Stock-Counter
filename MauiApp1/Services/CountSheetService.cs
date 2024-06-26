@@ -1,30 +1,17 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using MauiApp1.Models;
+using MauiApp1.Services.HttpBaseService;
 
 namespace MauiApp1.Services
 {
-    public class CountSheetService
+    public class CountSheetService : HttpServiceBase
     {
-        private readonly HttpClient _httpClient;
-        private readonly TokenService _tokenService;
-
         public CountSheetService(HttpClient httpClient, TokenService tokenService)
+            : base(httpClient, tokenService)
         {
-            _httpClient = httpClient;
-            _tokenService = tokenService;
-        }
-
-        private async Task SetAuthorizationHeaderAsync()
-        {
-            var token = await _tokenService.GetTokenAsync();
-            if (!string.IsNullOrEmpty(token))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
         }
 
         public async Task<IEnumerable<CountSheet>> GetCountSheetsAsync(string pattern)

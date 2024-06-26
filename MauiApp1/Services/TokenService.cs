@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using MauiApp1.Models;
+﻿using MauiApp1.Models;
 using Newtonsoft.Json;
 
 namespace MauiApp1.Services
@@ -25,11 +23,6 @@ namespace MauiApp1.Services
                 _token = JsonConvert.DeserializeObject<TokenResponse>(json)?.Token;
             }
             return _token;
-        }
-
-        public void SetToken(string token)
-        {
-            _token = token;
         }
     }
 }

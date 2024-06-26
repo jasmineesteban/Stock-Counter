@@ -1,30 +1,18 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using MauiApp1.Models;
+using MauiApp1.Services.HttpBaseService;
 
 namespace MauiApp1.Services
 {
-    public class ItemCountService
+    public class ItemCountService : HttpServiceBase
     {
-        private readonly HttpClient _httpClient;
-        private readonly TokenService _tokenService;
-
         public ItemCountService(HttpClient httpClient, TokenService tokenService)
+            : base(httpClient, tokenService)
         {
-            _httpClient = httpClient;
-            _tokenService = tokenService;
         }
-
-        private async Task SetAuthorizationHeaderAsync()
-        {
-            var token = await _tokenService.GetTokenAsync();
-            if (!string.IsNullOrEmpty(token))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-        }
-
         public async Task<IEnumerable<ItemCount>> GetItemCountsAsync(string countCode)
         {
             await SetAuthorizationHeaderAsync();
