@@ -1,9 +1,11 @@
 using CommunityToolkit.Maui;
+using MauiApp1.Helpers;
 using MauiApp1.Pages;
 using MauiApp1.Services;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 using Microsoft.Maui.Hosting;
+using System;
 
 namespace MauiApp1
 {
@@ -27,65 +29,10 @@ namespace MauiApp1
             builder.Services.AddSingleton<EmployeeSelectorPage>();
             builder.Services.AddSingleton<ItemSelectorPage>();
 
-            builder.Services.AddHttpClient<TokenService>(client =>
-            {
-                var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-                                  ? "http://192.168.254.130:7055/"
-                                  : "http://localhost:7059/";
-
-                client.BaseAddress = new Uri(baseAddress);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.Timeout = TimeSpan.FromSeconds(30);
-            })
-            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            });
-
-            builder.Services.AddHttpClient<HttpClientService>(client =>
-            {
-                var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-                                  ? "http://192.168.254.130:7055/"
-                                  : "http://localhost:7059/";
-
-                client.BaseAddress = new Uri(baseAddress);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.Timeout = TimeSpan.FromSeconds(30); // Increase timeout to 30 seconds
-            })
-            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            });
-
-            builder.Services.AddHttpClient<ItemCountService>(client =>
-            {
-                var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-                                  ? "http://192.168.254.130:7055/"
-                                  : "http://localhost:7059/";
-
-                client.BaseAddress = new Uri(baseAddress);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.Timeout = TimeSpan.FromSeconds(30);
-            })
-            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            });
-
-            builder.Services.AddHttpClient<CountSheetService>(client =>
-            {
-                var baseAddress = DeviceInfo.Platform == DevicePlatform.Android
-                                  ? "http://192.168.254.130:7055/"
-                                  : "http://localhost:7059/";
-
-                client.BaseAddress = new Uri(baseAddress);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.Timeout = TimeSpan.FromSeconds(30);
-            })
-            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            });
+            RegisterHttpClient<TokenService>(builder);
+            RegisterHttpClient<HttpClientService>(builder);
+            RegisterHttpClient<ItemCountService>(builder);
+            RegisterHttpClient<CountSheetService>(builder);
 
 #if DEBUG
             builder.Logging.AddDebug();
@@ -93,6 +40,14 @@ namespace MauiApp1
 
             return builder.Build();
         }
+
+        private static void RegisterHttpClient<TClient>(MauiAppBuilder builder) where TClient : class
+        {
+            builder.Services.AddHttpClient<TClient>(client =>
+            {
+                BaseUrlHelper.ConfigureHttpClient(client);
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => BaseUrlHelper.CreateHttpClientHandler());
+        }
     }
 }
-
