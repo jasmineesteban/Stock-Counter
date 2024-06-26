@@ -1,48 +1,59 @@
-namespace MauiApp1.Pages;
+using Microsoft.Maui.Controls;
 
-public partial class ModalPage : ContentPage
+namespace MauiApp1.Pages
 {
-    public ModalPage()
+    [QueryProperty(nameof(EmployeeDetails), "EmployeeDetails")]
+    public partial class ModalPage : ContentPage
     {
-        InitializeComponent();
-    }
-
-
-    private async void Cancel_Clicked(object sender, EventArgs e)
-    {
-        await Shell.Current.Navigation.PopModalAsync();
-    }
-
-    private void InventoryDate_DateSelected(object sender, DateChangedEventArgs e)
-    {
-        DateTime selectedDate = e.NewDate;
-
-        DateTime today = DateTime.Today;
-
-        if (selectedDate > today)
+        private string employeeDetails;
+        public string EmployeeDetails
         {
-            DateEntry.Date = today;
-
-            DisplayAlert("Alert", "Please select a date on or before today.", "OK");
+            get => employeeDetails;
+            set
+            {
+                employeeDetails = value;
+                OnPropertyChanged();
+                EmployeeEntry.Text = employeeDetails;
+            }
         }
-    }
 
+        public ModalPage()
+        {
+            InitializeComponent();
+        }
 
-    private void Save_Clicked(object sender, EventArgs e)
-    {
-    }
-    private async void OnAppearing(object sender, EventArgs e)
-    {
-        base.OnAppearing();
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await FadeInModalFrame();
+        }
 
-        await FadeInModalFrame();
-    }
+        private async void Cancel_Clicked(object sender, EventArgs e)
+        {
+            await Shell.Current.Navigation.PopModalAsync();
+        }
 
+        private void InventoryDate_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            DateTime selectedDate = e.NewDate;
+            DateTime today = DateTime.Today;
 
-    private async Task FadeInModalFrame()
-    {
-        this.Opacity = 0;
+            if (selectedDate > today)
+            {
+                DateEntry.Date = today;
+                DisplayAlert("Alert", "Please select a date on or before today.", "OK");
+            }
+        }
 
-        await this.FadeTo(1, 250, Easing.Linear);
+        private void Save_Clicked(object sender, EventArgs e)
+        {
+            // Implement save logic here
+        }
+
+        private async Task FadeInModalFrame()
+        {
+            this.Opacity = 0;
+            await this.FadeTo(1, 250, Easing.Linear);
+        }
     }
 }

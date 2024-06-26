@@ -1,20 +1,38 @@
-namespace MauiApp1.Pages;
+using Microsoft.Maui.Controls;
 
-public partial class HomePage : ContentPage
+namespace MauiApp1.Pages
 {
-	public HomePage()
-	{
-		InitializeComponent();
-	}
-
-    private async void Form_Clicked(object sender, EventArgs e)
+    [QueryProperty(nameof(EmployeeDetails), "EmployeeDetails")]
+    public partial class HomePage : ContentPage
     {
-        await Shell.Current.Navigation.PushModalAsync(new ModalPage());
-    }
+        private string employeeDetails;
+        public string EmployeeDetails
+        {
+            get => employeeDetails;
+            set
+            {
+                employeeDetails = value;
+                OnPropertyChanged();
+            }
+        }
 
-    private async void Frame_Tapped(object sender, TappedEventArgs e)
-    {
-        // Navigate to the "Count Sheets" page
-        await Navigation.PushAsync(new CountSheetsPage());
+        public HomePage()
+        {
+            InitializeComponent();
+        }
+
+        private async void Form_Clicked(object sender, EventArgs e)
+        {
+            var modalPage = new ModalPage
+            {
+                EmployeeDetails = EmployeeDetails
+            };
+            await Shell.Current.Navigation.PushModalAsync(modalPage);
+        }
+
+        private async void Frame_Tapped(object sender, TappedEventArgs e)
+        {
+            await Navigation.PushAsync(new CountSheetsPage());
+        }
     }
 }

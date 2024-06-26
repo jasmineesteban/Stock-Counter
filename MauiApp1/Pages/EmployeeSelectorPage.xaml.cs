@@ -1,5 +1,7 @@
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
+using Microsoft.Maui.Controls;
+using System.Collections.Generic;
 
 namespace MauiApp1.Pages
 {
@@ -29,7 +31,13 @@ namespace MauiApp1.Pages
         {
             if (_viewModel.SelectedEmployee != null)
             {
-                await Shell.Current.GoToAsync("///HomePage");
+                var employeeDetails = _viewModel.SelectedEmployeeDetails;
+                var navigationParameters = new Dictionary<string, object>
+                {
+                    { "EmployeeDetails", employeeDetails }
+                };
+
+                await Shell.Current.GoToAsync("//HomePage", navigationParameters); // Use "//" to navigate to the root HomePage
             }
             else
             {
