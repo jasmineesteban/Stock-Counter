@@ -1,18 +1,22 @@
-﻿﻿namespace MauiApp1.Helpers
+﻿namespace MauiApp1.Helpers
 {
     public static class GridColumnVisibilityHelper
     {
-        public static void UpdateColumnVisibility(Grid headerGrid, CollectionView dataGrid, bool showName, bool showQuantity, bool showUOM)
+        public static void UpdateColumnVisibility(Grid headerGrid, CollectionView dataGrid, bool showCtr, bool showItemNo, bool showDescription, bool showUom, bool showBatchLot, bool showExpiry, bool showQuantity)
         {
-            // Update header visibility
             headerGrid.Children.Clear();
             headerGrid.ColumnDefinitions.Clear();
-            AddColumnDefinitionAndLabel(headerGrid, showName, "Name", 0);
-            AddColumnDefinitionAndLabel(headerGrid, showQuantity, "Quantity", showName ? 1 : 0);
-            AddColumnDefinitionAndLabel(headerGrid, showUOM, "UOM", showName && showQuantity ? 2 : (showName || showQuantity) ? 1 : 0);
+            int columnIndex = 0;
 
-            // Update data item visibility
-            dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(showName, showQuantity, showUOM));
+            AddColumnDefinitionAndLabel(headerGrid, showCtr, "Ctr", columnIndex++);
+            AddColumnDefinitionAndLabel(headerGrid, showItemNo, "Item No.", columnIndex++);
+            AddColumnDefinitionAndLabel(headerGrid, showDescription, "Description", columnIndex++);
+            AddColumnDefinitionAndLabel(headerGrid, showUom, "UOM", columnIndex++);
+            AddColumnDefinitionAndLabel(headerGrid, showBatchLot, "Batch&Lot", columnIndex++);
+            AddColumnDefinitionAndLabel(headerGrid, showExpiry, "Expiry", columnIndex++);
+            AddColumnDefinitionAndLabel(headerGrid, showQuantity, "Quantity", columnIndex);
+
+            dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(showCtr, showItemNo, showDescription, showUom, showBatchLot, showExpiry, showQuantity));
         }
 
         private static void AddColumnDefinitionAndLabel(Grid headerGrid, bool isVisible, string text, int column)
@@ -32,13 +36,18 @@
             }
         }
 
-        private static Grid CreateItemGrid(bool showName, bool showQuantity, bool showUOM)
+        private static Grid CreateItemGrid(bool showCtr, bool showItemNo, bool showDescription, bool showUom, bool showBatchLot, bool showExpiry, bool showQuantity)
         {
             var itemGrid = new Grid { ColumnSpacing = 5 };
+            int columnIndex = 0;
 
-            AddItemColumn(itemGrid, showName, "Name", 0);
-            AddItemColumn(itemGrid, showQuantity, "Quantity", showName ? 1 : 0);
-            AddItemColumn(itemGrid, showUOM, "UOM", showName && showQuantity ? 2 : (showName || showQuantity) ? 1 : 0);
+            AddItemColumn(itemGrid, showCtr, "ItemCounter", columnIndex++);
+            AddItemColumn(itemGrid, showItemNo, "ItemCode", columnIndex++);
+            AddItemColumn(itemGrid, showDescription, "ItemDescription", columnIndex++);
+            AddItemColumn(itemGrid, showUom, "ItemUom", columnIndex++);
+            AddItemColumn(itemGrid, showBatchLot, "ItemBatchLotNumber", columnIndex++);
+            AddItemColumn(itemGrid, showExpiry, "ItemExpiry", columnIndex++);
+            AddItemColumn(itemGrid, showQuantity, "ItemQuantity", columnIndex);
 
             return itemGrid;
         }

@@ -5,37 +5,53 @@
              Title="Select Columns"
              BackgroundColor="#60000000"
              Appearing="OnAppearing">
-
     <Frame HorizontalOptions="Center"
            VerticalOptions="Center"
            BackgroundColor="White"
            Padding="20"
            CornerRadius="10"
            WidthRequest="300"
-           HeightRequest="250"
+           HeightRequest="400"
            HasShadow="True">
-        <StackLayout>
-            <Label Text="Select Columns to Display:" FontAttributes="Bold" Margin="0,0,0,10"/>
-            <HorizontalStackLayout>
-                <CheckBox x:Name="NameCheckBox" IsChecked="{Binding ShowName}" />
-                <Label Text="Name" VerticalOptions="Center"/>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout>
-                <CheckBox x:Name="QuantityCheckBox" IsChecked="{Binding ShowQuantity}" />
-                <Label Text="Quantity" VerticalOptions="Center"/>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout>
-                <CheckBox x:Name="UOMCheckBox" IsChecked="{Binding ShowUOM}" />
-                <Label Text="UOM" VerticalOptions="Center"/>
-            </HorizontalStackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Button Text="Save" Clicked="Save_Clicked" 
-                        Margin="0,0,0,0"
+        <ScrollView>
+            <StackLayout>
+                <Label Text="Select Columns to Display:" FontAttributes="Bold" Margin="0,0,0,10"/>
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="CtrCheckBox" IsChecked="{Binding ShowCtr}" />
+                    <Label Text="Ctr" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="ItemNoCheckBox" IsChecked="{Binding ShowItemNo}" />
+                    <Label Text="Item No." VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="DescriptionCheckBox" IsChecked="{Binding ShowDescription}" />
+                    <Label Text="Description" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="UomCheckBox" IsChecked="{Binding ShowUom}" />
+                    <Label Text="UOM" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="BatchLotCheckBox" IsChecked="{Binding ShowBatchLot}" />
+                    <Label Text="Batch&amp;Lot" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="ExpiryCheckBox" IsChecked="{Binding ShowExpiry}" />
+                    <Label Text="Expiry" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="QuantityCheckBox" IsChecked="{Binding ShowQuantity}" />
+                    <Label Text="Quantity" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Button Text="Save" 
+                        Clicked="Save_Clicked" 
+                        Margin="0,20,0,0"
                         WidthRequest="100"
                         HeightRequest="50"
                         HorizontalOptions="Center"
-                        VerticalOptions="Center"/>      
+                        VerticalOptions="Center"/>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </Frame>
 </ContentPage>

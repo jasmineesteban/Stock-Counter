@@ -7,17 +7,77 @@ namespace MauiApp1.Pages
 {
     public partial class CountSheetsPage : ContentPage
     {
-        public ObservableCollection<MyData> Items { get; set; }
+        public ObservableCollection<ItemCount> Items { get; set; }
 
-        private bool _showName;
-        public bool ShowName
+        private bool _showCtr;
+        public bool ShowCtr
         {
-            get => _showName;
+            get => _showCtr;
             set
             {
-                _showName = value;
-                OnPropertyChanged(nameof(ShowName));
-                GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ShowName, ShowQuantity, ShowUOM);
+                _showCtr = value;
+                OnPropertyChanged(nameof(ShowCtr));
+                UpdateColumnVisibility();
+            }
+        }
+
+        private bool _showItemNo;
+        public bool ShowItemNo
+        {
+            get => _showItemNo;
+            set
+            {
+                _showItemNo = value;
+                OnPropertyChanged(nameof(ShowItemNo));
+                UpdateColumnVisibility();
+            }
+        }
+
+        private bool _showDescription;
+        public bool ShowDescription
+        {
+            get => _showDescription;
+            set
+            {
+                _showDescription = value;
+                OnPropertyChanged(nameof(ShowDescription));
+                UpdateColumnVisibility();
+            }
+        }
+
+        private bool _showUom;
+        public bool ShowUom
+        {
+            get => _showUom;
+            set
+            {
+                _showUom = value;
+                OnPropertyChanged(nameof(ShowUom));
+                UpdateColumnVisibility();
+            }
+        }
+
+        private bool _showBatchLot;
+        public bool ShowBatchLot
+        {
+            get => _showBatchLot;
+            set
+            {
+                _showBatchLot = value;
+                OnPropertyChanged(nameof(ShowBatchLot));
+                UpdateColumnVisibility();
+            }
+        }
+
+        private bool _showExpiry;
+        public bool ShowExpiry
+        {
+            get => _showExpiry;
+            set
+            {
+                _showExpiry = value;
+                OnPropertyChanged(nameof(ShowExpiry));
+                UpdateColumnVisibility();
             }
         }
 
@@ -29,41 +89,35 @@ namespace MauiApp1.Pages
             {
                 _showQuantity = value;
                 OnPropertyChanged(nameof(ShowQuantity));
-                GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ShowName, ShowQuantity, ShowUOM);
+                UpdateColumnVisibility();
             }
         }
 
-        private bool _showUOM;
-        public bool ShowUOM
+        private void UpdateColumnVisibility()
         {
-            get => _showUOM;
-            set
-            {
-                _showUOM = value;
-                OnPropertyChanged(nameof(ShowUOM));
-                GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ShowName, ShowQuantity, ShowUOM);
-            }
+            GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ShowCtr, ShowItemNo, ShowDescription, ShowUom, ShowBatchLot, ShowExpiry, ShowQuantity);
         }
 
         public CountSheetsPage()
         {
             InitializeComponent();
-            Items = new ObservableCollection<MyData>
+            Items = new ObservableCollection<ItemCount>
             {
-                new MyData { Name = "Item 1", Quantity = 10, UOM = "kg" },
-                new MyData { Name = "Item 2", Quantity = 20, UOM = "ltr" },
-                new MyData { Name = "Item 3", Quantity = 30, UOM = "pcs" }
+                new ItemCount { ItemCode = "ITEM001", ItemDescription = "Sample Item 1", ItemQuantity = 100 },
+                new ItemCount { ItemCode = "ITEM002", ItemDescription = "Sample Item 2", ItemQuantity = 50 },
+                new ItemCount { ItemCode = "ITEM003", ItemDescription = "Sample Item 3", ItemQuantity = 75 }
             };
-
             BindingContext = this;
-
             // Initial column visibility settings
-            ShowName = true;
+            ShowCtr = true;
+            ShowItemNo = true;
+            ShowDescription = true;
+            ShowUom = true;
+            ShowBatchLot = true;
+            ShowExpiry = true;
             ShowQuantity = true;
-            ShowUOM = true;
-
             dataGrid.ItemsSource = Items;
-            GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ShowName, ShowQuantity, ShowUOM);
+            UpdateColumnVisibility();
         }
 
         private async void AddItem_Clicked(object sender, EventArgs e)
@@ -92,9 +146,22 @@ namespace MauiApp1.Pages
             }
         }
 
-        private void Filter_Clicked(object sender, EventArgs e)
+        private void FilteredSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
+            string filterText = e.NewTextValue?.ToLower() ?? string.Empty;
+            dataGrid.ItemsSource = Items.Where(item => item.ItemDescription.ToLower().Contains(filterText)).ToList();
+        }
+
+        private  void Filter_Clicked(object sender, EventArgs e)
+        {
+            // Implement your filter logic here
             Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
+        }
+
+        private async void ColumnSelection_Clicked(object sender, EventArgs e)
+        {
+            var columnSelectionPage = new ColumnSelectionPage(this);
+            await Shell.Current.Navigation.PushModalAsync(new NavigationPage(columnSelectionPage));
         }
     }
 }
