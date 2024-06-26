@@ -28,7 +28,6 @@ public partial class ModalPage : ContentPage
     }
 
 
-
     private void Save_Clicked(object sender, EventArgs e)
     {
     }
