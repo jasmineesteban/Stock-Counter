@@ -37,7 +37,6 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -56,8 +55,6 @@
                 <Label Grid.Row="2" Grid.Column="0" Text="User" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="2" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
                 <Label Grid.Row="2" Grid.Column="2" Text="{Binding User}" VerticalOptions="Center" Padding="0,0,0,3"/>
-
-  
             </Grid>
         </Frame>
     

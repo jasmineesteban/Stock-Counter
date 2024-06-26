@@ -92,15 +92,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-
-            <!-- Button -->
-            <Button Grid.Row="3"
-                Text="Next"
-                IsEnabled="{Binding IsNextButtonEnabled}"
-                Command="{Binding OnNextButtonClickedCommand}"
-                Margin="5"
-                    HorizontalOptions="FillAndExpand"/>
         </Grid>
     </Frame>
 </ContentPage>

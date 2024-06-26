@@ -79,7 +79,7 @@ namespace MauiApp1.Pages
                     { "ItemDescription", selectedItem.ItemDescription },
                     { "SellingUom", selectedItem.SellingUom }
                 };
-                await Shell.Current.GoToAsync(nameof(AddItemPage), parameters);
+                await Shell.Current.GoToAsync("..",  parameters);
             }
         }
     }

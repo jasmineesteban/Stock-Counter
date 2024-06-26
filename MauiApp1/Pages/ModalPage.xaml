@@ -19,7 +19,7 @@
             MinimumHeightRequest="300"
             HorizontalOptions="FillAndExpand">
             <Label
-                Text="Inventory Name"
+                Text="Column Sheet Name"
                 Margin="0,20,0,0"/>
             <Entry
                 x:Name="CountSheetEntry"
@@ -40,13 +40,6 @@
                 Text="{Binding Employee}"
                 HorizontalOptions="FillAndExpand"
                 IsReadOnly="True"/>
-            <Label
-                Text="Remarks"
-                Margin="0,20,0,0"/>
-            <Entry
-                x:Name="remarks"
-                Placeholder="Enter Remarks"
-                HorizontalOptions="FillAndExpand"/>
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
                          Margin="20">
