@@ -19,7 +19,7 @@
             MinimumHeightRequest="300"
             HorizontalOptions="FillAndExpand">
             <Label
-                Text="Inventory Name"
+                Text="Column Sheet Name"
                 Margin="0,20,0,0"/>
             <Entry
                 x:Name="CountSheetEntry"
