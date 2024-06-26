@@ -67,4 +67,5 @@ public partial class AddItemPage : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(ItemSelectorPage));
     }
+
 }
