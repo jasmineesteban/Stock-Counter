@@ -16,7 +16,7 @@ namespace MauiApp1.ViewModels
 
         public async Task AddCountSheet(string employeeCode, string description, DateTime date)
         {
-            var countSheet = new CountSheetTestModel
+            var countSheet = new CountSheetAddition
             {
                 CountSheetEmployee = employeeCode,      
                 CountDescription = description,

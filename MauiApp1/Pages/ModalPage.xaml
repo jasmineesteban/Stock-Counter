@@ -20,7 +20,8 @@
             <Label Text="Column Sheet Name" Margin="0,20,0,0"/>
             <Entry x:Name="CountSheetEntry" Placeholder="Enter Count Sheet Name" HorizontalOptions="FillAndExpand"/>
             <Label Text="Date" Margin="0,20,0,0"/>
-            <DatePicker x:Name="DateEntry" HorizontalOptions="FillAndExpand" DateSelected="InventoryDate_DateSelected"/>
+            <DatePicker x:Name="DateEntry" HorizontalOptions="FillAndExpand"  IsEnabled="False"/>
+
             <Label Text="Employee" Margin="0,20,0,0"/>
             <Entry x:Name="EmployeeEntry" HorizontalOptions="FillAndExpand" IsReadOnly="True"/>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="20">
