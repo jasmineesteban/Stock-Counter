@@ -34,6 +34,7 @@ namespace MauiApp1
             builder.Services.AddTransient<HomePage>(); // Register HomePage
             builder.Services.AddTransient<ModalPage>(); // Register ModalPage
             builder.Services.AddTransient<CountSheetViewModel>();
+            builder.Services.AddTransient<ItemCountViewModel>();
 
             RegisterHttpClient<TokenService>(builder);
             RegisterHttpClient<HttpClientService>(builder);

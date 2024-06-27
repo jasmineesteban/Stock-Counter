@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using MauiApp1.Models;
+﻿using MauiApp1.Models;
 using MauiApp1.Services;
 
 namespace MauiApp1.ViewModels

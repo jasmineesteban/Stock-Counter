@@ -39,7 +39,7 @@ namespace MauiApp1.Pages
 
         private async void Frame_Tapped(object sender, TappedEventArgs e)
         {
-            await Navigation.PushAsync(new CountSheetsPage());
+            await Navigation.PushAsync(new CountSheetsPage(_serviceProvider));
         }
     }
 }
