@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Newtonsoft.Json;
 using MauiApp1.Models;
 using MauiApp1.Services.HttpBaseService;

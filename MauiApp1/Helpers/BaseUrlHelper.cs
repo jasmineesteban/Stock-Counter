@@ -13,7 +13,7 @@
         {
             client.BaseAddress = GetBaseAddress();
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.Timeout = TimeSpan.FromSeconds(30);
+            client.Timeout = TimeSpan.FromHours(1);
         }
 
         public static HttpClientHandler CreateHttpClientHandler()

@@ -14,35 +14,14 @@ namespace MauiApp1.Services
         {
         }
 
-        public async Task<IEnumerable<CountSheet>> GetCountSheetsAsync(string pattern)
+        public async Task AddCountSheetAsync(CountSheetTestModel countSheet)
         {
+            // Set authorization header
             await SetAuthorizationHeaderAsync();
-            var response = await _httpClient.GetAsync($"api/CountSheet/GetCountSheets?pattern={pattern}");
-            response.EnsureSuccessStatusCode();
-            var json = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<IEnumerable<CountSheet>>(json);
-        }
 
-        public async Task AddCountSheetAsync(CountSheet countSheet)
-        {
-            await SetAuthorizationHeaderAsync();
-            var content = new StringContent(JsonConvert.SerializeObject(countSheet), Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(countSheet);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/CountSheet/add", content);
-            response.EnsureSuccessStatusCode();
-        }
-
-        public async Task EditCountSheetAsync(CountSheet countSheet)
-        {
-            await SetAuthorizationHeaderAsync();
-            var content = new StringContent(JsonConvert.SerializeObject(countSheet), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync("api/CountSheet/edit", content);
-            response.EnsureSuccessStatusCode();
-        }
-
-        public async Task DeleteCountSheetAsync(string countSheetKey)
-        {
-            await SetAuthorizationHeaderAsync();
-            var response = await _httpClient.DeleteAsync($"api/CountSheet/delete/{countSheetKey}");
             response.EnsureSuccessStatusCode();
         }
     }

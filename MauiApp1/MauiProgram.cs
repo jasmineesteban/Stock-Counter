@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 using Microsoft.Maui.Hosting;
 using System;
+using MauiApp1.ViewModels;
 
 namespace MauiApp1
 {
@@ -28,6 +29,11 @@ namespace MauiApp1
             builder.Services.AddSingleton<SignInPage>();
             builder.Services.AddSingleton<EmployeeSelectorPage>();
             builder.Services.AddSingleton<ItemSelectorPage>();
+            builder.Services.AddTransient<EmployeeViewModel>();
+
+            builder.Services.AddTransient<HomePage>(); // Register HomePage
+            builder.Services.AddTransient<ModalPage>(); // Register ModalPage
+            builder.Services.AddTransient<CountSheetViewModel>();
 
             RegisterHttpClient<TokenService>(builder);
             RegisterHttpClient<HttpClientService>(builder);

@@ -4,7 +4,5 @@
     {
         public string? EmployeeId { get; set; }
         public string? EmployeeName { get; set; }
-
-        public string FullDetails => $"{EmployeeId} {EmployeeName}";
     }
 }

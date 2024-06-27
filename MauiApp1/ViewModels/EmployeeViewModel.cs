@@ -23,7 +23,7 @@ namespace MauiApp1.ViewModels
 
         public bool IsNextButtonEnabled => SelectedEmployee != null;
 
-        public string SelectedEmployeeDetails => SelectedEmployee?.FullDetails ?? string.Empty;
+        public string SelectedEmployeeDetails => SelectedEmployee?.EmployeeId ?? string.Empty;
 
         public EmployeeViewModel(HttpClientService httpClientService)
         {

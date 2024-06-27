@@ -1,10 +1,15 @@
 using Microsoft.Maui.Controls;
+using MauiApp1.Models;
+using MauiApp1.ViewModels;
+using System;
 
 namespace MauiApp1.Pages
 {
     [QueryProperty(nameof(EmployeeDetails), "EmployeeDetails")]
     public partial class HomePage : ContentPage
     {
+        private readonly IServiceProvider _serviceProvider;
+
         private string employeeDetails;
         public string EmployeeDetails
         {
@@ -16,14 +21,16 @@ namespace MauiApp1.Pages
             }
         }
 
-        public HomePage()
+        public HomePage(IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            _serviceProvider = serviceProvider;
         }
 
         private async void Form_Clicked(object sender, EventArgs e)
         {
-            var modalPage = new ModalPage
+            var countSheetViewModel = _serviceProvider.GetService<CountSheetViewModel>();
+            var modalPage = new ModalPage(countSheetViewModel)
             {
                 EmployeeDetails = EmployeeDetails
             };

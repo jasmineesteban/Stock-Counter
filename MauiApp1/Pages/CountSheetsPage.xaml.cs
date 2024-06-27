@@ -103,9 +103,6 @@ namespace MauiApp1.Pages
             InitializeComponent();
             Items = new ObservableCollection<ItemCount>
             {
-                new ItemCount { ItemCode = "ITEM001", ItemDescription = "Sample Item 1", ItemQuantity = 100 },
-                new ItemCount { ItemCode = "ITEM002", ItemDescription = "Sample Item 2", ItemQuantity = 50 },
-                new ItemCount { ItemCode = "ITEM003", ItemDescription = "Sample Item 3", ItemQuantity = 75 }
             };
             BindingContext = this;
             // Initial column visibility settings
@@ -152,10 +149,10 @@ namespace MauiApp1.Pages
             dataGrid.ItemsSource = Items.Where(item => item.ItemDescription.ToLower().Contains(filterText)).ToList();
         }
 
-        private  void Filter_Clicked(object sender, EventArgs e)
+        private  async void Filter_Clicked(object sender, EventArgs e)
         {
             // Implement your filter logic here
-            Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
+        await    Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
         }
 
         private async void ColumnSelection_Clicked(object sender, EventArgs e)

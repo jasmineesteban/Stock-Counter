@@ -1,7 +1,5 @@
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
-using Microsoft.Maui.Controls;
-using System.Collections.Generic;
 
 namespace MauiApp1.Pages
 {
