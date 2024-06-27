@@ -7,11 +7,24 @@
              Shell.NavBarIsVisible="True"
              Shell.TabBarIsVisible="False">
     <AbsoluteLayout>
-
         <!-- Vertical Stack Layout to hold Frames -->
         <VerticalStackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"                
                      AbsoluteLayout.LayoutFlags="All">
-            
+            <!-- ListView for CountSheets -->
+            <ListView x:Name="CountSheetListView"
+                      ItemsSource="{Binding CountSheets}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding CountDescription}"
+                                       FontSize="16"
+                                       TextColor="Black"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
 
         <!-- Button -->
