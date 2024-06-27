@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.ModalPage"
              Title="Start Inventory"
-             BackgroundColor="#60000000"
-             >
+             BackgroundColor="#60000000">
     <Frame
         BackgroundColor="White"
         CornerRadius="0"
@@ -18,44 +17,15 @@
             MinimumWidthRequest="250"
             MinimumHeightRequest="300"
             HorizontalOptions="FillAndExpand">
-            <Label
-                Text="Column Sheet Name"
-                Margin="0,20,0,0"/>
-            <Entry
-                x:Name="CountSheetEntry"
-                Placeholder="Enter Count Sheet Name"
-                HorizontalOptions="FillAndExpand"/>
-            <Label 
-                Text="Date"
-                Margin="0,20,0,0"/>
-            <DatePicker
-                x:Name="DateEntry"
-                HorizontalOptions="FillAndExpand"
-                DateSelected="InventoryDate_DateSelected"/>
-            <Label
-                Text="Employee"
-                Margin="0,20,0,0"/>
-            <Entry
-                x:Name="EmployeeEntry"
-                HorizontalOptions="FillAndExpand"
-                IsReadOnly="True"/>
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="Center"
-                         Margin="20">
-                <Button
-                    Text="Save"
-                    WidthRequest="150"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="Center"
-                    Clicked="Save_Clicked"
-                    Margin="0,0,20,0"/>
-                <Button
-                    Text="Cancel"
-                    WidthRequest="150"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="Center"
-                    Clicked="Cancel_Clicked"
-                    Margin="20,0,0,0"/>
+            <Label Text="Column Sheet Name" Margin="0,20,0,0"/>
+            <Entry x:Name="CountSheetEntry" Placeholder="Enter Count Sheet Name" HorizontalOptions="FillAndExpand"/>
+            <Label Text="Date" Margin="0,20,0,0"/>
+            <DatePicker x:Name="DateEntry" HorizontalOptions="FillAndExpand" DateSelected="InventoryDate_DateSelected"/>
+            <Label Text="Employee" Margin="0,20,0,0"/>
+            <Entry x:Name="EmployeeEntry" HorizontalOptions="FillAndExpand" IsReadOnly="True"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="20">
+                <Button Text="Save" WidthRequest="150" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="Save_Clicked" Margin="0,0,20,0"/>
+                <Button Text="Cancel" WidthRequest="150" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="Cancel_Clicked" Margin="20,0,0,0"/>
             </StackLayout>
         </VerticalStackLayout>
     </Frame>

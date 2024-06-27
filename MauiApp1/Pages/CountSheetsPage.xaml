@@ -44,7 +44,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Text="Name" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="0" Grid.Column="0" Text="Description" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="0" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
                 <Label Grid.Row="0" Grid.Column="2" Text="{Binding CountSheetName}" VerticalOptions="Center" Padding="0,0,0,3"/>
 
@@ -52,9 +52,9 @@
                 <Label Grid.Row="1" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
                 <Label Grid.Row="1" Grid.Column="2" Text="{Binding Date}" VerticalOptions="Center" Padding="0,0,0,3"/>
 
-                <Label Grid.Row="2" Grid.Column="0" Text="User" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="2" Grid.Column="0" Text="Employee Name" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="2" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
-                <Label Grid.Row="2" Grid.Column="2" Text="{Binding User}" VerticalOptions="Center" Padding="0,0,0,3"/>
+                <Label Grid.Row="2" Grid.Column="2" Text="{Binding EmployeeName}" VerticalOptions="Center" Padding="0,0,0,3"/>
             </Grid>
         </Frame>
     

@@ -1,14 +1,11 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using MauiApp1.Services;
+﻿using System.Net.Http.Headers;
 
 namespace MauiApp1.Services.HttpBaseService
 {
     public abstract class HttpServiceBase
     {
         protected readonly HttpClient _httpClient;
-        private readonly TokenService _tokenService;
+        protected readonly TokenService _tokenService; // Change to protected
 
         protected HttpServiceBase(HttpClient httpClient, TokenService tokenService)
         {

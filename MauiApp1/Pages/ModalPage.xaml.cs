@@ -1,25 +1,30 @@
+using MauiApp1.ViewModels;
 using Microsoft.Maui.Controls;
+using System;
 
 namespace MauiApp1.Pages
 {
     [QueryProperty(nameof(EmployeeDetails), "EmployeeDetails")]
     public partial class ModalPage : ContentPage
     {
-        private string employeeDetails;
+        private readonly CountSheetViewModel _countSheetViewModel;
+        private string employeeId;
+
         public string EmployeeDetails
         {
-            get => employeeDetails;
+            get => employeeId;
             set
             {
-                employeeDetails = value;
+                employeeId = value;
                 OnPropertyChanged();
-                EmployeeEntry.Text = employeeDetails;
+                EmployeeEntry.Text = employeeId;
             }
         }
 
-        public ModalPage()
+        public ModalPage(CountSheetViewModel countSheetViewModel)
         {
             InitializeComponent();
+            _countSheetViewModel = countSheetViewModel;
         }
 
         protected override async void OnAppearing()
@@ -45,9 +50,14 @@ namespace MauiApp1.Pages
             }
         }
 
-        private void Save_Clicked(object sender, EventArgs e)
+        private async void Save_Clicked(object sender, EventArgs e)
         {
-            // Implement save logic here
+            var description = CountSheetEntry.Text;
+            var date = DateEntry.Date;
+
+            await _countSheetViewModel.AddCountSheet(employeeId, description, date);
+
+            await Shell.Current.Navigation.PopModalAsync();
         }
 
         private async Task FadeInModalFrame()
