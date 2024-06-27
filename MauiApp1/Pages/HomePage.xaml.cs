@@ -3,6 +3,7 @@ using MauiApp1.Models;
 using MauiApp1.ViewModels;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace MauiApp1.Pages
 {
@@ -59,9 +60,18 @@ namespace MauiApp1.Pages
             await Shell.Current.Navigation.PushModalAsync(modalPage);
         }
 
-        private async void Frame_Tapped(object sender, TappedEventArgs e)
+        private async void OnCountSheetTapped(object sender, ItemTappedEventArgs e)
         {
-            await Navigation.PushAsync(new CountSheetsPage());
+            if (e.Item is CountSheet selectedCountSheet)
+            {
+            
+                var countSheetsPage = new CountSheetsPage
+                {
+                    BindingContext = selectedCountSheet
+                };
+                await Navigation.PushAsync(countSheetsPage);
+            }
         }
+
     }
 }
