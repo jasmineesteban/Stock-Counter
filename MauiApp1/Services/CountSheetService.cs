@@ -14,7 +14,7 @@ namespace MauiApp1.Services
         {
         }
 
-        public async Task AddCountSheetAsync(CountSheetTestModel countSheet)
+        public async Task AddCountSheetAsync(CountSheetAddition countSheet)
         {
             // Set authorization header
             await SetAuthorizationHeaderAsync();

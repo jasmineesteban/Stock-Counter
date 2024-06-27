@@ -23,7 +23,7 @@ namespace MauiApp1.ViewModels
 
         public bool IsNextButtonEnabled => SelectedEmployee != null;
 
-        public string SelectedEmployeeDetails => SelectedEmployee?.EmployeeId ?? string.Empty;
+        public string SelectedEmployeeDetails => SelectedEmployee?.EmployeeDetails ?? string.Empty;
 
         public EmployeeViewModel(HttpClientService httpClientService)
         {
@@ -35,7 +35,6 @@ namespace MauiApp1.ViewModels
 
         public IAsyncRelayCommand<string> LoadEmployeesCommand { get; }
         public IAsyncRelayCommand<string> OnSearchBarTextChangedCommand { get; }
-        public IAsyncRelayCommand OnNextButtonClickedCommand { get; }
 
         private async Task LoadEmployeesAsync(string pattern)
         {

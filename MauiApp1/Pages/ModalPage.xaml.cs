@@ -9,15 +9,16 @@ namespace MauiApp1.Pages
     {
         private readonly CountSheetViewModel _countSheetViewModel;
         private string employeeId;
+        private string employeeName;
 
         public string EmployeeDetails
         {
-            get => employeeId;
             set
             {
-                employeeId = value;
-                OnPropertyChanged();
-                EmployeeEntry.Text = employeeId;
+                var details = value.Split(new[] { " - " }, StringSplitOptions.None);
+                employeeId = details[0];
+                employeeName = details.Length > 1 ? details[1] : string.Empty;
+                EmployeeEntry.Text = employeeName;
             }
         }
 
@@ -36,18 +37,6 @@ namespace MauiApp1.Pages
         private async void Cancel_Clicked(object sender, EventArgs e)
         {
             await Shell.Current.Navigation.PopModalAsync();
-        }
-
-        private void InventoryDate_DateSelected(object sender, DateChangedEventArgs e)
-        {
-            DateTime selectedDate = e.NewDate;
-            DateTime today = DateTime.Today;
-
-            if (selectedDate > today)
-            {
-                DateEntry.Date = today;
-                DisplayAlert("Alert", "Please select a date on or before today.", "OK");
-            }
         }
 
         private async void Save_Clicked(object sender, EventArgs e)
