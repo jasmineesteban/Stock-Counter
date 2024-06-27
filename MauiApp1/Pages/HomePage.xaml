@@ -12,7 +12,8 @@
                      AbsoluteLayout.LayoutFlags="All">
             <!-- ListView for CountSheets -->
             <ListView x:Name="CountSheetListView"
-                      ItemsSource="{Binding CountSheets}">
+                      ItemsSource="{Binding CountSheets}"
+                      ItemTapped="OnCountSheetTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

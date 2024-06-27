@@ -46,18 +46,17 @@
 
                 <Label Grid.Row="0" Grid.Column="0" Text="Description" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="0" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
-                <Label Grid.Row="0" Grid.Column="2" Text="{Binding CountSheetName}" VerticalOptions="Center" Padding="0,0,0,3"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="{Binding CountDescription}" VerticalOptions="Center" Padding="0,0,0,3"/>
 
                 <Label Grid.Row="1" Grid.Column="0" Text="Date" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="1" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
-                <Label Grid.Row="1" Grid.Column="2" Text="{Binding Date}" VerticalOptions="Center" Padding="0,0,0,3"/>
+                <Label Grid.Row="1" Grid.Column="2" Text="{Binding CountDate, StringFormat='{0:MM/dd/yyyy}'}" VerticalOptions="Center" Padding="0,0,0,3"/>
 
                 <Label Grid.Row="2" Grid.Column="0" Text="Employee Name" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="2" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
-                <Label Grid.Row="2" Grid.Column="2" Text="{Binding EmployeeName}" VerticalOptions="Center" Padding="0,0,0,3"/>
+                <Label Grid.Row="2" Grid.Column="2" Text="{Binding CountSheetEmployee}" VerticalOptions="Center" Padding="0,0,0,3"/>
             </Grid>
         </Frame>
-    
 
         <!-- ScrollView with CollectionView -->
         <ScrollView Grid.Row="1"
@@ -87,7 +86,7 @@
                                 x:Name="dataGrid"
                                 ItemsSource="{Binding Items}"
                                 VerticalOptions="FillAndExpand">
-                   
+
                 </CollectionView>
             </Grid>
         </ScrollView>
