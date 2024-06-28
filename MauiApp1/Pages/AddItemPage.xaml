@@ -77,8 +77,7 @@
                     <Entry x:Name="EntryBatchNo"
                            Placeholder="Batch No."
                            Margin="10,8,10,0"
-                           TextColor="#646464"
-                           Text="{Binding Batch}">
+                           TextColor="#646464">
                     </Entry>
                 </StackLayout>
 
@@ -91,8 +90,7 @@
                            Placeholder="Quantity"
                            Margin="10,8,10,0"
                            TextColor="#646464"
-                           Keyboard="Numeric"
-                           TextChanged="EntryQuantity_TextChanged">
+                           Keyboard="Numeric">
                     </Entry>
 
                     <Label Text="Expiry Date"
@@ -102,21 +100,16 @@
                            Margin="10,8,10,0"
                            TextColor="#646464"
                            Keyboard="Numeric"
-                           TextChanged="EntryExpiryDate_TextChanged"
-                           Text="{Binding Expiry}">
+                           TextChanged="EntryExpiryDate_TextChanged">
                     </Entry>
                 </StackLayout>
             </Grid>
             <Entry x:Name="EntryItemCode"
-                           Placeholder="ItemCode"
-                           Margin="10,8,10,0"
-                           TextColor="#646464"
-                           Text="{Binding Batch}"></Entry>
-            <Entry x:Name="EntryCountCode"
-                           Placeholder="Count Code"
-                           Margin="10,8,10,0"
-                           TextColor="#646464"></Entry>
-
+                 Placeholder="ItemCode"
+                 Margin="10,8,10,0"
+                 TextColor="#646464"
+                 IsReadOnly="True"></Entry>
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

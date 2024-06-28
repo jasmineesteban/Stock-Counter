@@ -2,23 +2,16 @@ using System.Collections.ObjectModel;
 using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.ViewModels;
-using MauiApp1.Services;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net.Http;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Handlers.Items;
 
 namespace MauiApp1.Pages
 {
-
     [QueryProperty(nameof(EmployeeDetails), "EmployeeDetails")]
     public partial class CountSheetsPage : ContentPage
     {
 
         public ObservableCollection<ItemCount> Items { get; set; }
-
-        private readonly IServiceProvider _serviceProvider;
-        private ItemCountViewModel _itemCountViewModel;
-        private readonly ItemCountService _itemCountService;
 
         private bool _showCtr;
         public bool ShowCtr
@@ -110,7 +103,6 @@ namespace MauiApp1.Pages
         }
 
 
-
         private string _employeeDetails;
         private string _employeeId;  // Private field to store EmployeeId
         public string EmployeeDetails
@@ -127,17 +119,14 @@ namespace MauiApp1.Pages
                 EmployeeDetailsLabel.Text = employeeName;
             }
         }
-        public CountSheetsPage(IServiceProvider serviceProvider)
+        private ItemCountViewModel _itemCountViewModel;
 
+        public CountSheetsPage(ItemCountViewModel itemCountViewModel)
         {
-
             InitializeComponent();
-            _itemCountViewModel = new ItemCountViewModel(_itemCountService);
-
-
+            _itemCountViewModel = itemCountViewModel;
             Items = new ObservableCollection<ItemCount>
             {
-
             };
             BindingContext = this;
             // Initial column visibility settings
@@ -150,13 +139,17 @@ namespace MauiApp1.Pages
             ShowQuantity = true;
             dataGrid.ItemsSource = Items;
             UpdateColumnVisibility();
-            _serviceProvider = serviceProvider;
         }
+
 
         private async void AddItem_Clicked(object sender, EventArgs e)
         {
-            var _itemCountViewModel = _serviceProvider.GetService<ItemCountViewModel>();
-            await Navigation.PushAsync(new AddItemPage(_itemCountViewModel, _serviceProvider));
+            if (BindingContext is CountSheet selectedCountSheet)
+            {
+                string countCode = selectedCountSheet.CountCode;
+                var addItemPage = new AddItemPage(countCode, _itemCountViewModel);
+                await Navigation.PushAsync(addItemPage);
+            }
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -186,10 +179,10 @@ namespace MauiApp1.Pages
             dataGrid.ItemsSource = Items.Where(item => item.ItemDescription.ToLower().Contains(filterText)).ToList();
         }
 
-        private void Filter_Clicked(object sender, EventArgs e)
+        private  async void Filter_Clicked(object sender, EventArgs e)
         {
             // Implement your filter logic here
-            Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
+        await    Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
         }
 
         private async void ColumnSelection_Clicked(object sender, EventArgs e)

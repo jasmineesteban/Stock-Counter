@@ -1,5 +1,7 @@
-﻿using MauiApp1.Models;
+﻿using System.Threading.Tasks;
+using MauiApp1.Models;
 using MauiApp1.Services;
+using Microsoft.Maui.Controls;
 
 namespace MauiApp1.ViewModels
 {
@@ -12,21 +14,20 @@ namespace MauiApp1.ViewModels
             _itemCountService = itemCountService;
         }
 
-        public async Task AddItemCount(string countcode, string itemno, string description, string uom, string batchlot, string expiry, int quantity)
+        public async Task<bool> AddItemCount(string itemCountCode, string itemCode, string itemDescription, string itemUom, string itemBatchLotNumber, string itemExpiry, int itemQuantity)
         {
-            var itemCount = new ItemCount
+            var itemCount = new ItemCountAddition
             {
-                ItemCountCode = countcode,
-                ItemCode = itemno,
-                ItemDescription = description,
-                ItemUom = uom,
-                ItemBatchLotNumber = batchlot,
-                ItemExpiry = expiry,
-                ItemQuantity = quantity,
-          
+                ItemCountCode = itemCountCode,
+                ItemCode = itemCode,
+                ItemDescription = itemDescription,
+                ItemUom = itemUom,
+                ItemBatchLotNumber = itemBatchLotNumber,
+                ItemExpiry = itemExpiry,
+                ItemQuantity = itemQuantity
             };
 
-            await _itemCountService.AddItemCountAsync(itemCount);
+            return await _itemCountService.AddItemCountAsync(itemCount);
         }
     }
 }

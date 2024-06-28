@@ -1,9 +1,6 @@
-using MauiApp1.Services;
 using MauiApp1.ViewModels;
-using MauiApp1.Helpers;
-using MauiApp1.Services.HttpBaseService;
-using Microsoft.Extensions.DependencyInjection;
-
+using MauiApp1.Services;
+using Microsoft.Maui.Controls;
 
 namespace MauiApp1.Pages;
 
@@ -12,9 +9,9 @@ namespace MauiApp1.Pages;
 [QueryProperty(nameof(ItemNumber), "ItemNumber")]
 public partial class AddItemPage : ContentPage
 {
-    
     private readonly ItemCountViewModel _itemCountViewModel;
-    private readonly ItemCountService itemCountService;
+    public string CountCode { get; set; }
+
     public string? ItemDescription
     {
         set => EntryProductName.Text = value;
@@ -30,85 +27,68 @@ public partial class AddItemPage : ContentPage
         set => EntryItemCode.Text = value;
     }
 
-
-    public AddItemPage(ItemCountViewModel itemCountViewModel, IServiceProvider serviceProvider)
+    public AddItemPage(string countCode,ItemCountViewModel itemCountViewModel)
     {
         InitializeComponent();
+        CountCode = countCode;
         _itemCountViewModel = itemCountViewModel;
-
     }
 
     private async void AddItem_Clicked(object sender, EventArgs e)
     {
-        var countcode = EntryCountCode.Text;
-        var itemno = EntryItemCode.Text;
-        var description = EntryProductName.Text;
-        var uom = EntryUOM.Text;
-        var batchlot = EntryBatchNo.Text;
-        var expiry = EntryExpiryDate.Text;
-        
+        // Gather all necessary data from the entries
+        string itemCode = EntryItemCode.Text;
+        string itemDescription = EntryProductName.Text;
+        string itemUom = EntryUOM.Text;
+        string itemBatchLotNumber = EntryBatchNo.Text;
+        string itemExpiry = EntryExpiryDate.Text;
+        int itemQuantity = int.Parse(EntryQuantity.Text);
 
-        if (int.TryParse(EntryQuantity.Text, out var quantity))
+        // Call the ViewModel to add the item count
+        bool result = await _itemCountViewModel.AddItemCount(CountCode, itemCode, itemDescription, itemUom, itemBatchLotNumber, itemExpiry, itemQuantity);
+
+        if (result)
         {
-            try
-            {
-                await _itemCountViewModel.AddItemCount(countcode, itemno, description, uom, batchlot, expiry, quantity);
-                await Shell.Current.Navigation.PopModalAsync();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-            }
+            await DisplayAlert("Success", "Item count added successfully.", "OK");
+            await Navigation.PopAsync();
         }
         else
         {
-            await DisplayAlert("Error", "Quantity must be a valid number.", "OK");
+            await DisplayAlert("Error", "Failed to add item count.", "OK");
         }
     }
 
     private void EntryExpiryDate_TextChanged(object sender, TextChangedEventArgs e)
     {
-        //var entry = (Entry)sender;
-        //var text = entry.Text;
+        var entry = (Entry)sender;
+        var text = entry.Text;
 
-        //string cleanedText = new string(text.Where(char.IsDigit).ToArray());
+        // Remove any non-numeric characters
+        string cleanedText = new string(text.Where(char.IsDigit).ToArray());
 
-        //if (cleanedText.Length > 8)
-        //{
-        //    cleanedText = cleanedText.Substring(0, 8);
-        //}
-        //if (cleanedText.Length > 4 && cleanedText[4] != '-')
-        //{
-        //    cleanedText = cleanedText.Insert(4, "-");
-        //}
-        //if (cleanedText.Length > 7 && cleanedText[7] != '-')
-        //{
-        //    cleanedText = cleanedText.Insert(7, "-");
-        //}
+        // Handle max length
+        if (cleanedText.Length > 8)
+        {
+            cleanedText = cleanedText.Substring(0, 8);
+        }
 
-        //entry.Text = cleanedText;
-        //entry.CursorPosition = cleanedText.Length;
+        // Format the cleaned text to ####-##-##
+        if (cleanedText.Length > 4 && cleanedText[4] != '-')
+        {
+            cleanedText = cleanedText.Insert(4, "-");
+        }
+        if (cleanedText.Length > 7 && cleanedText[7] != '-')
+        {
+            cleanedText = cleanedText.Insert(7, "-");
+        }
+
+        // Update the Entry text and cursor position
+        entry.Text = cleanedText;
+        entry.CursorPosition = cleanedText.Length;
     }
 
     private async void ToItemSelector_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(ItemSelectorPage));
-    }
-
-    private void EntryQuantity_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        var entry = sender as Entry;
-
-        if (entry != null)
-        {
-            string newText = e.NewTextValue;
-
-            string filteredText = new string(newText.Where(char.IsDigit).ToArray());
-
-            if (newText != filteredText)
-            {
-                entry.Text = filteredText;
-            }
-        }
     }
 }
