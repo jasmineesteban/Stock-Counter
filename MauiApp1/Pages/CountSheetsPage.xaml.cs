@@ -1,14 +1,23 @@
 using System.Collections.ObjectModel;
 using MauiApp1.Helpers;
 using MauiApp1.Models;
-using Microsoft.Maui.Controls;
+using MauiApp1.ViewModels;
+using MauiApp1.Services;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Net.Http;
 
 namespace MauiApp1.Pages
 {
+
     public partial class CountSheetsPage : ContentPage
     {
 
         public ObservableCollection<ItemCount> Items { get; set; }
+
+        private readonly IServiceProvider _serviceProvider;
+        private ItemCountViewModel _itemCountViewModel;
+        private readonly ItemCountService _itemCountService;
 
         private bool _showCtr;
         public bool ShowCtr
@@ -99,11 +108,16 @@ namespace MauiApp1.Pages
             GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ShowCtr, ShowItemNo, ShowDescription, ShowUom, ShowBatchLot, ShowExpiry, ShowQuantity);
         }
 
-        public CountSheetsPage()
+        public CountSheetsPage(IServiceProvider serviceProvider)
         {
+
             InitializeComponent();
+            _itemCountViewModel = new ItemCountViewModel(_itemCountService);
+
+
             Items = new ObservableCollection<ItemCount>
             {
+
             };
             BindingContext = this;
             // Initial column visibility settings
@@ -116,11 +130,13 @@ namespace MauiApp1.Pages
             ShowQuantity = true;
             dataGrid.ItemsSource = Items;
             UpdateColumnVisibility();
+            _serviceProvider = serviceProvider;
         }
 
         private async void AddItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AddItemPage());
+            var _itemCountViewModel = _serviceProvider.GetService<ItemCountViewModel>();
+            await Navigation.PushAsync(new AddItemPage(_itemCountViewModel, _serviceProvider));
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -150,10 +166,10 @@ namespace MauiApp1.Pages
             dataGrid.ItemsSource = Items.Where(item => item.ItemDescription.ToLower().Contains(filterText)).ToList();
         }
 
-        private  async void Filter_Clicked(object sender, EventArgs e)
+        private void Filter_Clicked(object sender, EventArgs e)
         {
             // Implement your filter logic here
-        await    Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
+            Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
         }
 
         private async void ColumnSelection_Clicked(object sender, EventArgs e)

@@ -77,7 +77,8 @@ namespace MauiApp1.Pages
                 var parameters = new Dictionary<string, object>
                 {
                     { "ItemDescription", selectedItem.ItemDescription },
-                    { "SellingUom", selectedItem.SellingUom }
+                    { "SellingUom", selectedItem.SellingUom },
+                    { "ItemNumber", selectedItem.ItemNumber }
                 };
                 await Shell.Current.GoToAsync("..",  parameters);
             }

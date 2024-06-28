@@ -91,7 +91,8 @@
                            Placeholder="Quantity"
                            Margin="10,8,10,0"
                            TextColor="#646464"
-                           Keyboard="Numeric">
+                           Keyboard="Numeric"
+                           TextChanged="EntryQuantity_TextChanged">
                     </Entry>
 
                     <Label Text="Expiry Date"
@@ -106,6 +107,16 @@
                     </Entry>
                 </StackLayout>
             </Grid>
+            <Entry x:Name="EntryItemCode"
+                           Placeholder="ItemCode"
+                           Margin="10,8,10,0"
+                           TextColor="#646464"
+                           Text="{Binding Batch}"></Entry>
+            <Entry x:Name="EntryCountCode"
+                           Placeholder="Count Code"
+                           Margin="10,8,10,0"
+                           TextColor="#646464"></Entry>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

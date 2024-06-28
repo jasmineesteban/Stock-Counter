@@ -1,17 +1,20 @@
-using System;
-using Microsoft.Maui.Controls;
-using ZXing.Mobile;
 using MauiApp1.Services;
+using MauiApp1.ViewModels;
+using MauiApp1.Helpers;
+using MauiApp1.Services.HttpBaseService;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace MauiApp1.Pages;
 
 [QueryProperty(nameof(ItemDescription), "ItemDescription")]
 [QueryProperty(nameof(SellingUom), "SellingUom")]
+[QueryProperty(nameof(ItemNumber), "ItemNumber")]
 public partial class AddItemPage : ContentPage
 {
-
-    private readonly HttpClientService _httpClientService;
-
+    
+    private readonly ItemCountViewModel _itemCountViewModel;
+    private readonly ItemCountService itemCountService;
     public string? ItemDescription
     {
         set => EntryProductName.Text = value;
@@ -22,45 +25,69 @@ public partial class AddItemPage : ContentPage
         set => EntryUOM.Text = value;
     }
 
-    public AddItemPage()
+    public string? ItemNumber
+    {
+        set => EntryItemCode.Text = value;
+    }
+
+
+    public AddItemPage(ItemCountViewModel itemCountViewModel, IServiceProvider serviceProvider)
     {
         InitializeComponent();
+        _itemCountViewModel = itemCountViewModel;
 
     }
 
-    private void AddItem_Clicked(object sender, EventArgs e)
+    private async void AddItem_Clicked(object sender, EventArgs e)
     {
+        var countcode = EntryCountCode.Text;
+        var itemno = EntryItemCode.Text;
+        var description = EntryProductName.Text;
+        var uom = EntryUOM.Text;
+        var batchlot = EntryBatchNo.Text;
+        var expiry = EntryExpiryDate.Text;
+        
 
-
+        if (int.TryParse(EntryQuantity.Text, out var quantity))
+        {
+            try
+            {
+                await _itemCountViewModel.AddItemCount(countcode, itemno, description, uom, batchlot, expiry, quantity);
+                await Shell.Current.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            }
+        }
+        else
+        {
+            await DisplayAlert("Error", "Quantity must be a valid number.", "OK");
+        }
     }
 
     private void EntryExpiryDate_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var entry = (Entry)sender;
-        var text = entry.Text;
+        //var entry = (Entry)sender;
+        //var text = entry.Text;
 
-        // Remove any non-numeric characters
-        string cleanedText = new string(text.Where(char.IsDigit).ToArray());
+        //string cleanedText = new string(text.Where(char.IsDigit).ToArray());
 
-        // Handle max length
-        if (cleanedText.Length > 8)
-        {
-            cleanedText = cleanedText.Substring(0, 8);
-        }
+        //if (cleanedText.Length > 8)
+        //{
+        //    cleanedText = cleanedText.Substring(0, 8);
+        //}
+        //if (cleanedText.Length > 4 && cleanedText[4] != '-')
+        //{
+        //    cleanedText = cleanedText.Insert(4, "-");
+        //}
+        //if (cleanedText.Length > 7 && cleanedText[7] != '-')
+        //{
+        //    cleanedText = cleanedText.Insert(7, "-");
+        //}
 
-        // Format the cleaned text to ####-##-##
-        if (cleanedText.Length > 4 && cleanedText[4] != '-')
-        {
-            cleanedText = cleanedText.Insert(4, "-");
-        }
-        if (cleanedText.Length > 7 && cleanedText[7] != '-')
-        {
-            cleanedText = cleanedText.Insert(7, "-");
-        }
-
-        // Update the Entry text and cursor position
-        entry.Text = cleanedText;
-        entry.CursorPosition = cleanedText.Length;
+        //entry.Text = cleanedText;
+        //entry.CursorPosition = cleanedText.Length;
     }
 
     private async void ToItemSelector_Clicked(object sender, EventArgs e)
@@ -68,4 +95,20 @@ public partial class AddItemPage : ContentPage
         await Shell.Current.GoToAsync(nameof(ItemSelectorPage));
     }
 
+    private void EntryQuantity_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        var entry = sender as Entry;
+
+        if (entry != null)
+        {
+            string newText = e.NewTextValue;
+
+            string filteredText = new string(newText.Where(char.IsDigit).ToArray());
+
+            if (newText != filteredText)
+            {
+                entry.Text = filteredText;
+            }
+        }
+    }
 }

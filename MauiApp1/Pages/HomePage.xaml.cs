@@ -62,6 +62,7 @@ namespace MauiApp1.Pages
 
         private async void OnCountSheetTapped(object sender, ItemTappedEventArgs e)
         {
+
             if (e.Item is CountSheet selectedCountSheet)
             {
             
