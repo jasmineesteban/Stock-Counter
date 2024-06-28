@@ -12,6 +12,7 @@ namespace MauiApp1.Pages
 
     public partial class CountSheetsPage : ContentPage
     {
+
         public ObservableCollection<ItemCount> Items { get; set; }
 
         private readonly IServiceProvider _serviceProvider;

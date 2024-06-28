@@ -1,4 +1,7 @@
-﻿using MauiApp1.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MauiApp1.Models;
 using MauiApp1.Services;
 
 namespace MauiApp1.ViewModels
@@ -14,14 +17,19 @@ namespace MauiApp1.ViewModels
 
         public async Task AddCountSheet(string employeeCode, string description, DateTime date)
         {
-            var countSheet = new CountSheetTestModel
+            var countSheet = new CountSheetAddition
             {
-                CountSheetEmployee = employeeCode,      
+                CountSheetEmployee = employeeCode,
                 CountDescription = description,
                 CountDate = date
             };
 
             await _countSheetService.AddCountSheetAsync(countSheet);
+        }
+
+        public async Task<IEnumerable<CountSheet>> ShowCountSheet(string employeeId)
+        {
+            return await _countSheetService.ShowCountSheetAsync(employeeId);
         }
     }
 }

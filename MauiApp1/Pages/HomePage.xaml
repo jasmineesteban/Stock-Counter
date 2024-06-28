@@ -7,31 +7,25 @@
              Shell.NavBarIsVisible="True"
              Shell.TabBarIsVisible="False">
     <AbsoluteLayout>
-
         <!-- Vertical Stack Layout to hold Frames -->
         <VerticalStackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"                
                      AbsoluteLayout.LayoutFlags="All">
-            <!-- Frame 1 -->
-            <Frame BorderColor="LightGray"
-                   Margin="6"
-                   HorizontalOptions="FillAndExpand"
-                   HeightRequest="60"
-                   CornerRadius="10"
-                   HasShadow="True">
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Frame_Tapped" />
-                </Frame.GestureRecognizers>
-                <!-- Two Labels inside the Frame -->
-                <StackLayout VerticalOptions="Center">
-                    <!--Label Text="{Binding FrameName}"-->
-                    <Label Text="Count Sheet A"
-                           HorizontalOptions="Start"
-                           VerticalOptions="Start"
-                           FontSize="15"
-                           FontAttributes="Bold"/>
-                </StackLayout>
-            </Frame>
-            <!-- End of Frame 1 -->
+            <!-- ListView for CountSheets -->
+            <ListView x:Name="CountSheetListView"
+                      ItemsSource="{Binding CountSheets}"
+                      ItemTapped="OnCountSheetTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding CountDescription}"
+                                       FontSize="16"
+                                       TextColor="Black"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
 
         <!-- Button -->
