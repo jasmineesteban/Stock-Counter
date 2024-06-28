@@ -5,6 +5,7 @@ using Microsoft.Maui.Controls;
 
 namespace MauiApp1.Pages
 {
+    [QueryProperty(nameof(EmployeeDetails), "EmployeeDetails")]
     public partial class CountSheetsPage : ContentPage
     {
 
@@ -99,6 +100,23 @@ namespace MauiApp1.Pages
             GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ShowCtr, ShowItemNo, ShowDescription, ShowUom, ShowBatchLot, ShowExpiry, ShowQuantity);
         }
 
+
+        private string _employeeDetails;
+        private string _employeeId;  // Private field to store EmployeeId
+        public string EmployeeDetails
+        {
+            get => _employeeDetails;
+            set
+            {
+                _employeeDetails = value;
+                OnPropertyChanged(nameof(EmployeeDetails));
+
+                var details = value.Split(new[] { " - " }, StringSplitOptions.None);
+                _employeeId = details[0];
+                var employeeName = details.Length > 1 ? details[1] : string.Empty;
+                EmployeeDetailsLabel.Text = employeeName;
+            }
+        }
         public CountSheetsPage()
         {
             InitializeComponent();

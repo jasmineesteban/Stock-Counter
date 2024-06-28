@@ -64,14 +64,15 @@ namespace MauiApp1.Pages
         {
             if (e.Item is CountSheet selectedCountSheet)
             {
-            
                 var countSheetsPage = new CountSheetsPage
                 {
-                    BindingContext = selectedCountSheet
+                    BindingContext = selectedCountSheet,
+                    EmployeeDetails = this.EmployeeDetails 
                 };
                 await Navigation.PushAsync(countSheetsPage);
             }
         }
+
 
     }
 }

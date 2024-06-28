@@ -13,5 +13,5 @@
             public string CountDescription { get; set; } = string.Empty;
             public DateTime CountDate { get; set; }
             public int CountStatus { get; set; }
-        }
     }
+   }
