@@ -40,18 +40,19 @@ public partial class AddItemPage : ContentPage
 
     private async void AddItem_Clicked(object sender, EventArgs e)
     {
+        var countcode = EntryCountCode.Text;
         var itemno = EntryItemCode.Text;
         var description = EntryProductName.Text;
         var uom = EntryUOM.Text;
         var batchlot = EntryBatchNo.Text;
         var expiry = EntryExpiryDate.Text;
-        var countcode = EntryCountCode.Text;
+        
 
         if (int.TryParse(EntryQuantity.Text, out var quantity))
         {
             try
             {
-                await _itemCountViewModel.AddItemCount(itemno, description, uom, batchlot, expiry, quantity, countcode);
+                await _itemCountViewModel.AddItemCount(countcode, itemno, description, uom, batchlot, expiry, quantity);
                 await Shell.Current.Navigation.PopModalAsync();
             }
             catch (Exception ex)

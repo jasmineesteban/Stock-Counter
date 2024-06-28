@@ -12,17 +12,18 @@ namespace MauiApp1.ViewModels
             _itemCountService = itemCountService;
         }
 
-        public async Task AddItemCount(string itemno, string description, string uom, string batchlot, string expiry, int quantity, string countcode)
+        public async Task AddItemCount(string countcode, string itemno, string description, string uom, string batchlot, string expiry, int quantity)
         {
             var itemCount = new ItemCount
             {
+                ItemCountCode = countcode,
                 ItemCode = itemno,
                 ItemDescription = description,
                 ItemUom = uom,
                 ItemBatchLotNumber = batchlot,
                 ItemExpiry = expiry,
                 ItemQuantity = quantity,
-                ItemCountCode = countcode,
+          
             };
 
             await _itemCountService.AddItemCountAsync(itemCount);
