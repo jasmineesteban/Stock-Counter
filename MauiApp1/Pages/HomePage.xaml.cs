@@ -1,17 +1,17 @@
-using Microsoft.Maui.Controls;
 using MauiApp1.Models;
+using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using Microsoft.Maui.Controls;
 
 namespace MauiApp1.Pages
 {
     [QueryProperty(nameof(EmployeeDetails), "EmployeeDetails")]
     public partial class HomePage : ContentPage
     {
-        private readonly IServiceProvider _serviceProvider;
         private readonly CountSheetViewModel _countSheetViewModel;
+        private readonly ItemCountService _itemCountService; 
 
         private string employeeDetails;
         private string employeeId;
@@ -33,12 +33,13 @@ namespace MauiApp1.Pages
 
         public ObservableCollection<CountSheet> CountSheets { get; set; } = new ObservableCollection<CountSheet>();
 
-        public HomePage(IServiceProvider serviceProvider, CountSheetViewModel countSheetViewModel)
+        public HomePage(CountSheetViewModel countSheetViewModel, ItemCountService itemCountService)
         {
             InitializeComponent();
-            _serviceProvider = serviceProvider;
             _countSheetViewModel = countSheetViewModel;
-            BindingContext = this;
+            _itemCountService = itemCountService;
+          
+        BindingContext = this;
         }
 
         private async void LoadCountSheets()
@@ -62,18 +63,17 @@ namespace MauiApp1.Pages
 
         private async void OnCountSheetTapped(object sender, ItemTappedEventArgs e)
         {
-
             if (e.Item is CountSheet selectedCountSheet)
             {
-                var countSheetsPage = new CountSheetsPage
+                var itemCountViewModel = new ItemCountViewModel(_itemCountService); 
+                var countSheetsPage = new CountSheetsPage(itemCountViewModel)
                 {
                     BindingContext = selectedCountSheet,
-                    EmployeeDetails = this.EmployeeDetails 
+                    EmployeeDetails = this.EmployeeDetails
                 };
                 await Navigation.PushAsync(countSheetsPage);
             }
         }
-
 
     }
 }

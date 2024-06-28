@@ -4,9 +4,6 @@ using MauiApp1.Models;
 using MauiApp1.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MauiApp1.ViewModels
 {

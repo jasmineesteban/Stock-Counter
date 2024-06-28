@@ -85,7 +85,7 @@
                 <!-- CollectionView -->
                 <CollectionView Grid.Row="1"
                                 x:Name="dataGrid"
-                                ItemsSource="{Binding Items}"
+                                ItemsSource="{Binding Item}"
                                 VerticalOptions="FillAndExpand">
 
                 </CollectionView>

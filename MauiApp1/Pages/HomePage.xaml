@@ -9,7 +9,7 @@
     <AbsoluteLayout>
         <!-- Vertical Stack Layout to hold Frames -->
         <VerticalStackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"                
-                     AbsoluteLayout.LayoutFlags="All">
+                             AbsoluteLayout.LayoutFlags="All">
             <!-- ListView for CountSheets -->
             <ListView x:Name="CountSheetListView"
                       ItemsSource="{Binding CountSheets}"
@@ -26,9 +26,10 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            
         </VerticalStackLayout>
 
-        <!-- Button -->
+        <!-- Button to open modal -->
         <Button x:Name="inventoryStack" Padding="10"
                 Text="+"
                 FontSize="30" 
