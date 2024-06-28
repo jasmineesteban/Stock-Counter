@@ -1,9 +1,8 @@
+using MauiApp1.Helpers;
 using MauiApp1.Services;
-#if ANDROID
-using Android.Content;
-using Android.OS;
-using Android.Provider;
-#endif
+using Microsoft.Maui.Controls;
+using System;
+using System.Threading.Tasks;
 
 namespace MauiApp1.Pages
 {
@@ -27,94 +26,44 @@ namespace MauiApp1.Pages
             _isNavigating = true;
 
 #if ANDROID
-            await CheckAndRequestStoragePermissions();
+            await StartupHelper.CheckAndRequestStoragePermissionsAsync();
 #endif
 
-            string downloadPath = await GetDownloadPath();
-            string filePath = Path.Combine(downloadPath, _fileName);
+            string encryptedConnectionString = await StartupHelper.GetConnectionStringAsync(_fileName);
 
-            if (File.Exists(filePath))
+            if (string.IsNullOrEmpty(encryptedConnectionString))
             {
-                try
-                {
-                    LoadingIndicator.IsVisible = true;
-                    LoadingIndicator.IsRunning = true;
-
-                    var encryptedConnectionString = await File.ReadAllTextAsync(filePath);
-                    var apiResult = await _httpClientService.SetConnectionStringAsync(encryptedConnectionString);
-
-                    if (apiResult)
-                    {
-                        await Shell.Current.GoToAsync(nameof(EmployeeSelectorPage));
-                    }
-                    else
-                    {
-                        await DisplayAlert("Connection failed.", "The file is invalid or connection cannot be established!", "OK");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("File Read Error", $"Error reading file: {ex.Message}", "OK");
-                }
-                finally
-                {
-                    LoadingIndicator.IsVisible = false;
-                    LoadingIndicator.IsRunning = false;
-                }
-            }
-            else
-            {
-                await DisplayAlert("File Not Found", $"File not found: {filePath}", "OK");
+                await DisplayAlert("No Connection String", "No connection string found in secure storage or config file.", "OK");
+                _isNavigating = false;
+                return;
             }
 
-            _isNavigating = false;
-        }
-
-
-        private async Task<string> GetDownloadPath()
-        {
-            string downloadPath;
-
-#if ANDROID
-            downloadPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
-#else
-    await Task.Delay(1); // Dummy await
-    downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-#endif
-
-            return downloadPath;
-        }
-
-
-#if ANDROID
-        private async Task CheckAndRequestStoragePermissions()
-        {
-            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
-            if (status != PermissionStatus.Granted)
+            try
             {
-                status = await Permissions.RequestAsync<Permissions.StorageRead>();
-            }
+                LoadingIndicator.IsVisible = true;
+                LoadingIndicator.IsRunning = true;
 
-            status = await Permissions.CheckStatusAsync<Permissions.StorageWrite>();
-            if (status != PermissionStatus.Granted)
-            {
-                status = await Permissions.RequestAsync<Permissions.StorageWrite>();
-            }
+                var apiResult = await _httpClientService.SetConnectionStringAsync(encryptedConnectionString);
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
-            {
-                if (!Android.OS.Environment.IsExternalStorageManager)
+                if (apiResult)
                 {
-                    Intent intent = new Intent();
-                    intent.SetAction(Settings.ActionManageAppAllFilesAccessPermission);
-                    Android.Net.Uri uri = Android.Net.Uri.FromParts("package", Android.App.Application.Context.PackageName, null);
-                    intent.SetData(uri);
-                    intent.AddFlags(ActivityFlags.NewTask);
-                    Android.App.Application.Context.StartActivity(intent);
+                    await Shell.Current.GoToAsync(nameof(EmployeeSelectorPage));
                 }
+                else
+                {
+                    await DisplayAlert("Connection failed", "The connection string is invalid or connection cannot be established!", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Connection Error", $"Error using connection string: {ex.Message}", "OK");
+            }
+            finally
+            {
+                LoadingIndicator.IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+                _isNavigating = false;
             }
         }
-#endif
-
     }
 }
