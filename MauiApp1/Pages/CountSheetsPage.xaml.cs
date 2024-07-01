@@ -129,9 +129,7 @@ namespace MauiApp1.Pages
             InitializeComponent();
             _itemCountViewModel = itemCountViewModel;
             itemCountCode = countCode;
-            Items = new ObservableCollection<ItemCount>
-            {
-            };
+            Items = new ObservableCollection<ItemCount>();
             BindingContext = this;
             // Initial column visibility settings
             ShowCtr = true;
@@ -150,17 +148,21 @@ namespace MauiApp1.Pages
         {
             try
             {
-                var countCode = await _itemCountViewModel.ShowItemCount(itemCountCode);
+                var itemCounts = await _itemCountViewModel.ShowItemCount(itemCountCode);
                 Items.Clear();
-                Items.Add((ItemCount)countCode);
+
+                foreach (var itemCount in itemCounts)
+                {
+                    Items.Add(itemCount);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error in LoadItemCounts: {ex}");
 
                 await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-
             }
+
         }
 
 
