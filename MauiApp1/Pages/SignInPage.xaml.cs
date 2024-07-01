@@ -25,9 +25,10 @@ namespace MauiApp1.Pages
 #if ANDROID
             await StartupHelper.CheckAndRequestStoragePermissions();
 #endif
-            //Get Download
+
             string downloadPath = await StartupHelper.GetDownloadPath();
             string encryptedConnectionString = await StartupHelper.GetConnectionStringAsync(downloadPath, _fileName);
+
             try
             {
                 LoadingIndicator.IsVisible = true;

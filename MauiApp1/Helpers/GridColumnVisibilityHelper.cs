@@ -8,7 +8,7 @@
             headerGrid.ColumnDefinitions.Clear();
             int columnIndex = 0;
 
-            AddColumnDefinitionAndLabel(headerGrid, showCtr, "Ctr", columnIndex++);
+            AddColumnDefinitionAndLabel(headerGrid, showCtr, "Counter", columnIndex++);
             AddColumnDefinitionAndLabel(headerGrid, showItemNo, "Item No.", columnIndex++);
             AddColumnDefinitionAndLabel(headerGrid, showDescription, "Description", columnIndex++);
             AddColumnDefinitionAndLabel(headerGrid, showUom, "UOM", columnIndex++);
