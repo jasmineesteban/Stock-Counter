@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.ViewModels;
@@ -121,13 +122,14 @@ namespace MauiApp1.Pages
         }
         private ItemCountViewModel _itemCountViewModel;
 
-        public CountSheetsPage(ItemCountViewModel itemCountViewModel)
+        private string itemCountCode;
+
+        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode)
         {
             InitializeComponent();
             _itemCountViewModel = itemCountViewModel;
-            Items = new ObservableCollection<ItemCount>
-            {
-            };
+            itemCountCode = countCode;
+            Items = new ObservableCollection<ItemCount>();
             BindingContext = this;
             // Initial column visibility settings
             ShowCtr = true;
@@ -139,6 +141,28 @@ namespace MauiApp1.Pages
             ShowQuantity = true;
             dataGrid.ItemsSource = Items;
             UpdateColumnVisibility();
+            LoadItemCounts();
+        }
+
+        private async Task LoadItemCounts()
+        {
+            try
+            {
+                var itemCounts = await _itemCountViewModel.ShowItemCount(itemCountCode);
+                Items.Clear();
+
+                foreach (var itemCount in itemCounts)
+                {
+                    Items.Add(itemCount);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in LoadItemCounts: {ex}");
+
+                await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            }
+
         }
 
 

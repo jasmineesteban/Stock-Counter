@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Spreadsheet;
 using MauiApp1.Models;
 using MauiApp1.Services;
 using Microsoft.Maui.Controls;
+using ItemCount = MauiApp1.Models.ItemCount;
 
 namespace MauiApp1.ViewModels
 {
@@ -29,5 +31,11 @@ namespace MauiApp1.ViewModels
 
             return await _itemCountService.AddItemCountAsync(itemCount);
         }
+
+        public async Task<IEnumerable<ItemCount>> ShowItemCount(string countCode)
+        {
+            return await _itemCountService.ShowItemCountAsync(countCode);
+        }
+
     }
 }
