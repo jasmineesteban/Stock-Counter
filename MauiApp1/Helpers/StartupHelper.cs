@@ -1,15 +1,15 @@
-﻿// Helpers/StartupHelper.cs
-#if ANDROID
+﻿#if ANDROID
 using Android.Content;
 using Android.OS;
 using Android.Provider;
 #endif
+
 namespace MauiApp1.Helpers
 {
     public static class StartupHelper
     {
 #if ANDROID
-        public static async Task CheckAndRequestStoragePermissionsAsync()
+        public static async Task CheckAndRequestStoragePermissions()
         {
             var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
             if (status != PermissionStatus.Granted)
@@ -23,69 +23,45 @@ namespace MauiApp1.Helpers
                 status = await Permissions.RequestAsync<Permissions.StorageWrite>();
             }
 
-            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.R)
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.R && !Android.OS.Environment.IsExternalStorageManager)
             {
-                if (!Android.OS.Environment.IsExternalStorageManager)
-                {
-                    var intent = new Intent();
-                    intent.SetAction(Settings.ActionManageAppAllFilesAccessPermission);
-                    var uri = Android.Net.Uri.FromParts("package", Android.App.Application.Context.PackageName, null);
-                    intent.SetData(uri);
-                    intent.AddFlags(ActivityFlags.NewTask);
-                    Android.App.Application.Context.StartActivity(intent);
-                }
+                Intent intent = new Intent(Settings.ActionManageAppAllFilesAccessPermission);
+                Android.Net.Uri uri = Android.Net.Uri.FromParts("package", Android.App.Application.Context.PackageName, null);
+                intent.SetData(uri);
+                intent.AddFlags(ActivityFlags.NewTask);
+                Android.App.Application.Context.StartActivity(intent);
             }
         }
 #endif
 
-        public static async Task<string> GetConnectionStringAsync(string fileName)
-        {
-            string encryptedConnectionString = await SecureStorage.GetAsync("connectionString");
-
-            if (string.IsNullOrEmpty(encryptedConnectionString))
-            {
-                await TransferConfigFileToSecureStorageAsync(fileName);
-                encryptedConnectionString = await SecureStorage.GetAsync("connectionString");
-            }
-
-            string downloadPath = await GetDownloadPathAsync();
-            string filePath = Path.Combine(downloadPath, fileName);
-
-            if (System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Delete(filePath);
-            }
-           // SecureStorage.Remove("connectionString");
-            return encryptedConnectionString;
-        }
-
-        private static async Task TransferConfigFileToSecureStorageAsync(string fileName)
-        {
-            string downloadPath = await GetDownloadPathAsync();
-            string filePath = Path.Combine(downloadPath, fileName);
-
-            if (System.IO.File.Exists(filePath))
-            {
-                try
-                {
-                    string encryptedConnectionString = await System.IO.File.ReadAllTextAsync(filePath);
-                    await SecureStorage.SetAsync("connectionString", encryptedConnectionString);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error reading file: {ex.Message}");
-                }
-            }
-        }
-
-        public static async Task<string> GetDownloadPathAsync()
+        public static async Task<string> GetDownloadPath()
         {
 #if ANDROID
             return Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
 #else
             await Task.Delay(1);
-            return System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 #endif
+        }
+
+        public static string FindFileCaseInsensitive(string directory, string fileName)
+        {
+            var files = Directory.GetFiles(directory);
+            return files.FirstOrDefault(f => string.Equals(Path.GetFileName(f), fileName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static async Task<string> GetConnectionStringAsync(string downloadPath, string fileName)
+        {
+            string filePath = FindFileCaseInsensitive(downloadPath, fileName);
+
+            if (filePath != null)
+            {
+                var encryptedConnectionString = await File.ReadAllTextAsync(filePath);
+                await SecureStorage.SetAsync("connectionString", encryptedConnectionString);
+                File.Delete(filePath);
+            }
+            return await SecureStorage.GetAsync("connectionString");
+        
         }
     }
 }

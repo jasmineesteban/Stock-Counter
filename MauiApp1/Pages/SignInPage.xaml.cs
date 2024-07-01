@@ -1,8 +1,5 @@
-using MauiApp1.Helpers;
 using MauiApp1.Services;
-using Microsoft.Maui.Controls;
-using System;
-using System.Threading.Tasks;
+using MauiApp1.Helpers;
 
 namespace MauiApp1.Pages
 {
@@ -26,37 +23,38 @@ namespace MauiApp1.Pages
             _isNavigating = true;
 
 #if ANDROID
-            await StartupHelper.CheckAndRequestStoragePermissionsAsync();
+            await StartupHelper.CheckAndRequestStoragePermissions();
 #endif
 
-            string encryptedConnectionString = await StartupHelper.GetConnectionStringAsync(_fileName);
-
-            if (string.IsNullOrEmpty(encryptedConnectionString))
-            {
-                await DisplayAlert("No Connection String", "No connection string found in secure storage or config file.", "OK");
-                _isNavigating = false;
-                return;
-            }
+            string downloadPath = await StartupHelper.GetDownloadPath();
+            string encryptedConnectionString = await StartupHelper.GetConnectionStringAsync(downloadPath, _fileName);
 
             try
             {
                 LoadingIndicator.IsVisible = true;
                 LoadingIndicator.IsRunning = true;
 
-                var apiResult = await _httpClientService.SetConnectionStringAsync(encryptedConnectionString);
-
-                if (apiResult)
+                if (!string.IsNullOrEmpty(encryptedConnectionString))
                 {
-                    await Shell.Current.GoToAsync(nameof(EmployeeSelectorPage));
+                    var apiResult = await _httpClientService.SetConnectionStringAsync(encryptedConnectionString);
+
+                    if (apiResult)
+                    {
+                        await Shell.Current.GoToAsync(nameof(EmployeeSelectorPage));
+                    }
+                    else
+                    {
+                        await DisplayAlert("Connection failed.", "The connection string is invalid or connection cannot be established!", "OK");
+                    }
                 }
                 else
                 {
-                    await DisplayAlert("Connection failed", "The connection string is invalid or connection cannot be established!", "OK");
+                    await DisplayAlert("No Connection String", "No connection string found in secure storage or config file.", "OK");
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Connection Error", $"Error using connection string: {ex.Message}", "OK");
+                await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
             finally
             {
