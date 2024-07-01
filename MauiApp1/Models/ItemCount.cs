@@ -11,6 +11,6 @@
         public string ItemBatchLotNumber { get; set; } = string.Empty;
         public string ItemExpiry { get; set; } = string.Empty;
         public int ItemQuantity { get; set; }
-        public DateTime ItemDateLog { get; set; }
+        public DateTime? ItemDateLog { get; set; }
     }
 }

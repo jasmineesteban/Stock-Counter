@@ -11,7 +11,8 @@ namespace MauiApp1.Pages
     public partial class HomePage : ContentPage
     {
         private readonly CountSheetViewModel _countSheetViewModel;
-        private readonly ItemCountService _itemCountService;
+        private readonly ItemCountService _itemCountService; 
+
         private string employeeDetails;
         private string employeeId;
         private string employeeName;
@@ -64,7 +65,7 @@ namespace MauiApp1.Pages
         {
             if (e.Item is CountSheet selectedCountSheet)
             {
-                var itemCountViewModel = new ItemCountViewModel(_itemCountService); 
+                var itemCountViewModel = new ItemCountViewModel(_itemCountService);
                 var countSheetsPage = new CountSheetsPage(itemCountViewModel, selectedCountSheet.CountCode)
                 {
                     BindingContext = selectedCountSheet,

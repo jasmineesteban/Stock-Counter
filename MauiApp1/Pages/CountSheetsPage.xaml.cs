@@ -1,10 +1,7 @@
 using System.Collections.ObjectModel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.ViewModels;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Handlers.Items;
 
 namespace MauiApp1.Pages
 {
@@ -12,7 +9,6 @@ namespace MauiApp1.Pages
     public partial class CountSheetsPage : ContentPage
     {
 
-        public ObservableCollection<ItemCount> Items { get; set; }
 
         private bool _showCtr;
         public bool ShowCtr
@@ -120,18 +116,18 @@ namespace MauiApp1.Pages
                 EmployeeDetailsLabel.Text = employeeName;
             }
         }
+
+        public ObservableCollection<ItemCount> ItemCount { get; set; }
         private ItemCountViewModel _itemCountViewModel;
-
-        private string itemCountCode;
-
+        private readonly string _countCode;
         public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode)
         {
             InitializeComponent();
             _itemCountViewModel = itemCountViewModel;
-            itemCountCode = countCode;
-            Items = new ObservableCollection<ItemCount>();
+            ItemCount = new ObservableCollection<ItemCount>();
+            _countCode = countCode;
             BindingContext = this;
-            // Initial column visibility settings
+
             ShowCtr = true;
             ShowItemNo = true;
             ShowDescription = true;
@@ -139,32 +135,40 @@ namespace MauiApp1.Pages
             ShowBatchLot = true;
             ShowExpiry = true;
             ShowQuantity = true;
-            dataGrid.ItemsSource = Items;
+            dataGrid.ItemsSource = ItemCount;
             UpdateColumnVisibility();
-            LoadItemCounts();
+
+            // Load data when the page is constructed
+            LoadItemCountData();
+            MessagingCenter.Subscribe<AddItemPage, string>(this, "RefreshItemCount", (sender, code) =>
+            {
+                if (code == _countCode)
+                {
+                    LoadItemCountData();
+                }
+            });
         }
 
-        private async Task LoadItemCounts()
+
+        private async void LoadItemCountData()
         {
             try
             {
-                var itemCounts = await _itemCountViewModel.ShowItemCount(itemCountCode);
-                Items.Clear();
-
-                foreach (var itemCount in itemCounts)
+                // Assuming you have a way to get the current countCode
+                string countCode = _countCode; // Replace with actual logic to get countCode
+                var items = await _itemCountViewModel.ShowItemCount(countCode);
+                ItemCount.Clear();
+                foreach (var item in items)
                 {
-                    Items.Add(itemCount);
+                    ItemCount.Add(item);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in LoadItemCounts: {ex}");
-
-                await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                // Handle any exceptions (e.g., network issues)
+                await DisplayAlert("Error", $"Failed to load items: {ex.Message}", "OK");
             }
-
         }
-
 
         private async void AddItem_Clicked(object sender, EventArgs e)
         {
@@ -189,10 +193,9 @@ namespace MauiApp1.Pages
                     await DataHelper.DeleteDataAsync(this);
                     break;
                 case "Export":
-                    await DataHelper.ExportDataAsync(this, Items);
+                    await DataHelper.ExportDataAsync(this, ItemCount);
                     break;
                 default:
-                    // Handle cancellation or unexpected actions
                     break;
             }
         }
@@ -200,13 +203,13 @@ namespace MauiApp1.Pages
         private void FilteredSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             string filterText = e.NewTextValue?.ToLower() ?? string.Empty;
-            dataGrid.ItemsSource = Items.Where(item => item.ItemDescription.ToLower().Contains(filterText)).ToList();
+            dataGrid.ItemsSource = ItemCount.Where(item => item.ItemDescription.ToLower().Contains(filterText)).ToList();
         }
 
-        private  async void Filter_Clicked(object sender, EventArgs e)
+        private async void Filter_Clicked(object sender, EventArgs e)
         {
             // Implement your filter logic here
-        await    Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
+            await Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
         }
 
         private async void ColumnSelection_Clicked(object sender, EventArgs e)
