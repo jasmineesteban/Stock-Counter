@@ -12,6 +12,7 @@ namespace MauiApp1.Pages
     public partial class AddItemPage : ContentPage
     {
         private readonly ItemCountViewModel _itemCountViewModel;
+        private bool hasNavigatedToItemSelector = false;
         public string CountCode { get; set; }
 
         public string? ItemDescription
@@ -36,7 +37,17 @@ namespace MauiApp1.Pages
             _itemCountViewModel = itemCountViewModel;
         }
 
-        private async void AddItem_Clicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
+        {
+            if (!hasNavigatedToItemSelector)
+            {
+                hasNavigatedToItemSelector = true;
+                await Task.Delay(10); // Delay if needed
+                await Shell.Current.GoToAsync(nameof(ItemSelectorPage));
+            }
+        }
+
+            private async void AddItem_Clicked(object sender, EventArgs e)
         {
             // Gather all necessary data from the entries
             string itemCode = EntryItemCode.Text;
@@ -51,12 +62,10 @@ namespace MauiApp1.Pages
 
             if (result)
             {
-                await DisplayAlert("Success", "Item count added successfully.", "OK");
-
                 // Send a message to refresh the CountSheetsPage
                 MessagingCenter.Send(this, "RefreshItemCount", CountCode);
 
-                await Navigation.PopAsync();
+                await Navigation.PopAsync(); // Navigate back to the previous page
             }
             else
             {
