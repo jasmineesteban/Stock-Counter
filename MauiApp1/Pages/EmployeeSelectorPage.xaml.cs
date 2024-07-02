@@ -1,8 +1,5 @@
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
 using MauiApp1.Models;
 
 namespace MauiApp1.Pages
@@ -39,7 +36,7 @@ namespace MauiApp1.Pages
                     { "EmployeeDetails", employeeDetails }
                 };
 
-                await Shell.Current.GoToAsync("//HomePage", navigationParameters); // Use "//" to navigate to the root HomePage
+                await Shell.Current.GoToAsync("//HomePage", navigationParameters); 
             }
             else
             {

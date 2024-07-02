@@ -1,8 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using MauiApp1.Models;
+﻿using MauiApp1.Models;
 using MauiApp1.Services;
-using Microsoft.Maui.Controls;
 
 namespace MauiApp1.ViewModels
 {
@@ -35,5 +32,19 @@ namespace MauiApp1.ViewModels
         {
             return await _itemCountService.ShowItemCountAsync(countCode);
         }
+
+        public async Task<bool> EditItemCount(string itemKey, string itemBatchLotNumber, string itemExpiry, int itemQuantity)
+        {
+            var itemCount = new ItemCount
+            {
+                ItemKey = itemKey,
+                ItemBatchLotNumber = itemBatchLotNumber,
+                ItemExpiry = itemExpiry,
+                ItemQuantity = itemQuantity
+            };
+
+            return await _itemCountService.EditItemCountAsync(itemCount);
+        }
+
     }
 }

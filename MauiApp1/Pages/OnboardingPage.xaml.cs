@@ -1,6 +1,3 @@
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
-
 namespace MauiApp1.Pages
 {
     public partial class OnboardingPage : ContentPage

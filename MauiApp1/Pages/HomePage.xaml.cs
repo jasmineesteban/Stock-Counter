@@ -72,11 +72,10 @@ namespace MauiApp1.Pages
             {
                 if (sender is BindableObject bindable && bindable.BindingContext is CountSheet selectedCountSheet)
                 {
-                    // Change the background color of the tapped item
                     var grid = (Grid)bindable;
                     grid.BackgroundColor = Colors.LightGray;
 
-                    // Reset the background color after a short delay
+                  
                     await Task.Delay(500);
                     grid.BackgroundColor = Colors.White;
 
@@ -121,7 +120,7 @@ namespace MauiApp1.Pages
 
                 await Navigation.PushModalAsync(page);
 
-                string newDescription = await customEntry.GetInputAsync("Edit", "OK", "Cancel");
+                string newDescription = await customEntry.GetInputAsync("Edit", "Save", "Cancel");
 
                 await Navigation.PopModalAsync();
 
@@ -142,6 +141,16 @@ namespace MauiApp1.Pages
                 bool answer = await DisplayAlert("Delete", $"Are you sure you want to delete {selectedCountSheet.CountDescription}?", "Yes", "No");
                 if (answer)
                 {
+                    try
+                    {
+                        await _countSheetViewModel.DeleteCountSheet(selectedCountSheet.CountCode);
+                        await DisplayAlert("Success", $"Deleted {selectedCountSheet.CountDescription}", "OK");
+                        LoadCountSheets(); 
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("Error", $"Failed to delete: {ex.Message}", "OK");
+                    }
                 }
             }
         }
