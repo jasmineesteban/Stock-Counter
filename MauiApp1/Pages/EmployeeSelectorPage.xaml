@@ -15,8 +15,9 @@
                    TextChanged="SearchBar_TextChanged" Margin="10"/>
 
         <CollectionView Grid.Row="1" ItemsSource="{Binding Employees}" 
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
+                SelectionMode="Single"
+                SelectionChanged="CollectionView_SelectionChanged"
+                SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
@@ -26,10 +27,25 @@
                         </Grid.ColumnDefinitions>
                         <Label Text="{Binding EmployeeId}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" Grid.Column="0"/>
                         <Label Text="{Binding EmployeeName}" FontSize="Medium" VerticalOptions="Center" Margin="20,0,0,0" Grid.Column="1"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="White" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="LightGray" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
 
         <Button Grid.Row="2"
                 Text="Next"

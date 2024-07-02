@@ -31,5 +31,16 @@ namespace MauiApp1.ViewModels
         {
             return await _countSheetService.ShowCountSheetAsync(employeeId);
         }
+
+        public async Task EditCountSheet(string countCode, string description)
+        {
+            var countSheet = new CountSheet
+            {
+                CountCode = countCode,
+                CountDescription = description
+            };
+
+            await _countSheetService.EditCountSheetAsync(countSheet);
+        }
     }
 }

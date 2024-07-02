@@ -7,29 +7,48 @@
              Shell.NavBarIsVisible="True"
              Shell.TabBarIsVisible="False">
     <AbsoluteLayout>
-        <!-- Vertical Stack Layout to hold Frames -->
         <VerticalStackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"                
                              AbsoluteLayout.LayoutFlags="All">
-            <!-- ListView for CountSheets -->
-            <ListView x:Name="CountSheetListView"
-                      ItemsSource="{Binding CountSheets}"
-                      ItemTapped="OnCountSheetTapped">
-                <ListView.ItemTemplate>
+            <CollectionView x:Name="CountSheetCollectionView"
+                            ItemsSource="{Binding CountSheets}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10">
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Edit"
+                                               BackgroundColor="LightBlue"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}"
+                                               CommandParameter="{Binding .}"
+                                               Invoked="OnEditClicked"/>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                               BackgroundColor="LightPink"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+                                               CommandParameter="{Binding .}"
+                                               Invoked="OnDeleteClicked"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Grid Padding="10"
+                                  BackgroundColor="White">
                                 <Label Text="{Binding CountDescription}"
                                        FontSize="16"
-                                       TextColor="Black"/>
-                            </StackLayout>
-                        </ViewCell>
+                                       TextColor="Black"
+                                       VerticalOptions="Center"/>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCountSheetTapped"/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </SwipeView>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
 
-        <!-- Button to open modal -->
         <Button x:Name="inventoryStack" Padding="10"
                 Text="+"
                 FontSize="30" 

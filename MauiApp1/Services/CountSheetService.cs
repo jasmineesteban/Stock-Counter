@@ -34,5 +34,14 @@ namespace MauiApp1.Services
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<IEnumerable<CountSheet>>(content);
         }
+        public async Task EditCountSheetAsync(CountSheet countSheet)
+        {
+            await SetAuthorizationHeaderAsync();
+
+            var json = JsonConvert.SerializeObject(countSheet);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync("api/CountSheet/edit", content);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

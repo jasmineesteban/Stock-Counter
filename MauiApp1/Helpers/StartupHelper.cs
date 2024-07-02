@@ -57,11 +57,12 @@ namespace MauiApp1.Helpers
             if (filePath != null)
             {
                 var encryptedConnectionString = await File.ReadAllTextAsync(filePath);
-                await SecureStorage.SetAsync("connectionString", encryptedConnectionString);
-                File.Delete(filePath);
+                return encryptedConnectionString;
             }
-            return await SecureStorage.GetAsync("connectionString");
-        
+            else
+            {
+                return await SecureStorage.GetAsync("connectionString");
+            }
         }
     }
 }

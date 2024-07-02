@@ -200,12 +200,7 @@ namespace MauiApp1.Pages
             }
         }
 
-        private void FilteredSearchBar_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string filterText = e.NewTextValue?.ToLower() ?? string.Empty;
-            dataGrid.ItemsSource = ItemCount.Where(item => item.ItemDescription.ToLower().Contains(filterText)).ToList();
-        }
-
+       
         private async void Filter_Clicked(object sender, EventArgs e)
         {
             // Implement your filter logic here

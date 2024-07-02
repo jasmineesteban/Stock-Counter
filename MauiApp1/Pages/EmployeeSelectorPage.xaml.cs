@@ -1,5 +1,9 @@
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
+using MauiApp1.Models;
 
 namespace MauiApp1.Pages
 {
@@ -42,5 +46,13 @@ namespace MauiApp1.Pages
                 await DisplayAlert("Oops", "Choose your name first.", "OK");
             }
         }
+        private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.FirstOrDefault() is Employee selectedEmployee)
+            {
+                _viewModel.SelectedEmployee = selectedEmployee;
+            }
+        }
+
     }
 }

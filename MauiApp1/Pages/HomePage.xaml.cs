@@ -1,9 +1,9 @@
+using MauiApp1.Controls;
 using MauiApp1.Models;
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
-using System;
 using System.Collections.ObjectModel;
-using Microsoft.Maui.Controls;
+using MauiApp1.Extensions;
 
 namespace MauiApp1.Pages
 {
@@ -11,7 +11,7 @@ namespace MauiApp1.Pages
     public partial class HomePage : ContentPage
     {
         private readonly CountSheetViewModel _countSheetViewModel;
-        private readonly ItemCountService _itemCountService; 
+        private readonly ItemCountService _itemCountService;
 
         private string employeeDetails;
         private string employeeId;
@@ -38,8 +38,8 @@ namespace MauiApp1.Pages
             InitializeComponent();
             _countSheetViewModel = countSheetViewModel;
             _itemCountService = itemCountService;
-          
-        BindingContext = this;
+            BindingContext = _countSheetViewModel;
+            BindingContext = this;
         }
 
         private async void LoadCountSheets()
@@ -61,19 +61,89 @@ namespace MauiApp1.Pages
             await Shell.Current.Navigation.PushModalAsync(modalPage);
         }
 
-        private async void OnCountSheetTapped(object sender, ItemTappedEventArgs e)
+        private bool isNavigating = false;
+
+        private async void OnCountSheetTapped(object sender, EventArgs e)
         {
-            if (e.Item is CountSheet selectedCountSheet)
+            if (isNavigating) return; // Prevents multiple simultaneous navigations
+            isNavigating = true;
+
+            try
             {
-                var itemCountViewModel = new ItemCountViewModel(_itemCountService);
-                var countSheetsPage = new CountSheetsPage(itemCountViewModel, selectedCountSheet.CountCode)
+                if (sender is BindableObject bindable && bindable.BindingContext is CountSheet selectedCountSheet)
                 {
-                    BindingContext = selectedCountSheet,
-                    EmployeeDetails = this.EmployeeDetails
-                };
-                await Navigation.PushAsync(countSheetsPage);
+                    // Change the background color of the tapped item
+                    var grid = (Grid)bindable;
+                    grid.BackgroundColor = Colors.LightGray;
+
+                    // Reset the background color after a short delay
+                    await Task.Delay(500);
+                    grid.BackgroundColor = Colors.White;
+
+                    var itemCountViewModel = new ItemCountViewModel(_itemCountService);
+                    var countSheetsPage = new CountSheetsPage(itemCountViewModel, selectedCountSheet.CountCode)
+                    {
+                        BindingContext = selectedCountSheet,
+                        EmployeeDetails = this.EmployeeDetails
+                    };
+                    await Shell.Current.Navigation.PushAsync(countSheetsPage);
+                }
+            }
+            finally
+            {
+                isNavigating = false; 
             }
         }
 
+        private async void OnEditClicked(object sender, EventArgs e)
+        {
+            if (sender is SwipeItem swipeItem && swipeItem.BindingContext is CountSheet selectedCountSheet)
+            {
+                var customEntry = new SelectAllEntry
+                {
+                    Text = selectedCountSheet.CountDescription
+                };
+
+                var page = new ContentPage
+                {
+                    BackgroundColor = Colors.Transparent,
+                    Content = new StackLayout
+                    {
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Children =
+                {
+                    new Label { Text = $"Editing {selectedCountSheet.CountDescription}", TextColor = Colors.White },
+                    customEntry
+                }
+                    }
+                };
+
+                await Navigation.PushModalAsync(page);
+
+                string newDescription = await customEntry.GetInputAsync("Edit", "OK", "Cancel");
+
+                await Navigation.PopModalAsync();
+
+                if (!string.IsNullOrEmpty(newDescription))
+                {
+                    await _countSheetViewModel.EditCountSheet(selectedCountSheet.CountCode, newDescription);
+                    await DisplayAlert("Success", $"Updated {selectedCountSheet.CountDescription} to {newDescription}", "OK");
+                    LoadCountSheets();
+                }
+            }
+        }
+
+
+        private async void OnDeleteClicked(object sender, EventArgs e)
+        {
+            if (sender is SwipeItem swipeItem && swipeItem.BindingContext is CountSheet selectedCountSheet)
+            {
+                bool answer = await DisplayAlert("Delete", $"Are you sure you want to delete {selectedCountSheet.CountDescription}?", "Yes", "No");
+                if (answer)
+                {
+                }
+            }
+        }
     }
 }
