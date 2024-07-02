@@ -39,5 +39,13 @@ namespace MauiApp1.Services
             return response.IsSuccessStatusCode;
         }
 
+         public async Task<bool> DeleteItemCountAsync(string itemKey)
+        {
+            await SetAuthorizationHeaderAsync();
+
+            var response = await _httpClient.DeleteAsync($"api/ItemCount/delete?itemKey={itemKey}");
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }

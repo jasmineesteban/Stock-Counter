@@ -46,5 +46,9 @@ namespace MauiApp1.ViewModels
             return await _itemCountService.EditItemCountAsync(itemCount);
         }
 
+        public async Task<bool> DeleteItemCount(string itemKey)
+        {
+            return await _itemCountService.DeleteItemCountAsync(itemKey);
+        }
     }
 }
