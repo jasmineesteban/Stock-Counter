@@ -40,6 +40,13 @@ namespace MauiApp1.Pages
 
                     if (apiResult)
                     {
+                        await SecureStorage.SetAsync("connectionString", encryptedConnectionString);
+                        string filePath = StartupHelper.FindFileCaseInsensitive(downloadPath, _fileName);
+                        if (filePath != null)
+                        {
+                            File.Delete(filePath);
+                        }
+
                         await Shell.Current.GoToAsync(nameof(EmployeeSelectorPage));
                     }
                     else

@@ -2,9 +2,9 @@
 {
     public class CountSheet
         {
-            public string CountCode { get; set; } = string.Empty;
-            public string CountSheetEmployee { get; set; } = string.Empty;
-            public string CountDescription { get; set; } = string.Empty;
+            public string? CountCode { get; set; }
+            public string? CountSheetEmployee { get; set; }
+            public string? CountDescription { get; set; }
             public DateTime CountDate { get; set; }
             public int CountStatus { get; set; }
     }
