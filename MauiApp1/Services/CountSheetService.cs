@@ -1,10 +1,7 @@
-﻿using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Newtonsoft.Json;
 using MauiApp1.Models;
 using MauiApp1.Services.HttpBaseService;
-using System.Collections.Generic;
 
 namespace MauiApp1.Services
 {
@@ -41,6 +38,14 @@ namespace MauiApp1.Services
             var json = JsonConvert.SerializeObject(countSheet);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync("api/CountSheet/edit", content);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteCountSheetAsync(string countCode)
+        {
+            await SetAuthorizationHeaderAsync();
+
+            var response = await _httpClient.DeleteAsync($"api/CountSheet/delete/{countCode}");
             response.EnsureSuccessStatusCode();
         }
     }

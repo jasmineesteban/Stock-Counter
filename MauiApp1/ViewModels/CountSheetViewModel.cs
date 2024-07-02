@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using MauiApp1.Models;
+﻿using MauiApp1.Models;
 using MauiApp1.Services;
 
 namespace MauiApp1.ViewModels
@@ -41,6 +38,11 @@ namespace MauiApp1.ViewModels
             };
 
             await _countSheetService.EditCountSheetAsync(countSheet);
+        }
+
+        public async Task DeleteCountSheet(string countCode)
+        {
+            await _countSheetService.DeleteCountSheetAsync(countCode);
         }
     }
 }

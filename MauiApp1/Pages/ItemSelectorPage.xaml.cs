@@ -2,7 +2,6 @@ using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using ZXing.Mobile;
 using MauiApp1.Models;
-using CommunityToolkit;
 
 
 namespace MauiApp1.Pages

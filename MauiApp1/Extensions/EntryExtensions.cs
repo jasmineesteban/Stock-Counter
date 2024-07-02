@@ -5,16 +5,15 @@ namespace MauiApp1.Extensions
 {
     public static class EntryExtensions
     {
-        public static Task<string> GetInputAsync(this Entry entry, string title, string okText, string cancelText)
+        public static Task<string> GetInputAsync(this Entry entry, string title, string saveText, string cancelText)
         {
             var tcs = new TaskCompletionSource<string>();
-
-            var okButton = new Button
+            var saveButton = new Button
             {
-                Text = okText,
+                Text = saveText,
                 WidthRequest = 100,
                 HeightRequest = 50,
-                BackgroundColor = Colors.Green,
+                BackgroundColor = Color.FromRgb(173, 216, 230), // Light blue
                 TextColor = Colors.White
             };
             var cancelButton = new Button
@@ -22,26 +21,21 @@ namespace MauiApp1.Extensions
                 Text = cancelText,
                 WidthRequest = 100,
                 HeightRequest = 50,
-                BackgroundColor = Colors.Red,
+                BackgroundColor = Color.FromRgb(255, 127, 127), // Light red
                 TextColor = Colors.White
             };
-
-            okButton.Clicked += (s, e) => tcs.TrySetResult(entry.Text);
+            saveButton.Clicked += (s, e) => tcs.TrySetResult(entry.Text);
             cancelButton.Clicked += (s, e) => tcs.TrySetResult(null);
-
             var buttonStack = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 HorizontalOptions = LayoutOptions.Center,
                 Spacing = 20,
-                Children = { okButton, cancelButton }
+                Children = { saveButton, cancelButton }
             };
-
             var container = (StackLayout)entry.Parent;
             container.Children.Add(buttonStack);
-
             MainThread.BeginInvokeOnMainThread(() => entry.Focus());
-
             return tcs.Task;
         }
     }

@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using MauiApp1.Models;
 using MauiApp1.Services.HttpBaseService;
-using System.Diagnostics;
-
 namespace MauiApp1.Services
 {
     public class ItemCountService : HttpServiceBase
@@ -32,7 +30,14 @@ namespace MauiApp1.Services
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<IEnumerable<ItemCount>>(content);
         }
-
+        public async Task<bool> EditItemCountAsync(ItemCount itemCount)
+        {
+            await SetAuthorizationHeaderAsync();
+            var json = JsonConvert.SerializeObject(itemCount);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync("api/ItemCount/edit", content);
+            return response.IsSuccessStatusCode;
+        }
 
     }
 }
