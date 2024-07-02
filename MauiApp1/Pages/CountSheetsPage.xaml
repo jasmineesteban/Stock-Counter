@@ -1,6 +1,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.ApplicationModel;assembly=CommunityToolkit.Maui.Core"
+             xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
              x:Class="MauiApp1.Pages.CountSheetsPage"
              Title="Count Sheet"
              Shell.TabBarIsVisible="False">
@@ -9,8 +10,8 @@
         <ToolbarItem Text="Filter"
                      IconImageSource="filter"
                      Clicked="Filter_Clicked"/>
-        <ToolbarItem Text="+"
-                     IconImageSource="application"
+        <ToolbarItem Text="Export"
+                     IconImageSource="excel"
                      Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
@@ -58,39 +59,29 @@
 
             </Grid>
         </Frame>
-
         <!-- ScrollView with CollectionView -->
-        <ScrollView Grid.Row="1"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All">
-            <Grid>
-                <!-- Header Row -->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+        <dg:DataGrid x:Name="dataGrid"
+                 Grid.Row="1"
+                 ItemsSource="{Binding ItemCount}"
+                 SelectionEnabled="True"
+                 SelectedItem="{Binding SelectedItems}"
+                 RowHeight="30"
+                 HeaderHeight="30"
+                 HeaderBackground="SkyBlue"
+                 ActiveRowColor="LightGray"
+                 BorderColor="White"
+                 BorderThickness="0.5">
+            <dg:DataGrid.Columns>
+                <dg:DataGridColumn Title="Ctr" PropertyName="ItemCounter" Width="50*"/>
+                <dg:DataGridColumn Title="Item Code" PropertyName="ItemCode" Width="100*"/>
+                <dg:DataGridColumn Title="Description" PropertyName="ItemDescription" Width="200*"/>
+                <dg:DataGridColumn Title="UOM" PropertyName="ItemUom" Width="80*"/>
+                <dg:DataGridColumn Title="Batch &amp; Lot No." PropertyName="ItemBatchLotNumber" Width="120*"/>
+                <dg:DataGridColumn Title="Expiry" PropertyName="ItemExpiry" Width="100*"/>
+                <dg:DataGridColumn Title="Quantity" PropertyName="ItemQuantity" Width="80*"/>
+            </dg:DataGrid.Columns>
+        </dg:DataGrid>
 
-                <Grid Grid.Row="0"
-                      x:Name="HeaderGrid"
-                      BackgroundColor="#0066CC"
-                      HeightRequest="30"
-                      Margin="0,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                </Grid>
-
-                <!-- CollectionView -->
-                <CollectionView Grid.Row="1"
-                                x:Name="dataGrid"
-                                ItemsSource="{Binding ItemCount}"
-                                VerticalOptions="FillAndExpand">
-
-                </CollectionView>
-            </Grid>
-        </ScrollView>
 
         <Button Grid.Row="2"
                 Text="Add Item"

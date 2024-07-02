@@ -26,11 +26,6 @@
             ContentTemplate="{DataTemplate pages:HomePage}"
             Route="HomePage"/>
         <ShellContent
-            Title="Count Sheets Page"
-            Icon ="stock"
-            ContentTemplate="{DataTemplate pages:CountSheetsPage}"
-            Route="CountSheetsPage"/>
-        <ShellContent
             Title="Settings"
             Icon ="gear"
             ContentTemplate="{DataTemplate pages:SettingsPage}"
