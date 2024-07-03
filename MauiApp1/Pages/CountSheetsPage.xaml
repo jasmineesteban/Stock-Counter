@@ -59,7 +59,9 @@
         <!-- ScrollView with CollectionView -->
         <ScrollView Grid.Row="1"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All">
+                    AbsoluteLayout.LayoutFlags="All"
+                    Orientation="Both"
+                    HorizontalScrollBarVisibility="Always">
             <Grid>
                 <!-- Header Row -->
                 <Grid.RowDefinitions>
@@ -72,11 +74,6 @@
                       BackgroundColor="#0066CC"
                       HeightRequest="30"
                       Margin="0,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
                 </Grid>
 
                 <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand">

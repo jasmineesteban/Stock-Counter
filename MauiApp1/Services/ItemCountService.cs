@@ -22,10 +22,12 @@ namespace MauiApp1.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<IEnumerable<ItemCount>> ShowItemCountAsync(string countCode, int sort)
+
+        public async Task<IEnumerable<ItemCount>> ShowItemCountAsync(string countCode, int sortValue)
         {
             await SetAuthorizationHeaderAsync();
-            var response = await _httpClient.GetAsync($"api/ItemCount/show?countCode={countCode}&sort={sort}");
+            var response = await _httpClient.GetAsync($"api/ItemCount/show?countCode={countCode}&sort={sortValue}");
+
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<IEnumerable<ItemCount>>(content);
