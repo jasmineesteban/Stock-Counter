@@ -1,5 +1,3 @@
-using Microsoft.Maui.Controls;
-using System.Threading.Tasks;
 
 namespace MauiApp1.Pages
 {
