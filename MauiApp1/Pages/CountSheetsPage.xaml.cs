@@ -120,7 +120,9 @@ namespace MauiApp1.Pages
         public ObservableCollection<ItemCount> ItemCount { get; set; }
         private ItemCountViewModel _itemCountViewModel;
         private readonly string _countCode;
-        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode)
+        private int _sort = 0;
+        private int tapCount = 0;
+        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue)
         {
             InitializeComponent();
             _itemCountViewModel = itemCountViewModel;
@@ -147,16 +149,41 @@ namespace MauiApp1.Pages
                     LoadItemCountData();
                 }
             });
+
+            var tapGesture = new TapGestureRecognizer();
+            tapGesture.Tapped += OnHeaderGridTapped;
+            HeaderGrid.GestureRecognizers.Add(tapGesture);
+
+            _sort = sortValue;
         }
 
+        private void OnHeaderGridTapped(object sender, EventArgs e)
+        {
+            tapCount++;
+
+            if (tapCount == 1)
+            {
+                _sort = 1;
+            }
+            else if (tapCount == 2)
+            {
+                _sort = 2;
+            }
+            else
+            {
+                // Reset 
+                tapCount = 0;
+                _sort = 0;
+            }
+
+            LoadItemCountData();
+        }
 
         private async void LoadItemCountData()
         {
             try
             {
-                // Assuming you have a way to get the current countCode
-                string countCode = _countCode; // Replace with actual logic to get countCode
-                var items = await _itemCountViewModel.ShowItemCount(countCode);
+                var items = await _itemCountViewModel.ShowItemCount(_countCode, _sort);
                 ItemCount.Clear();
                 foreach (var item in items)
                 {
@@ -165,7 +192,6 @@ namespace MauiApp1.Pages
             }
             catch (Exception ex)
             {
-                // Handle any exceptions (e.g., network issues)
                 await DisplayAlert("Error", $"Failed to load items: {ex.Message}", "OK");
             }
         }
@@ -179,26 +205,7 @@ namespace MauiApp1.Pages
                 await Navigation.PushAsync(addItemPage);
             }
         }
-
-        private async void ToolbarItem_Clicked(object sender, EventArgs e)
-        {
-            string action = await DisplayActionSheet("Action", "Cancel", null, "Save", "Delete", "Export");
-
-            switch (action)
-            {
-                case "Save":
-                    await DataHelper.SaveDataAsync(this);
-                    break;
-                case "Delete":
-                    await DataHelper.DeleteDataAsync(this);
-                    break;
-                case "Export":
-                    await DataHelper.ExportDataAsync(this, ItemCount);
-                    break;
-                default:
-                    break;
-            }
-        }
+ 
 
         private async void Filter_Clicked(object sender, EventArgs e)
         {

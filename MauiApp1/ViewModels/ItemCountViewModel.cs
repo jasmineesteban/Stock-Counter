@@ -28,9 +28,9 @@ namespace MauiApp1.ViewModels
             return await _itemCountService.AddItemCountAsync(itemCount);
         }
 
-        public async Task<IEnumerable<ItemCount>> ShowItemCount(string countCode)
+        public async Task<IEnumerable<ItemCount>> ShowItemCount(string countCode, int sortValue)
         {
-            return await _itemCountService.ShowItemCountAsync(countCode);
+            return await _itemCountService.ShowItemCountAsync(countCode, sortValue);
         }
 
         public async Task<bool> EditItemCount(string itemKey, string itemBatchLotNumber, string itemExpiry, int itemQuantity)
