@@ -74,13 +74,14 @@ namespace MauiApp1.Pages
             if (e.CurrentSelection.FirstOrDefault() is Item selectedItem)
             {
                 var parameters = new Dictionary<string, object>
-                {
-                    { "ItemDescription", selectedItem.ItemDescription },
-                    { "SellingUom", selectedItem.SellingUom },
-                    { "ItemNumber", selectedItem.ItemNumber }
-                };
-                await Shell.Current.GoToAsync("..",  parameters);
+        {
+            { "ItemDescription", selectedItem.ItemDescription },
+            { "SellingUom", selectedItem.SellingUom },
+            { "ItemNumber", selectedItem.ItemNumber }
+        };
+                await Shell.Current.GoToAsync("..", parameters);
             }
         }
+
     }
 }

@@ -1,7 +1,7 @@
-using System.Collections.ObjectModel;
 using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace MauiApp1.Pages
 {
@@ -154,9 +154,10 @@ namespace MauiApp1.Pages
         {
             try
             {
-                // Assuming you have a way to get the current countCode
-                string countCode = _countCode; // Replace with actual logic to get countCode
-                var items = await _itemCountViewModel.ShowItemCount(countCode);
+               
+                string countCode = _countCode;
+                int sort = 0;
+                var items = await _itemCountViewModel.ShowItemCount(countCode,sort);
                 ItemCount.Clear();
                 foreach (var item in items)
                 {
