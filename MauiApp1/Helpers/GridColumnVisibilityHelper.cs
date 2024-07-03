@@ -25,7 +25,7 @@ namespace MauiApp1.Helpers
         {
             if (isVisible)
             {
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
                 var label = new Label
                 {
                     Text = text,
@@ -72,7 +72,7 @@ namespace MauiApp1.Helpers
         {
             if (isVisible)
             {
-                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
                 var border = new Border
                 {
                     Stroke = Colors.Gray,

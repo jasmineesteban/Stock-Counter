@@ -60,7 +60,8 @@
         <ScrollView Grid.Row="1"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All"
-                    Orientation="Both">
+                    Orientation="Both"
+                    HorizontalScrollBarVisibility="Always">
             <Grid>
                 <!-- Header Row -->
                 <Grid.RowDefinitions>
