@@ -4,8 +4,7 @@
              x:Class="MauiApp1.Pages.ItemSelectorPage"
              Shell.TabBarIsVisible="False"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="Transparent"
-             Appearing="OnAppearing">
+             BackgroundColor="Transparent">
 
     <Grid>
         <Grid.RowDefinitions>

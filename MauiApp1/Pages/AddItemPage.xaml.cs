@@ -32,18 +32,30 @@ namespace MauiApp1.Pages
             CountCode = countCode;
             _itemCountViewModel = itemCountViewModel;
         }
-
         protected override async void OnAppearing()
         {
+            base.OnAppearing();
+
             if (!hasNavigatedToItemSelector)
             {
                 hasNavigatedToItemSelector = true;
-                await Task.Delay(10); // Delay if needed
-                await Shell.Current.GoToAsync(nameof(ItemSelectorPage));
+
+                bool result = await DisplayAlert("No Product Selected", "Would you like to select a product?", "Yes", "No");
+
+                if (result)
+                {
+                    await Task.Delay(100); // Delay if needed
+                    await Shell.Current.GoToAsync(nameof(ItemSelectorPage));
+                }
+                else
+                {
+                    await Shell.Current.GoToAsync(".."); // Navigate back
+                }
             }
         }
 
-            private async void AddItem_Clicked(object sender, EventArgs e)
+
+        private async void AddItem_Clicked(object sender, EventArgs e)
         {
             // Gather all necessary data from the entries
             string itemCode = EntryItemCode.Text;
