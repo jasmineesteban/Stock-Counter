@@ -63,7 +63,26 @@ namespace MauiApp1.Pages
             string itemUom = EntryUOM.Text;
             string itemBatchLotNumber = EntryBatchNo.Text;
             string itemExpiry = EntryExpiryDate.Text;
-            int itemQuantity = int.Parse(EntryQuantity.Text);
+            string quantityText = EntryQuantity.Text;
+
+            // Validate quantity
+            if (string.IsNullOrWhiteSpace(quantityText))
+            {
+                await DisplayAlert("Error", "Quantity cannot be empty.", "OK");
+                return;
+            }
+
+            if (!int.TryParse(quantityText, out int itemQuantity))
+            {
+                await DisplayAlert("Error", "Invalid quantity. Please enter a valid number.", "OK");
+                return;
+            }
+
+            if (itemQuantity < 0)
+            {
+                await DisplayAlert("Error", "Quantity cannot be negative.", "OK");
+                return;
+            }
 
             // Call the ViewModel to add the item count
             bool result = await _itemCountViewModel.AddItemCount(CountCode, itemCode, itemDescription, itemUom, itemBatchLotNumber, itemExpiry, itemQuantity);
@@ -72,7 +91,6 @@ namespace MauiApp1.Pages
             {
                 // Send a message to refresh the CountSheetsPage
                 MessagingCenter.Send(this, "RefreshItemCount", CountCode);
-
                 await Navigation.PopAsync(); // Navigate back to the previous page
             }
             else

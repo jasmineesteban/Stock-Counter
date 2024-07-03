@@ -98,38 +98,85 @@ namespace MauiApp1.Pages
         {
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is CountSheet selectedCountSheet)
             {
-                var customEntry = new SelectAllEntry
+                var descriptionEntry = new Entry
                 {
-                    Text = selectedCountSheet.CountDescription
+                    Text = selectedCountSheet.CountDescription,
+                    HorizontalOptions = LayoutOptions.Fill
+                };
+
+                var saveButton = new Button
+                {
+                    Text = "Save",
+                    BackgroundColor = Color.FromRgb(173, 216, 230),
+                    TextColor = Colors.White,
+                    WidthRequest = 100,
+                    HeightRequest = 40
+                };
+
+                var cancelButton = new Button
+                {
+                    Text = "Cancel",
+                    BackgroundColor = Color.FromRgb(255, 127, 127),
+                    TextColor = Colors.White,
+                    WidthRequest = 100,
+                    HeightRequest = 40
+                };
+
+                var buttonStack = new StackLayout
+                {
+                    Orientation = StackOrientation.Horizontal,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Spacing = 20,
+                    Children = { saveButton, cancelButton }
                 };
 
                 var page = new ContentPage
                 {
-                    BackgroundColor = Colors.Transparent,
-                    Content = new StackLayout
+                    BackgroundColor = new Color(0, 0, 0, 0.1f), // Semi-transparent black
+                    Content = new Frame
                     {
+                        BackgroundColor = Colors.White,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
-                        Children =
-                {
-                    new Label { Text = $"Editing {selectedCountSheet.CountDescription}", TextColor = Colors.White },
-                    customEntry
-                }
+                        Padding = new Thickness(20),
+                        WidthRequest = 300, // Set a fixed width for the frame
+                        Content = new StackLayout
+                        {
+                            Spacing = 10,
+                            Children =
+                    {
+                        new Label { Text = $"Editing {selectedCountSheet.CountDescription}", FontAttributes = FontAttributes.Bold },
+                        new Label { Text = "Description" },
+                        descriptionEntry,
+                        buttonStack
+                    }
+                        }
                     }
                 };
 
-                await Navigation.PushModalAsync(page);
+                var tcs = new TaskCompletionSource<bool>();
 
-                string newDescription = await customEntry.GetInputAsync("Edit", "Save", "Cancel");
-
-                await Navigation.PopModalAsync();
-
-                if (!string.IsNullOrEmpty(newDescription))
+                saveButton.Clicked += async (s, args) =>
                 {
-                    await _countSheetViewModel.EditCountSheet(selectedCountSheet.CountCode, newDescription);
-                    await DisplayAlert("Success", $"Updated {selectedCountSheet.CountDescription} to {newDescription}", "OK");
-                    LoadCountSheets();
-                }
+                    string newDescription = descriptionEntry.Text;
+                    if (!string.IsNullOrEmpty(newDescription))
+                    {
+                        await _countSheetViewModel.EditCountSheet(selectedCountSheet.CountCode, newDescription);
+                        await DisplayAlert("Success", $"Updated {selectedCountSheet.CountDescription} to {newDescription}", "OK");
+                        LoadCountSheets();
+                        tcs.SetResult(true);
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Description cannot be empty", "OK");
+                    }
+                };
+
+                cancelButton.Clicked += (s, args) => tcs.SetResult(false);
+
+                await Navigation.PushModalAsync(page);
+                bool result = await tcs.Task;
+                await Navigation.PopModalAsync();
             }
         }
 
