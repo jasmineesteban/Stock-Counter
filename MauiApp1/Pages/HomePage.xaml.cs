@@ -80,7 +80,7 @@ namespace MauiApp1.Pages
                     grid.BackgroundColor = Colors.White;
 
                     var itemCountViewModel = new ItemCountViewModel(_itemCountService);
-                    var countSheetsPage = new CountSheetsPage(itemCountViewModel, selectedCountSheet.CountCode)
+                    var countSheetsPage = new CountSheetsPage(itemCountViewModel, selectedCountSheet.CountCode, 0)
                     {
                         BindingContext = selectedCountSheet,
                         EmployeeDetails = this.EmployeeDetails

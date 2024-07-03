@@ -122,7 +122,9 @@ namespace MauiApp1.Pages
         public ObservableCollection<ItemCount> ItemCount { get; set; }
         private ItemCountViewModel _itemCountViewModel;
         private readonly string _countCode;
-        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode)
+        private int _sort = 0;
+        private int tapCount = 0;
+        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue)
         {
             InitializeComponent();
             _itemCountViewModel = itemCountViewModel;
@@ -149,17 +151,42 @@ namespace MauiApp1.Pages
                     LoadItemCountData();
                 }
             });
+
+            var tapGesture = new TapGestureRecognizer();
+            tapGesture.Tapped += OnHeaderGridTapped;
+            HeaderGrid.GestureRecognizers.Add(tapGesture);
+
+            _sort = sortValue;
         }
 
+        private void OnHeaderGridTapped(object sender, EventArgs e)
+        {
+            tapCount++;
+
+            if (tapCount == 1)
+            {
+                _sort = 1;
+            }
+            else if (tapCount == 2)
+            {
+                _sort = 2;
+            }
+            else
+            {
+                // Reset 
+                tapCount = 0;
+                _sort = 0;
+            }
+
+            LoadItemCountData();
+        }
 
         private async void LoadItemCountData()
         {
             try
             {
-               
-                string countCode = _countCode;
-                int sort = 0;
-                var items = await _itemCountViewModel.ShowItemCount(countCode,sort);
+                var items = await _itemCountViewModel.ShowItemCount(_countCode, _sort);
+
                 ItemCount.Clear();
                 foreach (var item in items)
                 {
@@ -168,7 +195,6 @@ namespace MauiApp1.Pages
             }
             catch (Exception ex)
             {
-                // Handle any exceptions (e.g., network issues)
                 await DisplayAlert("Error", $"Failed to load items: {ex.Message}", "OK");
             }
         }
