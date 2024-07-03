@@ -69,16 +69,26 @@
                             <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="LightGray" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <Label Text="{Binding ItemNumber}"
-                                   FontSize="Medium"
-                                   VerticalOptions="Center"
-                                   FontAttributes="Bold"
-                                   Grid.Column="0"/>
+                   FontSize="Medium"
+                   VerticalOptions="Center"
+                   FontAttributes="Bold"
+                   Grid.Column="0"/>
                         <Label Text="{Binding ItemDescription}"
-                                   FontSize="Medium"
-                                   VerticalOptions="Center"
-                                   Margin="20,0,0,0"
-                                   Grid.Column="1"/>
+                   FontSize="Medium"
+                   VerticalOptions="Center"
+                   Margin="20,0,0,0"
+                   Grid.Column="1"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -65,7 +65,7 @@ namespace MauiApp1.Pages
 
         private async void OnCountSheetTapped(object sender, EventArgs e)
         {
-            if (isNavigating) return; // Prevents multiple simultaneous navigations
+            if (isNavigating) return; 
             isNavigating = true;
 
             try
