@@ -9,9 +9,6 @@
         <ToolbarItem Text="Filter"
                      IconImageSource="filter"
                      Clicked="Filter_Clicked"/>
-        <ToolbarItem Text="+"
-                     IconImageSource="application"
-                     Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
     <Grid>
@@ -82,12 +79,29 @@
                     </Grid.ColumnDefinitions>
                 </Grid>
 
-                <!-- CollectionView -->
-                <CollectionView Grid.Row="1"
-                                x:Name="dataGrid"
-                                ItemsSource="{Binding ItemCount}"
-                                VerticalOptions="FillAndExpand">
-
+                <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Edit" BackgroundColor="LightBlue" 
+                                   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}" 
+                                   CommandParameter="{Binding .}" 
+                                   Invoked="OnEditClicked"/>
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Delete" BackgroundColor="LightPink" 
+                                   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}" 
+                                   CommandParameter="{Binding .}" 
+                                   Invoked="OnDeleteClicked"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
         </ScrollView>
