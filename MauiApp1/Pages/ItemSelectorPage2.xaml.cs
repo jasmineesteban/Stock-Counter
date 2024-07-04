@@ -5,11 +5,11 @@ using MauiApp1.Models;
 using ZXing.Mobile;
 
 namespace MauiApp1.Pages;
-
 public partial class ItemSelectorPage2 : ContentPage
 {
     private readonly ItemViewModel2 _viewModel;
     private ObservableCollection<Item> _items;
+    public Item SelectedItem { get; private set; }
 
     public ItemSelectorPage2(ItemViewModel2 viewModel)
     {
@@ -81,6 +81,7 @@ public partial class ItemSelectorPage2 : ContentPage
     {
         if (e.CurrentSelection.FirstOrDefault() is Item selectedItem)
         {
+            SelectedItem = selectedItem;
             var parameters = new Dictionary<string, object>
             {
                 { "ItemDescription", selectedItem.ItemDescription },
@@ -89,5 +90,10 @@ public partial class ItemSelectorPage2 : ContentPage
             };
             await Shell.Current.GoToAsync("..", parameters);
         }
+        else
+        {
+            SelectedItem = null;
+        }
     }
 }
+
