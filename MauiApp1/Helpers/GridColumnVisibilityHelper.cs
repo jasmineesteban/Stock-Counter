@@ -184,9 +184,9 @@ namespace MauiApp1.Helpers
             {
                 "Counter" => new GridLength(50),
                 "Item No." => new GridLength(60),
-                "Description" => new GridLength(220),
+                "Description" => new GridLength(225),
                 "UOM" => new GridLength(80),
-                "Quantity" => new GridLength(60),
+                "Quantity" => new GridLength(80),
                 "Batch&Lot" => new GridLength(100),
                 "Expiry" => new GridLength(100),
                 _ => new GridLength(100)
@@ -199,9 +199,9 @@ namespace MauiApp1.Helpers
             {
                 "Counter" => new GridLength(50),
                 "Item No." => new GridLength(60),
-                "Description" => new GridLength(220),
+                "Description" => new GridLength(225),
                 "UOM" => new GridLength(80),
-                "Quantity" => new GridLength(60),
+                "Quantity" => new GridLength(80),
                 "Batch&Lot" => new GridLength(100),
                 "Expiry" => new GridLength(100),
                 _ => new GridLength(100)

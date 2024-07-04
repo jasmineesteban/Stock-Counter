@@ -35,10 +35,6 @@ namespace MauiApp1.Pages
             set => _itemNumber = value;
         }
 
-       
-
-
-
         private bool _showCtr;
         public bool ShowCtr
         {
@@ -148,8 +144,12 @@ namespace MauiApp1.Pages
         public ObservableCollection<ItemCount> ItemCount { get; set; }
         private ItemCountViewModel _itemCountViewModel;
         private readonly string _countCode;
+
         private int _sort = 0;
         private int tapCount = 0;
+
+        double panX, panY;
+
 
 
         private readonly HttpClientService _httpClientService;
@@ -177,7 +177,7 @@ namespace MauiApp1.Pages
             _httpClientService = httpClientService;
             BindingContext = this;
 
-            ShowCtr = true;
+            ShowCtr = false;
             ShowItemNo = true;
             ShowDescription = true;
             ShowUom = true;
@@ -193,6 +193,10 @@ namespace MauiApp1.Pages
             HeaderGrid.GestureRecognizers.Add(tapGesture);
 
             _sort = sortValue;
+
+            PanGestureRecognizer panGesture = new PanGestureRecognizer();
+            panGesture.PanUpdated += PanGesture_PanUpdated;
+            zoomableGrid.GestureRecognizers.Add(panGesture);
         }
 
         private void OnHeaderGridTapped(object sender, EventArgs e)
@@ -544,5 +548,27 @@ namespace MauiApp1.Pages
             bool result = await tcs.Task;
             await Navigation.PopModalAsync();
         }
+
+
+        private void PanGesture_PanUpdated(object sender, PanUpdatedEventArgs e)
+        {
+            switch (e.StatusType)
+            {
+                case GestureStatus.Running:
+                    double boundsX = Content.Width;
+                    double boundsY = Content.Height;
+                    Content.TranslationX = Math.Clamp(panX + e.TotalX, -boundsX, boundsX);
+                    Content.TranslationY = Math.Clamp(panY + e.TotalY, -boundsY, boundsY);
+                    break;
+
+                case GestureStatus.Completed:
+                    panX = Content.TranslationX;
+                    panY = Content.TranslationY;
+                    break;
+            }
+
+            this.InvalidateMeasure();
+        }
     }
+
 }

@@ -55,14 +55,14 @@
             </Grid>
         </Frame>
 
-        <!-- ScrollView with CollectionView -->
-        <ScrollView Grid.Row="1"
+            <!-- ScrollView with CollectionView -->
+        <ScrollView x:Name="Zoom"
+                    Grid.Row="1"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All"
                     Orientation="Both"
                     HorizontalScrollBarVisibility="Always">
-            <Grid>
-                <!-- Header Row -->
+            <Grid x:Name="zoomableGrid" Scale="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -72,7 +72,7 @@
                       BackgroundColor="#0066CC"
                       HeightRequest="30"
                       Margin="0,0,0,0"
-                      IsClippedToBounds="True">
+                      IsClippedToBounds="True" >
                 </Grid>
                 <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand" SelectionMode="Single">
                     <CollectionView.EmptyView>
@@ -86,17 +86,17 @@
                                 <SwipeView.LeftItems>
                                     <SwipeItems>
                                         <SwipeItem Text="Edit" BackgroundColor="LightBlue" 
-                                   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}" 
-                                   CommandParameter="{Binding .}" 
-                                   Invoked="OnEditClicked"/>
+                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}" 
+                               CommandParameter="{Binding .}" 
+                               Invoked="OnEditClicked"/>
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
                                 <SwipeView.RightItems>
                                     <SwipeItems>
                                         <SwipeItem Text="Delete" BackgroundColor="LightPink" 
-                                   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}" 
-                                   CommandParameter="{Binding .}" 
-                                   Invoked="OnDeleteClicked"/>
+                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}" 
+                               CommandParameter="{Binding .}" 
+                               Invoked="OnDeleteClicked"/>
                                     </SwipeItems>
                                 </SwipeView.RightItems>
                             </SwipeView>

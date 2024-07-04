@@ -64,7 +64,6 @@
                 <DataTemplate>
                     <Grid Padding="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <VisualStateManager.VisualStateGroups>
@@ -79,9 +78,9 @@
                         </VisualStateManager.VisualStateGroups>
                         <Label Text="{Binding ItemDescription}"
                    FontSize="Medium"
-                   VerticalOptions="Center"
-                   Margin="20,0,0,0"
-                   Grid.Column="1"/>
+                   VerticalOptions="Start"
+                   Margin="0,0,0,0"
+                   Grid.Column="0"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
