@@ -11,7 +11,6 @@ namespace MauiApp1.Pages
             _countSheetsPage = countSheetsPage;
             _tempSettings = new Dictionary<string, bool>
             {
-                {"ShowCtr", _countSheetsPage.ShowCtr},
                 {"ShowItemNo", _countSheetsPage.ShowItemNo},
                 {"ShowDescription", _countSheetsPage.ShowDescription},
                 {"ShowUom", _countSheetsPage.ShowUom},
@@ -20,16 +19,6 @@ namespace MauiApp1.Pages
                 {"ShowQuantity", _countSheetsPage.ShowQuantity}
             };
             BindingContext = this;
-        }
-
-        public bool ShowCtr
-        {
-            get => _tempSettings["ShowCtr"];
-            set
-            {
-                _tempSettings["ShowCtr"] = value;
-                OnPropertyChanged(nameof(ShowCtr));
-            }
         }
 
         public bool ShowItemNo
