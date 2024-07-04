@@ -4,8 +4,6 @@ using MauiApp1.Models;
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
 
 
 namespace MauiApp1.Pages
