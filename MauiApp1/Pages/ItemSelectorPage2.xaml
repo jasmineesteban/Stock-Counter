@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.Pages.ItemSelectorPage"
+             x:Class="MauiApp1.Pages.ItemSelectorPage2"
              Shell.TabBarIsVisible="False"
              Shell.NavBarIsVisible="False"
              BackgroundColor="Transparent">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -35,10 +34,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <SearchBar x:Name="searchItem"
+            <SearchBar x:Name="ItemSearchBar"
                            Grid.Column="0"
                            Placeholder="Search item"
-                           TextChanged="SearchBar_TextChanged"
+                           TextChanged="OnSearchBarTextChanged"
                            Margin="0,8,0,0"
                            HorizontalOptions="FillAndExpand"
                            VerticalOptions="CenterAndExpand"/>
@@ -54,11 +53,10 @@
                              Clicked="ScanBarcode_Clicked"/>
         </Grid>
 
-
-
         <!-- CollectionView -->
         <CollectionView Grid.Row="2"
-                            ItemsSource="{Binding Items}" 
+                            x:Name="ItemsCollectionView"
+                            ItemsSource="{Binding Items}"
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                             SelectionChanged="OnSelectionChanged">
@@ -79,11 +77,6 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Label Text="{Binding ItemNumber}"
-                   FontSize="Medium"
-                   VerticalOptions="Center"
-                   FontAttributes="Bold"
-                   Grid.Column="0"/>
                         <Label Text="{Binding ItemDescription}"
                    FontSize="Medium"
                    VerticalOptions="Center"
@@ -93,5 +86,13 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <!-- Activity Indicator -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           Grid.Row="3"
+                           IsRunning="False"
+                           IsVisible="False"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand"/>
     </Grid>
 </ContentPage>

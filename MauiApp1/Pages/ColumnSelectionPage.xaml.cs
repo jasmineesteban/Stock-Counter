@@ -1,63 +1,127 @@
-
 namespace MauiApp1.Pages
 {
     public partial class ColumnSelectionPage : ContentPage
     {
         private CountSheetsPage _countSheetsPage;
+        private Dictionary<string, bool> _tempSettings;
 
         public ColumnSelectionPage(CountSheetsPage countSheetsPage)
         {
             InitializeComponent();
             _countSheetsPage = countSheetsPage;
+            _tempSettings = new Dictionary<string, bool>
+            {
+                {"ShowCtr", _countSheetsPage.ShowCtr},
+                {"ShowItemNo", _countSheetsPage.ShowItemNo},
+                {"ShowDescription", _countSheetsPage.ShowDescription},
+                {"ShowUom", _countSheetsPage.ShowUom},
+                {"ShowBatchLot", _countSheetsPage.ShowBatchLot},
+                {"ShowExpiry", _countSheetsPage.ShowExpiry},
+                {"ShowQuantity", _countSheetsPage.ShowQuantity}
+            };
             BindingContext = this;
         }
 
         public bool ShowCtr
         {
-            get => _countSheetsPage.ShowCtr;
-            set => _countSheetsPage.ShowCtr = value;
+            get => _tempSettings["ShowCtr"];
+            set
+            {
+                _tempSettings["ShowCtr"] = value;
+                OnPropertyChanged(nameof(ShowCtr));
+            }
         }
 
         public bool ShowItemNo
         {
-            get => _countSheetsPage.ShowItemNo;
-            set => _countSheetsPage.ShowItemNo = value;
+            get => _tempSettings["ShowItemNo"];
+            set
+            {
+                _tempSettings["ShowItemNo"] = value;
+                OnPropertyChanged(nameof(ShowItemNo));
+            }
         }
 
         public bool ShowDescription
         {
-            get => _countSheetsPage.ShowDescription;
-            set => _countSheetsPage.ShowDescription = value;
+            get => _tempSettings["ShowDescription"];
+            set
+            {
+                _tempSettings["ShowDescription"] = value;
+                OnPropertyChanged(nameof(ShowDescription));
+            }
         }
 
         public bool ShowUom
         {
-            get => _countSheetsPage.ShowUom;
-            set => _countSheetsPage.ShowUom = value;
+            get => _tempSettings["ShowUom"];
+            set
+            {
+                _tempSettings["ShowUom"] = value;
+                OnPropertyChanged(nameof(ShowUom));
+            }
         }
 
         public bool ShowBatchLot
         {
-            get => _countSheetsPage.ShowBatchLot;
-            set => _countSheetsPage.ShowBatchLot = value;
+            get => _tempSettings["ShowBatchLot"];
+            set
+            {
+                _tempSettings["ShowBatchLot"] = value;
+                OnPropertyChanged(nameof(ShowBatchLot));
+            }
         }
 
         public bool ShowExpiry
         {
-            get => _countSheetsPage.ShowExpiry;
-            set => _countSheetsPage.ShowExpiry = value;
+            get => _tempSettings["ShowExpiry"];
+            set
+            {
+                _tempSettings["ShowExpiry"] = value;
+                OnPropertyChanged(nameof(ShowExpiry));
+            }
         }
 
         public bool ShowQuantity
         {
-            get => _countSheetsPage.ShowQuantity;
-            set => _countSheetsPage.ShowQuantity = value;
+            get => _tempSettings["ShowQuantity"];
+            set
+            {
+                _tempSettings["ShowQuantity"] = value;
+                OnPropertyChanged(nameof(ShowQuantity));
+            }
         }
 
         private async void Save_Clicked(object sender, EventArgs e)
         {
-            // Close the column selection page
-            await Shell.Current.Navigation.PopModalAsync();
+            // Disable the save button to prevent multiple clicks
+            ((Button)sender).IsEnabled = false;
+
+            // Show loading indicator
+            SaveLoadingIndicator.IsRunning = true;
+            SaveLoadingIndicator.IsVisible = true;
+
+            try
+            {
+                // Apply settings asynchronously
+                await Task.Run(() => _countSheetsPage.ApplyColumnSettings(_tempSettings));
+                // Close the modal page
+                await Shell.Current.Navigation.PopModalAsync(true);
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors
+                await DisplayAlert("Error", $"Failed to save settings: {ex.Message}", "OK");
+            }
+            finally
+            {
+                // Hide loading indicator
+                SaveLoadingIndicator.IsRunning = false;
+                SaveLoadingIndicator.IsVisible = false;
+
+                // Re-enable the save button
+                ((Button)sender).IsEnabled = true;
+            }
         }
 
         private async void OnAppearing(object sender, EventArgs e)

@@ -6,19 +6,43 @@ namespace MauiApp1.Helpers
     {
         public static void UpdateColumnVisibility(Grid headerGrid, CollectionView dataGrid, bool showCtr, bool showItemNo, bool showDescription, bool showUom, bool showBatchLot, bool showExpiry, bool showQuantity, CountSheetsPage page)
         {
+            var columnsToShow = new List<(string Name, bool IsVisible)>
+            {
+                ("Counter", showCtr),
+                ("Item No.", showItemNo),
+                ("Description", showDescription),
+                ("UOM", showUom),
+                ("Batch&Lot", showBatchLot),
+                ("Expiry", showExpiry),
+                ("Quantity", showQuantity)
+            };
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                UpdateHeaderGrid(headerGrid, columnsToShow);
+                UpdateDataGrid(dataGrid, columnsToShow, page);
+            });
+        }
+
+        private static void UpdateHeaderGrid(Grid headerGrid, List<(string Name, bool IsVisible)> columnsToShow)
+        {
             headerGrid.Children.Clear();
             headerGrid.ColumnDefinitions.Clear();
             int columnIndex = 0;
 
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showCtr, "Counter", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showItemNo, "Item No.", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showDescription, "Description", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showUom, "UOM", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showBatchLot, "Batch&Lot", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showExpiry, "Expiry", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showQuantity, "Quantity", columnIndex);
+            foreach (var (name, isVisible) in columnsToShow)
+            {
+                if (isVisible)
+                {
+                    AddColumnDefinitionAndLabel(headerGrid, true, name, columnIndex);
+                    columnIndex++;
+                }
+            }
+        }
 
-            dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(showCtr, showItemNo, showDescription, showUom, showBatchLot, showExpiry, showQuantity, page));
+        private static void UpdateDataGrid(CollectionView dataGrid, List<(string Name, bool IsVisible)> columnsToShow, CountSheetsPage page)
+        {
+            dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(columnsToShow, page));
         }
 
         private static int AddColumnDefinitionAndLabel(Grid headerGrid, bool isVisible, string text, int columnIndex)
@@ -40,19 +64,19 @@ namespace MauiApp1.Helpers
             return columnIndex;
         }
 
-        private static SwipeView CreateItemGrid(bool showCtr, bool showItemNo, bool showDescription, bool showUom, bool showBatchLot, bool showExpiry, bool showQuantity, CountSheetsPage page)
+        private static SwipeView CreateItemGrid(List<(string Name, bool IsVisible)> columnsToShow, CountSheetsPage page)
         {
             var itemGrid = new Grid { ColumnSpacing = 1 };
             int columnIndex = 0;
 
-            columnIndex = AddItemColumn(itemGrid, showCtr, "ItemCounter", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showItemNo, "ItemCode", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showDescription, "ItemDescription", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showUom, "ItemUom", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showBatchLot, "ItemBatchLotNumber", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showExpiry, "ItemExpiry", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showQuantity, "ItemQuantity", columnIndex);
-
+            foreach (var (name, isVisible) in columnsToShow)
+            {
+                if (isVisible)
+                {
+                    AddItemColumn(itemGrid, true, GetBindingPropertyName(name), columnIndex);
+                    columnIndex++;
+                }
+            }
 
             var swipeView = new SwipeView { Content = itemGrid };
 
@@ -63,7 +87,6 @@ namespace MauiApp1.Helpers
             var rightSwipeItems = new SwipeItems { new SwipeItem { Text = "Delete", BackgroundColor = Colors.LightPink } };
             rightSwipeItems[0].Invoked += (s, e) => page.OnDeleteClicked(s, e);
             swipeView.RightItems = rightSwipeItems;
-
 
             return swipeView;
         }
@@ -91,6 +114,21 @@ namespace MauiApp1.Helpers
                 columnIndex++;
             }
             return columnIndex;
+        }
+
+        private static string GetBindingPropertyName(string columnName)
+        {
+            switch (columnName)
+            {
+                case "Counter": return "ItemCounter";
+                case "Item No.": return "ItemCode";
+                case "Description": return "ItemDescription";
+                case "UOM": return "ItemUom";
+                case "Batch&Lot": return "ItemBatchLotNumber";
+                case "Expiry": return "ItemExpiry";
+                case "Quantity": return "ItemQuantity";
+                default: return string.Empty;
+            }
         }
     }
 }

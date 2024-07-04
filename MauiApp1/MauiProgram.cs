@@ -28,7 +28,6 @@ namespace MauiApp1
 
             builder.Services.AddSingleton<SignInPage>();
             builder.Services.AddSingleton<EmployeeSelectorPage>();
-            builder.Services.AddSingleton<ItemSelectorPage>();
             builder.Services.AddTransient<EmployeeViewModel>();
 
             builder.Services.AddTransient<HomePage>(); // Register HomePage
