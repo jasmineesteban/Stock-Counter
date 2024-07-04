@@ -12,9 +12,9 @@ namespace MauiApp1.Helpers
                 ("Item No.", showItemNo),
                 ("Description", showDescription),
                 ("UOM", showUom),
+                ("Quantity", showQuantity),
                 ("Batch&Lot", showBatchLot),
-                ("Expiry", showExpiry),
-                ("Quantity", showQuantity)
+                ("Expiry", showExpiry)
             };
 
             MainThread.BeginInvokeOnMainThread(() =>
@@ -34,7 +34,7 @@ namespace MauiApp1.Helpers
             {
                 if (isVisible)
                 {
-                    AddColumnDefinitionAndLabel(headerGrid, true, name, columnIndex);
+                    AddColumnDefinitionAndLabel(headerGrid, isVisible, name, columnIndex);
                     columnIndex++;
                 }
             }
@@ -49,13 +49,14 @@ namespace MauiApp1.Helpers
         {
             if (isVisible)
             {
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GetHeaderColumnWidth(text) });
                 var label = new Label
                 {
                     Text = text,
                     TextColor = Colors.White,
                     HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
+                    VerticalOptions = LayoutOptions.Center,
+                    FontAttributes = FontAttributes.Italic
                 };
                 headerGrid.Children.Add(label);
                 Grid.SetColumn(label, columnIndex);
@@ -73,7 +74,7 @@ namespace MauiApp1.Helpers
             {
                 if (isVisible)
                 {
-                    AddItemColumn(itemGrid, true, GetBindingPropertyName(name), columnIndex);
+                    AddItemColumn(itemGrid, isVisible, GetBindingPropertyName(name), name, columnIndex);
                     columnIndex++;
                 }
             }
@@ -91,11 +92,11 @@ namespace MauiApp1.Helpers
             return swipeView;
         }
 
-        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex, double width, LayoutOptions horizontalOptions, bool isBold)
+        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, string name, int columnIndex)
         {
             if (isVisible)
             {
-                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
+                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GetDataColumnWidth(name) });
                 var border = new Border
                 {
                     Stroke = Colors.Gray,
@@ -104,10 +105,9 @@ namespace MauiApp1.Helpers
                 };
                 var label = new Label
                 {
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = horizontalOptions,
-                    FontAttributes = isBold ? FontAttributes.Bold : FontAttributes.None
-
+                    VerticalOptions = GetVerticalOptions(name),
+                    HorizontalOptions = GetHorizontalOptions(name),
+                    FontAttributes = GetFontAttributes(name)
                 };
                 label.SetBinding(Label.TextProperty, bindingPath);
                 border.Content = label;
@@ -120,17 +120,92 @@ namespace MauiApp1.Helpers
 
         private static string GetBindingPropertyName(string columnName)
         {
-            switch (columnName)
+            return columnName switch
             {
-                case "Counter": return "ItemCounter";
-                case "Item No.": return "ItemCode";
-                case "Description": return "ItemDescription";
-                case "UOM": return "ItemUom";
-                case "Batch&Lot": return "ItemBatchLotNumber";
-                case "Expiry": return "ItemExpiry";
-                case "Quantity": return "ItemQuantity";
-                default: return string.Empty;
-            }
+                "Counter" => "ItemCounter",
+                "Item No." => "ItemCode",
+                "Description" => "ItemDescription",
+                "UOM" => "ItemUom",
+                "Quantity" => "ItemQuantity",
+                "Batch&Lot" => "ItemBatchLotNumber",
+                "Expiry" => "ItemExpiry",
+                _ => string.Empty
+            };
+        }
+
+        private static LayoutOptions GetHorizontalOptions(string columnName)
+        {
+            return columnName switch
+            {
+                "Counter" => LayoutOptions.Start,
+                "Item No." => LayoutOptions.Start,
+                "Description" => LayoutOptions.Start,
+                "UOM" => LayoutOptions.Center,
+                "Quantity" => LayoutOptions.End,
+                "Batch&Lot" => LayoutOptions.Start,
+                "Expiry" => LayoutOptions.Start,
+                _ => LayoutOptions.Center
+            };
+        }
+
+        private static LayoutOptions GetVerticalOptions(string columnName)
+        {
+            return columnName switch
+            {
+                "Counter" => LayoutOptions.Center,
+                "Item No." => LayoutOptions.Center,
+                "Description" => LayoutOptions.Center,
+                "UOM" => LayoutOptions.Center,
+                "Quantity" => LayoutOptions.Center,
+                "Batch&Lot" => LayoutOptions.Center,
+                "Expiry" => LayoutOptions.Center,
+                _ => LayoutOptions.Center
+            };
+        }
+
+        private static FontAttributes GetFontAttributes(string columnName)
+        {
+            return columnName switch
+            {
+                "Counter" => FontAttributes.None,
+                "Item No." => FontAttributes.None,
+                "Description" => FontAttributes.None,
+                "UOM" => FontAttributes.None,
+                "Quantity" => FontAttributes.Bold,
+                "Batch&Lot" => FontAttributes.None,
+                "Expiry" => FontAttributes.None,
+                _ => FontAttributes.None
+            };
+        }
+
+        private static GridLength GetHeaderColumnWidth(string columnName)
+        {
+            return columnName switch
+            {
+                "Counter" => new GridLength(50),
+                "Item No." => new GridLength(60),
+                "Description" => new GridLength(220),
+                "UOM" => new GridLength(80),
+                "Quantity" => new GridLength(60),
+                "Batch&Lot" => new GridLength(100),
+                "Expiry" => new GridLength(100),
+                _ => new GridLength(100)
+            };
+        }
+
+        private static GridLength GetDataColumnWidth(string columnName)
+        {
+            return columnName switch
+            {
+                "Counter" => new GridLength(50),
+                "Item No." => new GridLength(60),
+                "Description" => new GridLength(220),
+                "UOM" => new GridLength(80),
+                "Quantity" => new GridLength(60),
+                "Batch&Lot" => new GridLength(100),
+                "Expiry" => new GridLength(100),
+                _ => new GridLength(100)
+            };
         }
     }
 }

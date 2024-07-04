@@ -156,7 +156,6 @@ namespace MauiApp1.Pages
 
         public void ApplyColumnSettings(Dictionary<string, bool> settings)
         {
-            ShowCtr = settings["ShowCtr"];
             ShowItemNo = settings["ShowItemNo"];
             ShowDescription = settings["ShowDescription"];
             ShowUom = settings["ShowUom"];
@@ -166,7 +165,7 @@ namespace MauiApp1.Pages
 
             UpdateColumnVisibility();
         }
- private Label loadedItemCount;
+        private Label loadedItemCount;
         public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue, HttpClientService httpClientService)
 
         {
