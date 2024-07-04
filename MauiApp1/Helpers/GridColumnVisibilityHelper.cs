@@ -66,7 +66,7 @@ namespace MauiApp1.Helpers
 
         private static SwipeView CreateItemGrid(List<(string Name, bool IsVisible)> columnsToShow, CountSheetsPage page)
         {
-            var itemGrid = new Grid { ColumnSpacing = 1 };
+            var itemGrid = new Grid { ColumnSpacing = 0 };
             int columnIndex = 0;
 
             foreach (var (name, isVisible) in columnsToShow)
@@ -91,7 +91,7 @@ namespace MauiApp1.Helpers
             return swipeView;
         }
 
-        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex)
+        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex, double width, LayoutOptions horizontalOptions, bool isBold)
         {
             if (isVisible)
             {
@@ -104,8 +104,10 @@ namespace MauiApp1.Helpers
                 };
                 var label = new Label
                 {
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = horizontalOptions,
+                    FontAttributes = isBold ? FontAttributes.Bold : FontAttributes.None
+
                 };
                 label.SetBinding(Label.TextProperty, bindingPath);
                 border.Content = label;

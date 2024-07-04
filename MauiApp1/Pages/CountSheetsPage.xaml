@@ -67,7 +67,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-
                 <Grid Grid.Row="0"
                       x:Name="HeaderGrid"
                       BackgroundColor="#0066CC"
@@ -75,8 +74,7 @@
                       Margin="0,0,0,0"
                       IsClippedToBounds="True">
                 </Grid>
-
-                <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand">
+                <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand" SelectionMode="Single">
                     <CollectionView.EmptyView>
                         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
                             <Label Text="NO ITEMS TO DISPLAY"  FontAttributes="Bold" FontSize="30" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,150,0,0" />
