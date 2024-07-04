@@ -389,6 +389,5 @@ namespace MauiApp1.Pages
                 }
             }
         }
-
     }
 }

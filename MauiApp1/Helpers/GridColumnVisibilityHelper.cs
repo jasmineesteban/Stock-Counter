@@ -10,13 +10,13 @@ namespace MauiApp1.Helpers
             headerGrid.ColumnDefinitions.Clear();
             int columnIndex = 0;
 
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showCtr, "Counter", columnIndex, 50);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showItemNo, "Item No.", columnIndex, 100);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showCtr, "Counter", columnIndex, 30);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showItemNo, "Item No.", columnIndex, 50);
             columnIndex = AddColumnDefinitionAndLabel(headerGrid, showDescription, "Description", columnIndex, 200);
             columnIndex = AddColumnDefinitionAndLabel(headerGrid, showUom, "UOM", columnIndex, 80);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showQuantity, "Quantity", columnIndex, 80);
             columnIndex = AddColumnDefinitionAndLabel(headerGrid, showBatchLot, "Batch&Lot", columnIndex, 120);
             columnIndex = AddColumnDefinitionAndLabel(headerGrid, showExpiry, "Expiry", columnIndex, 120);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showQuantity, "Quantity", columnIndex, 100);
 
             dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(showCtr, showItemNo, showDescription, showUom, showBatchLot, showExpiry, showQuantity, page));
         }
@@ -42,16 +42,16 @@ namespace MauiApp1.Helpers
 
         private static SwipeView CreateItemGrid(bool showCtr, bool showItemNo, bool showDescription, bool showUom, bool showBatchLot, bool showExpiry, bool showQuantity, CountSheetsPage page)
         {
-            var itemGrid = new Grid { ColumnSpacing = 1 };
+            var itemGrid = new Grid { ColumnSpacing = 0 };
             int columnIndex = 0;
 
-            columnIndex = AddItemColumn(itemGrid, showCtr, "ItemCounter", columnIndex, 50);
-            columnIndex = AddItemColumn(itemGrid, showItemNo, "ItemCode", columnIndex, 100);
-            columnIndex = AddItemColumn(itemGrid, showDescription, "ItemDescription", columnIndex, 200);
-            columnIndex = AddItemColumn(itemGrid, showUom, "ItemUom", columnIndex, 80);
-            columnIndex = AddItemColumn(itemGrid, showBatchLot, "ItemBatchLotNumber", columnIndex, 120);
-            columnIndex = AddItemColumn(itemGrid, showExpiry, "ItemExpiry", columnIndex, 120);
-            columnIndex = AddItemColumn(itemGrid, showQuantity, "ItemQuantity", columnIndex, 100);
+            columnIndex = AddItemColumn(itemGrid, showCtr, "ItemCounter", columnIndex, 30, LayoutOptions.Center, false);
+            columnIndex = AddItemColumn(itemGrid, showItemNo, "ItemCode", columnIndex, 50, LayoutOptions.Start, false);
+            columnIndex = AddItemColumn(itemGrid, showDescription, "ItemDescription", columnIndex, 200, LayoutOptions.Start, false);
+            columnIndex = AddItemColumn(itemGrid, showUom, "ItemUom", columnIndex, 80, LayoutOptions.Center, false);
+            columnIndex = AddItemColumn(itemGrid, showQuantity, "ItemQuantity", columnIndex, 80, LayoutOptions.End, true);
+            columnIndex = AddItemColumn(itemGrid, showBatchLot, "ItemBatchLotNumber", columnIndex, 120, LayoutOptions.Start, false);
+            columnIndex = AddItemColumn(itemGrid, showExpiry, "ItemExpiry", columnIndex, 120, LayoutOptions.Start, false);
 
             var swipeView = new SwipeView { Content = itemGrid };
 
@@ -66,7 +66,7 @@ namespace MauiApp1.Helpers
             return swipeView;
         }
 
-        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex, double width)
+        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex, double width, LayoutOptions horizontalOptions, bool isBold)
         {
             if (isVisible)
             {
@@ -79,8 +79,10 @@ namespace MauiApp1.Helpers
                 };
                 var label = new Label
                 {
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = horizontalOptions,
+                    FontAttributes = isBold ? FontAttributes.Bold : FontAttributes.None
+
                 };
                 label.SetBinding(Label.TextProperty, bindingPath);
                 border.Content = label;
