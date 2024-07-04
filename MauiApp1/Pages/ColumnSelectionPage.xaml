@@ -6,14 +6,15 @@
              BackgroundColor="#60000000"
              Appearing="OnAppearing">
     <Frame HorizontalOptions="Center"
-           VerticalOptions="Center"
-           BackgroundColor="White"
-           Padding="20"
-           CornerRadius="10"
-           WidthRequest="300"
-           HeightRequest="400"
-           HasShadow="True">
-        <ScrollView>
+       VerticalOptions="Center"
+       BackgroundColor="White"
+       Padding="20"
+       CornerRadius="10"
+       WidthRequest="300"
+       HeightRequest="400"
+       HasShadow="True">
+        <Grid>
+            <ScrollView>
             <StackLayout>
                 <Label Text="Select Columns to Display:" FontAttributes="Bold" Margin="0,0,0,10"/>
                 <HorizontalStackLayout>
@@ -53,5 +54,12 @@
                         VerticalOptions="Center"/>
             </StackLayout>
         </ScrollView>
+            <ActivityIndicator x:Name="SaveLoadingIndicator" 
+                           IsRunning="False" 
+                           IsVisible="False"
+                           Color="#0066CC"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+        </Grid>
     </Frame>
 </ContentPage>

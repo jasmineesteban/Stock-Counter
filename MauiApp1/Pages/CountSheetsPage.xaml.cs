@@ -1,17 +1,44 @@
-using MauiApp1.Controls;
-using MauiApp1.Extensions;
+
 using MauiApp1.Helpers;
 using MauiApp1.Models;
+using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
+
 namespace MauiApp1.Pages
 {
+    [QueryProperty(nameof(ItemDescription), "ItemDescription")]
+    [QueryProperty(nameof(SellingUom), "SellingUom")]
+    [QueryProperty(nameof(ItemNumber), "ItemNumber")]
     [QueryProperty(nameof(EmployeeDetails), "EmployeeDetails")]
     public partial class CountSheetsPage : ContentPage
     {
+        private string? _itemDescription;
+        public string? ItemDescription
+        {
+            get => _itemDescription;
+            set => _itemDescription = value;
+        }
+
+        private string? _sellingUom;
+        public string? SellingUom
+        {
+            get => _sellingUom;
+            set => _sellingUom = value;
+        }
+
+        private string? _itemNumber;
+        public string? ItemNumber
+        {
+            get => _itemNumber;
+            set => _itemNumber = value;
+        }
+
+       
+
 
 
         private bool _showCtr;
@@ -104,7 +131,7 @@ namespace MauiApp1.Pages
         }
 
         private string _employeeDetails;
-        private string _employeeId;  // Private field to store EmployeeId
+        private string _employeeId;  
         public string EmployeeDetails
         {
             get => _employeeDetails;
@@ -126,15 +153,31 @@ namespace MauiApp1.Pages
         private int _sort = 0;
         private int tapCount = 0;
 
-        private Label loadedItemCount;
 
-        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue)
+        private readonly HttpClientService _httpClientService;
+
+        public void ApplyColumnSettings(Dictionary<string, bool> settings)
+        {
+            ShowCtr = settings["ShowCtr"];
+            ShowItemNo = settings["ShowItemNo"];
+            ShowDescription = settings["ShowDescription"];
+            ShowUom = settings["ShowUom"];
+            ShowBatchLot = settings["ShowBatchLot"];
+            ShowExpiry = settings["ShowExpiry"];
+            ShowQuantity = settings["ShowQuantity"];
+
+            UpdateColumnVisibility();
+        }
+ private Label loadedItemCount;
+        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue, HttpClientService httpClientService)
+
         {
             InitializeComponent();
             loadedItemCount = this.FindByName<Label>("LoadedItemCount");
             _itemCountViewModel = itemCountViewModel;
             ItemCount = new ObservableCollection<ItemCount>();
             _countCode = countCode;
+            _httpClientService = httpClientService;
             BindingContext = this;
 
             ShowCtr = true;
@@ -147,16 +190,7 @@ namespace MauiApp1.Pages
             dataGrid.ItemsSource = ItemCount;
             UpdateColumnVisibility();
 
-            // Load data when the page is constructed
             LoadItemCountData();
-            MessagingCenter.Subscribe<AddItemPage, string>(this, "RefreshItemCount", (sender, code) =>
-            {
-                if (code == _countCode)
-                {
-                    LoadItemCountData();
-                }
-            });
-
             var tapGesture = new TapGestureRecognizer();
             tapGesture.Tapped += OnHeaderGridTapped;
             HeaderGrid.GestureRecognizers.Add(tapGesture);
@@ -190,6 +224,10 @@ namespace MauiApp1.Pages
         {
             try
             {
+                // Show loading indicator
+                LoadingIndicator.IsRunning = true;
+                LoadingIndicator.IsVisible = true;
+
                 var items = await _itemCountViewModel.ShowItemCount(_countCode, _sort);
 
                 ItemCount.Clear();
@@ -205,16 +243,23 @@ namespace MauiApp1.Pages
             {
                 await DisplayAlert("Error", $"Failed to load items: {ex.Message}", "OK");
             }
+            finally
+            {
+                // Hide loading indicator
+                LoadingIndicator.IsRunning = false;
+                LoadingIndicator.IsVisible = false;
+            }
         }
 
         private async void AddItem_Clicked(object sender, EventArgs e)
         {
-            if (BindingContext is CountSheet selectedCountSheet)
+            var itemViewModel2 = new ItemViewModel2(_httpClientService);
+            var itemSelectorPage2 = new ItemSelectorPage2(itemViewModel2);
+            itemSelectorPage2.Disappearing += (s, args) =>
             {
-                string countCode = selectedCountSheet.CountCode;
-                var addItemPage = new AddItemPage(countCode, _itemCountViewModel);
-                await Navigation.PushAsync(addItemPage);
-            }
+                AddItem();
+            };
+            await Shell.Current.Navigation.PushAsync(itemSelectorPage2);
         }
 
 
@@ -229,6 +274,8 @@ namespace MauiApp1.Pages
             var columnSelectionPage = new ColumnSelectionPage(this);
             await Shell.Current.Navigation.PushModalAsync(new NavigationPage(columnSelectionPage));
         }
+
+
         internal async void OnEditClicked(object sender, EventArgs e)
         {
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is ItemCount selectedItemCount)
@@ -245,20 +292,10 @@ namespace MauiApp1.Pages
 
                 var quantityEntry = new Entry { Text = selectedItemCount.ItemQuantity.ToString(), HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
 
-
                 var saveButton = new Button
                 {
                     Text = "Save",
                     BackgroundColor = Color.FromRgb(173, 216, 230),
-                    TextColor = Colors.White,
-                    WidthRequest = 100,
-                    HeightRequest = 40
-                };
-
-                var cancelButton = new Button
-                {
-                    Text = "Cancel",
-                    BackgroundColor = Color.FromRgb(255, 127, 127),
                     TextColor = Colors.White,
                     WidthRequest = 100,
                     HeightRequest = 40
@@ -269,7 +306,7 @@ namespace MauiApp1.Pages
                     Orientation = StackOrientation.Horizontal,
                     HorizontalOptions = LayoutOptions.Center,
                     Spacing = 20,
-                    Children = { saveButton, cancelButton }
+                    Children = { saveButton }
                 };
 
                 var page = new ContentPage
@@ -287,7 +324,7 @@ namespace MauiApp1.Pages
                             Spacing = 10,
                             Children =
                     {
-                        new Label { Text = $"Editing {selectedItemCount.ItemDescription}", FontAttributes = FontAttributes.Bold },
+                        new Label { Text = $"Editing\n{selectedItemCount.ItemCode}\t{selectedItemCount.ItemDescription}", FontAttributes = FontAttributes.Bold },
                         new Label { Text = "Batch & Lot" },
                         batchAndLotEntry,
                         new Label { Text = "Expiry (YYYY-MM-DD)" },
@@ -311,7 +348,6 @@ namespace MauiApp1.Pages
                     if (!string.IsNullOrEmpty(newBatchAndLot) || !string.IsNullOrEmpty(newExpiry) || !string.IsNullOrEmpty(newQuantityString))
                     {
 
-
                         if (int.TryParse(newQuantityString, out int newQuantity))
                         {
                             if (newQuantity < 0)
@@ -331,8 +367,6 @@ namespace MauiApp1.Pages
                         }
                     }
                 };
-
-                cancelButton.Clicked += (s, args) => tcs.SetResult(false);
 
                 await Navigation.PushModalAsync(page);
                 bool result = await tcs.Task;
@@ -388,6 +422,130 @@ namespace MauiApp1.Pages
                     }
                 }
             }
+       
+        }
+
+        private async void AddItem()
+        {
+            var itemCodeEntry = new Entry
+            {
+                Text = ItemNumber,
+                IsReadOnly = true,
+                HorizontalOptions = LayoutOptions.Fill
+            };
+            var itemDescriptionEntry = new Entry
+            {
+                Text = ItemDescription,
+                IsReadOnly = true,
+                HorizontalOptions = LayoutOptions.Fill
+            };
+            var itemUomEntry = new Entry
+            {
+                Text = SellingUom,
+                IsReadOnly = true,
+                HorizontalOptions = LayoutOptions.Fill
+            };
+            var itemBatchLotNumberEntry = new Entry { Placeholder = "ItemBatchLotNumber", HorizontalOptions = LayoutOptions.Fill };
+            var itemExpiryEntry = new Entry
+            {
+                Placeholder = "YYYY-MM-DD",
+                HorizontalOptions = LayoutOptions.Fill,
+                Keyboard = Keyboard.Numeric
+            };
+            itemExpiryEntry.TextChanged += ExpiryEntry_TextChanged;
+            var itemQuantityEntry = new Entry { Placeholder = "ItemQuantity", HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
+
+            var saveButton = new Button
+            {
+                Text = "Save",
+                BackgroundColor = Color.FromRgb(173, 216, 230),
+                TextColor = Colors.White,
+                WidthRequest = 100,
+                HeightRequest = 40
+            };
+
+            var buttonStack = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.Center,
+                Spacing = 20,
+                Children = { saveButton }
+            };
+
+            var page = new ContentPage
+            {
+                BackgroundColor = new Color(0, 0, 0, 0.1f), // Semi-transparent black
+                Content = new Frame
+                {
+                    BackgroundColor = Colors.White,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Padding = new Thickness(20),
+                    WidthRequest = 300, // Set a fixed width for the frame
+                    Content = new StackLayout
+                    {
+                        Spacing = 10,
+                        Children =
+                        {
+                            new Label { Text = "Add New Item", FontAttributes = FontAttributes.Bold },
+                            new Label { Text = "ItemCode" },
+                            itemCodeEntry,
+                            new Label { Text = "ItemDescription" },
+                            itemDescriptionEntry,
+                            new Label { Text = "ItemUom" },
+                            itemUomEntry,
+                            new Label { Text = "ItemQuantity" },
+                            itemQuantityEntry,
+                            new Label { Text = "ItemBatchLotNumber" },
+                            itemBatchLotNumberEntry,
+                            new Label { Text = "Expiry (YYYY-MM-DD)" },
+                            itemExpiryEntry,
+                            buttonStack
+                        }
+                    }
+                }
+            };
+
+            var tcs = new TaskCompletionSource<bool>();
+
+            saveButton.Clicked += async (s, args) =>
+            {
+                string itemCode = ItemNumber;
+                string itemDescription = ItemDescription;
+                string itemUom = SellingUom;
+                string itemBatchLotNumber = itemBatchLotNumberEntry.Text;
+                string itemExpiry = itemExpiryEntry.Text;
+                string itemQuantityString = itemQuantityEntry.Text;
+
+                if (!string.IsNullOrEmpty(itemCode) && !string.IsNullOrEmpty(itemDescription) && !string.IsNullOrEmpty(itemUom) && !string.IsNullOrEmpty(itemBatchLotNumber) && !string.IsNullOrEmpty(itemExpiry) && int.TryParse(itemQuantityString, out int itemQuantity))
+                {
+                    if (itemQuantity < 0)
+                    {
+                        await DisplayAlert("Error", "Quantity cannot be negative.", "OK");
+                        return;
+                    }
+
+                    bool success = await _itemCountViewModel.AddItemCount(_countCode, itemCode, itemDescription, itemUom, itemBatchLotNumber, itemExpiry, itemQuantity);
+                    if (success)
+                    {
+                        await DisplayAlert("Success", "Item added successfully", "OK");
+                        tcs.SetResult(true);
+                        LoadItemCountData();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "Failed to add item", "OK");
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Please fill all fields correctly.", "OK");
+                }
+            };
+
+            await Navigation.PushModalAsync(page);
+            bool result = await tcs.Task;
+            await Navigation.PopModalAsync();
         }
 
     }
