@@ -10,22 +10,22 @@ namespace MauiApp1.Helpers
             headerGrid.ColumnDefinitions.Clear();
             int columnIndex = 0;
 
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showCtr, "Counter", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showItemNo, "Item No.", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showDescription, "Description", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showUom, "UOM", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showBatchLot, "Batch&Lot", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showExpiry, "Expiry", columnIndex);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showQuantity, "Quantity", columnIndex);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showCtr, "Counter", columnIndex, 50);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showItemNo, "Item No.", columnIndex, 100);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showDescription, "Description", columnIndex, 200);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showUom, "UOM", columnIndex, 80);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showBatchLot, "Batch&Lot", columnIndex, 120);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showExpiry, "Expiry", columnIndex, 120);
+            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showQuantity, "Quantity", columnIndex, 100);
 
             dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(showCtr, showItemNo, showDescription, showUom, showBatchLot, showExpiry, showQuantity, page));
         }
 
-        private static int AddColumnDefinitionAndLabel(Grid headerGrid, bool isVisible, string text, int columnIndex)
+        private static int AddColumnDefinitionAndLabel(Grid headerGrid, bool isVisible, string text, int columnIndex, double width)
         {
             if (isVisible)
             {
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width) });
                 var label = new Label
                 {
                     Text = text,
@@ -45,14 +45,13 @@ namespace MauiApp1.Helpers
             var itemGrid = new Grid { ColumnSpacing = 1 };
             int columnIndex = 0;
 
-            columnIndex = AddItemColumn(itemGrid, showCtr, "ItemCounter", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showItemNo, "ItemCode", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showDescription, "ItemDescription", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showUom, "ItemUom", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showBatchLot, "ItemBatchLotNumber", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showExpiry, "ItemExpiry", columnIndex);
-            columnIndex = AddItemColumn(itemGrid, showQuantity, "ItemQuantity", columnIndex);
-
+            columnIndex = AddItemColumn(itemGrid, showCtr, "ItemCounter", columnIndex, 50);
+            columnIndex = AddItemColumn(itemGrid, showItemNo, "ItemCode", columnIndex, 100);
+            columnIndex = AddItemColumn(itemGrid, showDescription, "ItemDescription", columnIndex, 200);
+            columnIndex = AddItemColumn(itemGrid, showUom, "ItemUom", columnIndex, 80);
+            columnIndex = AddItemColumn(itemGrid, showBatchLot, "ItemBatchLotNumber", columnIndex, 120);
+            columnIndex = AddItemColumn(itemGrid, showExpiry, "ItemExpiry", columnIndex, 120);
+            columnIndex = AddItemColumn(itemGrid, showQuantity, "ItemQuantity", columnIndex, 100);
 
             var swipeView = new SwipeView { Content = itemGrid };
 
@@ -64,15 +63,14 @@ namespace MauiApp1.Helpers
             rightSwipeItems[0].Invoked += (s, e) => page.OnDeleteClicked(s, e);
             swipeView.RightItems = rightSwipeItems;
 
-
             return swipeView;
         }
 
-        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex)
+        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex, double width)
         {
             if (isVisible)
             {
-                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
+                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width) });
                 var border = new Border
                 {
                     Stroke = Colors.Gray,

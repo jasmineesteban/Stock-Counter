@@ -73,10 +73,16 @@
                       x:Name="HeaderGrid"
                       BackgroundColor="#0066CC"
                       HeightRequest="30"
-                      Margin="0,0,0,0">
+                      Margin="0,0,0,0"
+                      IsClippedToBounds="True">
                 </Grid>
 
                 <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand">
+                    <CollectionView.EmptyView>
+                        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                            <Label Text="NO ITEMS TO DISPLAY"  FontAttributes="Bold" FontSize="30" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,150,0,0" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <SwipeView>
@@ -104,13 +110,24 @@
         </ScrollView>
 
         <Button Grid.Row="2"
-                Text="Add Item"
+                Text="+"
+                FontSize="30" 
+                CornerRadius="100" 
+                VerticalOptions="End"
+                HorizontalOptions="End"
                 BackgroundColor="#0066CC"
                 TextColor="White"
-                CornerRadius="25"
-                VerticalOptions="End"
-                HorizontalOptions="FillAndExpand"
+                FontAttributes="Bold" 
+                WidthRequest="60" 
+                HeightRequest="60"
                 Margin="10"
                 Clicked="AddItem_Clicked"/>
+        <Label x:Name="LoadedItemCount"
+               Text=" "
+               VerticalOptions="Center"
+               TextColor="Black"
+               Grid.Row="2"
+               FontSize="Medium"
+               Margin="10"/>
     </Grid>
 </ContentPage>
