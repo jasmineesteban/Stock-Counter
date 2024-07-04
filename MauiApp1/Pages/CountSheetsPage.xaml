@@ -52,7 +52,6 @@
                 <Label Grid.Row="2" Grid.Column="0" Text="Employee Name" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="2" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
                 <Label x:Name="EmployeeDetailsLabel" Grid.Row="2" Grid.Column="2" VerticalOptions="Center" Padding="0,0,0,3"/>
-
             </Grid>
         </Frame>
 
@@ -104,6 +103,14 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                <AbsoluteLayout Grid.RowSpan="3">
+                    <ActivityIndicator x:Name="LoadingIndicator" 
+                       IsRunning="False" 
+                       IsVisible="False"
+                       Color="#0066CC"
+                       AbsoluteLayout.LayoutFlags="PositionProportional"
+                       AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"/>
+                </AbsoluteLayout>
             </Grid>
         </ScrollView>
 

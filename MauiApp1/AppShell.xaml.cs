@@ -17,9 +17,7 @@ namespace MauiApp1
             typeof(SignInPage),
             typeof(CountSheetsPage),
             typeof(ModalPage),
-            typeof(AddItemPage),
              typeof(EmployeeSelectorPage),
-            typeof(ItemSelectorPage),
             ];
 
         private static void RegisterRoutes()

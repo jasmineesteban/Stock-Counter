@@ -1,9 +1,7 @@
-using MauiApp1.Controls;
 using MauiApp1.Models;
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using System.Collections.ObjectModel;
-using MauiApp1.Extensions;
 
 namespace MauiApp1.Pages
 {
@@ -33,22 +31,42 @@ namespace MauiApp1.Pages
 
         public ObservableCollection<CountSheet> CountSheets { get; set; } = new ObservableCollection<CountSheet>();
 
-        public HomePage(CountSheetViewModel countSheetViewModel, ItemCountService itemCountService)
+
+        private readonly HttpClientService _httpClientService;
+        public HomePage(CountSheetViewModel countSheetViewModel, ItemCountService itemCountService, HttpClientService httpClientService)
         {
             InitializeComponent();
             _countSheetViewModel = countSheetViewModel;
             _itemCountService = itemCountService;
             BindingContext = _countSheetViewModel;
             BindingContext = this;
+            _httpClientService = httpClientService;
         }
 
         private async void LoadCountSheets()
         {
-            var countSheets = await _countSheetViewModel.ShowCountSheet(employeeId);
-            CountSheets.Clear();
-            foreach (var sheet in countSheets)
+            try
             {
-                CountSheets.Add(sheet);
+                // Show loading indicator
+                LoadingIndicator.IsRunning = true;
+                LoadingIndicator.IsVisible = true;
+
+                var countSheets = await _countSheetViewModel.ShowCountSheet(employeeId);
+                CountSheets.Clear();
+                foreach (var sheet in countSheets)
+                {
+                    CountSheets.Add(sheet);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Failed to load count sheets: {ex.Message}", "OK");
+            }
+            finally
+            {
+                // Hide loading indicator
+                LoadingIndicator.IsRunning = false;
+                LoadingIndicator.IsVisible = false;
             }
         }
 
@@ -80,7 +98,7 @@ namespace MauiApp1.Pages
                     grid.BackgroundColor = Colors.White;
 
                     var itemCountViewModel = new ItemCountViewModel(_itemCountService);
-                    var countSheetsPage = new CountSheetsPage(itemCountViewModel, selectedCountSheet.CountCode, 0)
+                    var countSheetsPage = new CountSheetsPage(itemCountViewModel, selectedCountSheet.CountCode, 0, _httpClientService)
                     {
                         BindingContext = selectedCountSheet,
                         EmployeeDetails = this.EmployeeDetails
@@ -113,21 +131,12 @@ namespace MauiApp1.Pages
                     HeightRequest = 40
                 };
 
-                var cancelButton = new Button
-                {
-                    Text = "Cancel",
-                    BackgroundColor = Color.FromRgb(255, 127, 127),
-                    TextColor = Colors.White,
-                    WidthRequest = 100,
-                    HeightRequest = 40
-                };
-
                 var buttonStack = new StackLayout
                 {
                     Orientation = StackOrientation.Horizontal,
                     HorizontalOptions = LayoutOptions.Center,
                     Spacing = 20,
-                    Children = { saveButton, cancelButton }
+                    Children = { saveButton }
                 };
 
                 var page = new ContentPage
@@ -172,13 +181,12 @@ namespace MauiApp1.Pages
                     }
                 };
 
-                cancelButton.Clicked += (s, args) => tcs.SetResult(false);
-
                 await Navigation.PushModalAsync(page);
                 bool result = await tcs.Task;
                 await Navigation.PopModalAsync();
             }
         }
+
 
 
         private async void OnDeleteClicked(object sender, EventArgs e)

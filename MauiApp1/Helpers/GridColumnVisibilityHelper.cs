@@ -6,26 +6,50 @@ namespace MauiApp1.Helpers
     {
         public static void UpdateColumnVisibility(Grid headerGrid, CollectionView dataGrid, bool showCtr, bool showItemNo, bool showDescription, bool showUom, bool showBatchLot, bool showExpiry, bool showQuantity, CountSheetsPage page)
         {
+            var columnsToShow = new List<(string Name, bool IsVisible)>
+            {
+                ("Counter", showCtr),
+                ("Item No.", showItemNo),
+                ("Description", showDescription),
+                ("UOM", showUom),
+                ("Batch&Lot", showBatchLot),
+                ("Expiry", showExpiry),
+                ("Quantity", showQuantity)
+            };
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                UpdateHeaderGrid(headerGrid, columnsToShow);
+                UpdateDataGrid(dataGrid, columnsToShow, page);
+            });
+        }
+
+        private static void UpdateHeaderGrid(Grid headerGrid, List<(string Name, bool IsVisible)> columnsToShow)
+        {
             headerGrid.Children.Clear();
             headerGrid.ColumnDefinitions.Clear();
             int columnIndex = 0;
 
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showCtr, "Counter", columnIndex, 30);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showItemNo, "Item No.", columnIndex, 50);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showDescription, "Description", columnIndex, 200);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showUom, "UOM", columnIndex, 80);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showQuantity, "Quantity", columnIndex, 80);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showBatchLot, "Batch&Lot", columnIndex, 120);
-            columnIndex = AddColumnDefinitionAndLabel(headerGrid, showExpiry, "Expiry", columnIndex, 120);
-
-            dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(showCtr, showItemNo, showDescription, showUom, showBatchLot, showExpiry, showQuantity, page));
+            foreach (var (name, isVisible) in columnsToShow)
+            {
+                if (isVisible)
+                {
+                    AddColumnDefinitionAndLabel(headerGrid, true, name, columnIndex);
+                    columnIndex++;
+                }
+            }
         }
 
-        private static int AddColumnDefinitionAndLabel(Grid headerGrid, bool isVisible, string text, int columnIndex, double width)
+        private static void UpdateDataGrid(CollectionView dataGrid, List<(string Name, bool IsVisible)> columnsToShow, CountSheetsPage page)
+        {
+            dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(columnsToShow, page));
+        }
+
+        private static int AddColumnDefinitionAndLabel(Grid headerGrid, bool isVisible, string text, int columnIndex)
         {
             if (isVisible)
             {
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width) });
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
                 var label = new Label
                 {
                     Text = text,
@@ -40,18 +64,19 @@ namespace MauiApp1.Helpers
             return columnIndex;
         }
 
-        private static SwipeView CreateItemGrid(bool showCtr, bool showItemNo, bool showDescription, bool showUom, bool showBatchLot, bool showExpiry, bool showQuantity, CountSheetsPage page)
+        private static SwipeView CreateItemGrid(List<(string Name, bool IsVisible)> columnsToShow, CountSheetsPage page)
         {
             var itemGrid = new Grid { ColumnSpacing = 0 };
             int columnIndex = 0;
 
-            columnIndex = AddItemColumn(itemGrid, showCtr, "ItemCounter", columnIndex, 30, LayoutOptions.Center, false);
-            columnIndex = AddItemColumn(itemGrid, showItemNo, "ItemCode", columnIndex, 50, LayoutOptions.Start, false);
-            columnIndex = AddItemColumn(itemGrid, showDescription, "ItemDescription", columnIndex, 200, LayoutOptions.Start, false);
-            columnIndex = AddItemColumn(itemGrid, showUom, "ItemUom", columnIndex, 80, LayoutOptions.Center, false);
-            columnIndex = AddItemColumn(itemGrid, showQuantity, "ItemQuantity", columnIndex, 80, LayoutOptions.End, true);
-            columnIndex = AddItemColumn(itemGrid, showBatchLot, "ItemBatchLotNumber", columnIndex, 120, LayoutOptions.Start, false);
-            columnIndex = AddItemColumn(itemGrid, showExpiry, "ItemExpiry", columnIndex, 120, LayoutOptions.Start, false);
+            foreach (var (name, isVisible) in columnsToShow)
+            {
+                if (isVisible)
+                {
+                    AddItemColumn(itemGrid, true, GetBindingPropertyName(name), columnIndex);
+                    columnIndex++;
+                }
+            }
 
             var swipeView = new SwipeView { Content = itemGrid };
 
@@ -70,7 +95,7 @@ namespace MauiApp1.Helpers
         {
             if (isVisible)
             {
-                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width) });
+                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
                 var border = new Border
                 {
                     Stroke = Colors.Gray,
@@ -91,6 +116,21 @@ namespace MauiApp1.Helpers
                 columnIndex++;
             }
             return columnIndex;
+        }
+
+        private static string GetBindingPropertyName(string columnName)
+        {
+            switch (columnName)
+            {
+                case "Counter": return "ItemCounter";
+                case "Item No.": return "ItemCode";
+                case "Description": return "ItemDescription";
+                case "UOM": return "ItemUom";
+                case "Batch&Lot": return "ItemBatchLotNumber";
+                case "Expiry": return "ItemExpiry";
+                case "Quantity": return "ItemQuantity";
+                default: return string.Empty;
+            }
         }
     }
 }
