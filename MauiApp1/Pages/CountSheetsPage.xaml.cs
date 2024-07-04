@@ -545,6 +545,5 @@ namespace MauiApp1.Pages
             bool result = await tcs.Task;
             await Navigation.PopModalAsync();
         }
-
     }
 }

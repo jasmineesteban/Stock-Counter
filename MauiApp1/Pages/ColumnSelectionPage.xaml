@@ -34,6 +34,10 @@
                     <Label Text="UOM" VerticalOptions="Center"/>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
+                    <CheckBox x:Name="QuantityCheckBox" IsChecked="{Binding ShowQuantity}" />
+                    <Label Text="Quantity" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
                     <CheckBox x:Name="BatchLotCheckBox" IsChecked="{Binding ShowBatchLot}" />
                     <Label Text="Batch&amp;Lot" VerticalOptions="Center"/>
                 </HorizontalStackLayout>
@@ -41,10 +45,7 @@
                     <CheckBox x:Name="ExpiryCheckBox" IsChecked="{Binding ShowExpiry}" />
                     <Label Text="Expiry" VerticalOptions="Center"/>
                 </HorizontalStackLayout>
-                <HorizontalStackLayout>
-                    <CheckBox x:Name="QuantityCheckBox" IsChecked="{Binding ShowQuantity}" />
-                    <Label Text="Quantity" VerticalOptions="Center"/>
-                </HorizontalStackLayout>
+
                 <Button Text="Save" 
                         Clicked="Save_Clicked" 
                         Margin="0,20,0,0"
