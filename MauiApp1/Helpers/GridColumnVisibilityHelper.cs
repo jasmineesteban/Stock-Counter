@@ -91,7 +91,7 @@ namespace MauiApp1.Helpers
             return swipeView;
         }
 
-        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex, double width, LayoutOptions horizontalOptions, bool isBold)
+        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex)
         {
             if (isVisible)
             {
@@ -105,8 +105,7 @@ namespace MauiApp1.Helpers
                 var label = new Label
                 {
                     VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = horizontalOptions,
-                    FontAttributes = isBold ? FontAttributes.Bold : FontAttributes.None
+                  
 
                 };
                 label.SetBinding(Label.TextProperty, bindingPath);
