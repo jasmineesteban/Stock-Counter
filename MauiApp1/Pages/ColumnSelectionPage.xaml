@@ -18,10 +18,6 @@
             <StackLayout>
                 <Label Text="Select Columns to Display:" FontAttributes="Bold" Margin="0,0,0,10"/>
                 <HorizontalStackLayout>
-                    <CheckBox x:Name="CtrCheckBox" IsChecked="{Binding ShowCtr}" />
-                    <Label Text="Ctr" VerticalOptions="Center"/>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout>
                     <CheckBox x:Name="ItemNoCheckBox" IsChecked="{Binding ShowItemNo}" />
                     <Label Text="Item No." VerticalOptions="Center"/>
                 </HorizontalStackLayout>
