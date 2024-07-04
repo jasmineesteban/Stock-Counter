@@ -12,6 +12,11 @@
             <CollectionView x:Name="CountSheetCollectionView"
                             ItemsSource="{Binding CountSheets}"
                             SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label Text="NO ITEMS TO DISPLAY"  FontAttributes="Bold" FontSize="30" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,300,0,0" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <SwipeView>
@@ -33,16 +38,21 @@
                                                Invoked="OnDeleteClicked"/>
                                 </SwipeItems>
                             </SwipeView.RightItems>
-                            <Grid Padding="10"
-                                  BackgroundColor="White">
-                                <Label Text="{Binding CountDescription}"
-                                       FontSize="16"
-                                       TextColor="Black"
-                                       VerticalOptions="Center"/>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="OnCountSheetTapped"/>
-                                </Grid.GestureRecognizers>
-                            </Grid>
+                            <StackLayout>
+                                <Grid Padding="10"
+                              BackgroundColor="White">
+                                    <Label Text="{Binding CountDescription}"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"/>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnCountSheetTapped"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                                <BoxView HeightRequest="1"
+                                 BackgroundColor="LightGray"
+                                 HorizontalOptions="FillAndExpand"/>
+                            </StackLayout>
                         </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

@@ -4,6 +4,9 @@ using MauiApp1.Models;
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+
 
 namespace MauiApp1.Pages
 {
@@ -150,6 +153,7 @@ namespace MauiApp1.Pages
         private int _sort = 0;
         private int tapCount = 0;
 
+
         private readonly HttpClientService _httpClientService;
 
         public void ApplyColumnSettings(Dictionary<string, bool> settings)
@@ -164,10 +168,12 @@ namespace MauiApp1.Pages
 
             UpdateColumnVisibility();
         }
-
+ private Label loadedItemCount;
         public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue, HttpClientService httpClientService)
+
         {
             InitializeComponent();
+            loadedItemCount = this.FindByName<Label>("LoadedItemCount");
             _itemCountViewModel = itemCountViewModel;
             ItemCount = new ObservableCollection<ItemCount>();
             _countCode = countCode;
@@ -229,6 +235,9 @@ namespace MauiApp1.Pages
                 {
                     ItemCount.Add(item);
                 }
+
+                int itemCount = items.Count(); // Invoke the Count method
+                loadedItemCount.Text = $"Items Counted: {itemCount}";
             }
             catch (Exception ex)
             {
@@ -338,6 +347,7 @@ namespace MauiApp1.Pages
 
                     if (!string.IsNullOrEmpty(newBatchAndLot) || !string.IsNullOrEmpty(newExpiry) || !string.IsNullOrEmpty(newQuantityString))
                     {
+
                         if (int.TryParse(newQuantityString, out int newQuantity))
                         {
                             if (newQuantity < 0)
@@ -392,7 +402,7 @@ namespace MauiApp1.Pages
             entry.Text = cleanedText;
             entry.CursorPosition = cleanedText.Length;
         }
-  
+
         internal async void OnDeleteClicked(object sender, EventArgs e)
         {
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is ItemCount selectedItemCount)

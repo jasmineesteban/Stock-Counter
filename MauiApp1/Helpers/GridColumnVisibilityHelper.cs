@@ -30,6 +30,7 @@ namespace MauiApp1.Helpers
             headerGrid.ColumnDefinitions.Clear();
             int columnIndex = 0;
 
+
             foreach (var (name, isVisible) in columnsToShow)
             {
                 if (isVisible)
@@ -40,16 +41,17 @@ namespace MauiApp1.Helpers
             }
         }
 
+
         private static void UpdateDataGrid(CollectionView dataGrid, List<(string Name, bool IsVisible)> columnsToShow, CountSheetsPage page)
         {
             dataGrid.ItemTemplate = new DataTemplate(() => CreateItemGrid(columnsToShow, page));
         }
 
-        private static int AddColumnDefinitionAndLabel(Grid headerGrid, bool isVisible, string text, int columnIndex)
+        private static int AddColumnDefinitionAndLabel(Grid headerGrid, bool isVisible, string text, int columnIndex, double width)
         {
             if (isVisible)
             {
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width) });
                 var label = new Label
                 {
                     Text = text,
@@ -69,6 +71,7 @@ namespace MauiApp1.Helpers
             var itemGrid = new Grid { ColumnSpacing = 1 };
             int columnIndex = 0;
 
+
             foreach (var (name, isVisible) in columnsToShow)
             {
                 if (isVisible)
@@ -77,6 +80,7 @@ namespace MauiApp1.Helpers
                     columnIndex++;
                 }
             }
+
 
             var swipeView = new SwipeView { Content = itemGrid };
 
@@ -91,11 +95,11 @@ namespace MauiApp1.Helpers
             return swipeView;
         }
 
-        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex)
+        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex, double width)
         {
             if (isVisible)
             {
-                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = 200 });
+                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width) });
                 var border = new Border
                 {
                     Stroke = Colors.Gray,
