@@ -5,7 +5,6 @@ using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using System.Collections.ObjectModel;
 
-
 namespace MauiApp1.Pages
 {
     [QueryProperty(nameof(ItemDescription), "ItemDescription")]
@@ -35,7 +34,7 @@ namespace MauiApp1.Pages
             set => _itemNumber = value;
         }
 
-       
+
 
 
 
@@ -129,7 +128,7 @@ namespace MauiApp1.Pages
         }
 
         private string _employeeDetails;
-        private string _employeeId;  
+        private string _employeeId;
         public string EmployeeDetails
         {
             get => _employeeDetails;
@@ -151,7 +150,6 @@ namespace MauiApp1.Pages
         private int _sort = 0;
         private int tapCount = 0;
 
-
         private readonly HttpClientService _httpClientService;
 
         public void ApplyColumnSettings(Dictionary<string, bool> settings)
@@ -166,12 +164,10 @@ namespace MauiApp1.Pages
 
             UpdateColumnVisibility();
         }
- private Label loadedItemCount;
-        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue, HttpClientService httpClientService)
 
+        public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue, HttpClientService httpClientService)
         {
             InitializeComponent();
-            loadedItemCount = this.FindByName<Label>("LoadedItemCount");
             _itemCountViewModel = itemCountViewModel;
             ItemCount = new ObservableCollection<ItemCount>();
             _countCode = countCode;
@@ -233,9 +229,6 @@ namespace MauiApp1.Pages
                 {
                     ItemCount.Add(item);
                 }
-
-                int itemCount = items.Count(); // Invoke the Count method
-                loadedItemCount.Text = $"Items Counted: {itemCount}";
             }
             catch (Exception ex)
             {
@@ -345,7 +338,6 @@ namespace MauiApp1.Pages
 
                     if (!string.IsNullOrEmpty(newBatchAndLot) || !string.IsNullOrEmpty(newExpiry) || !string.IsNullOrEmpty(newQuantityString))
                     {
-
                         if (int.TryParse(newQuantityString, out int newQuantity))
                         {
                             if (newQuantity < 0)
@@ -420,7 +412,7 @@ namespace MauiApp1.Pages
                     }
                 }
             }
-       
+
         }
 
         private async void AddItem()
@@ -484,22 +476,22 @@ namespace MauiApp1.Pages
                     {
                         Spacing = 10,
                         Children =
-                        {
-                            new Label { Text = "Add New Item", FontAttributes = FontAttributes.Bold },
-                            new Label { Text = "ItemCode" },
-                            itemCodeEntry,
-                            new Label { Text = "ItemDescription" },
-                            itemDescriptionEntry,
-                            new Label { Text = "ItemUom" },
-                            itemUomEntry,
-                            new Label { Text = "ItemQuantity" },
-                            itemQuantityEntry,
-                            new Label { Text = "ItemBatchLotNumber" },
-                            itemBatchLotNumberEntry,
-                            new Label { Text = "Expiry (YYYY-MM-DD)" },
-                            itemExpiryEntry,
-                            buttonStack
-                        }
+                {
+                    new Label { Text = "Add New Item", FontAttributes = FontAttributes.Bold },
+                    new Label { Text = "Code" },
+                    itemCodeEntry,
+                    new Label { Text = "Description" },
+                    itemDescriptionEntry,
+                    new Label { Text = "Uom" },
+                    itemUomEntry,
+                    new Label { Text = "Quantity" },
+                    itemQuantityEntry,
+                    new Label { Text = "BatchLotNumber" },
+                    itemBatchLotNumberEntry,
+                    new Label { Text = "Expiry (YYYY-MM-DD)" },
+                    itemExpiryEntry,
+                    buttonStack
+                }
                     }
                 }
             };
@@ -515,7 +507,17 @@ namespace MauiApp1.Pages
                 string itemExpiry = itemExpiryEntry.Text;
                 string itemQuantityString = itemQuantityEntry.Text;
 
-                if (!string.IsNullOrEmpty(itemCode) && !string.IsNullOrEmpty(itemDescription) && !string.IsNullOrEmpty(itemUom) && !string.IsNullOrEmpty(itemBatchLotNumber) && !string.IsNullOrEmpty(itemExpiry) && int.TryParse(itemQuantityString, out int itemQuantity))
+                // Set default values if BatchLotNumber or Expiry are null or empty
+                if (string.IsNullOrEmpty(itemBatchLotNumber))
+                {
+                    itemBatchLotNumber = "N.A";
+                }
+                if (string.IsNullOrEmpty(itemExpiry))
+                {
+                    itemExpiry = "N.A";
+                }
+
+                if (!string.IsNullOrEmpty(itemCode) && !string.IsNullOrEmpty(itemDescription) && !string.IsNullOrEmpty(itemUom) && int.TryParse(itemQuantityString, out int itemQuantity))
                 {
                     if (itemQuantity < 0)
                     {
@@ -545,6 +547,7 @@ namespace MauiApp1.Pages
             bool result = await tcs.Task;
             await Navigation.PopModalAsync();
         }
+
 
     }
 }
