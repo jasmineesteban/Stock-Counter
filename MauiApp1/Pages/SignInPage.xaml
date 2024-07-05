@@ -19,7 +19,7 @@
 
         <!-- Carousel View for Instructions -->
         <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-            <CarouselView IndicatorView="indicatorView" x:Name="carouselView">
+            <CarouselView IndicatorView="indicatorView" x:Name="carouselView" Loop="False">
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <VerticalStackLayout Padding="10" HeightRequest="600" IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center">

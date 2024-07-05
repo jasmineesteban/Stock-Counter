@@ -1,4 +1,4 @@
-using MauiApp1.Helpers;
+﻿using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
@@ -205,20 +205,28 @@ namespace MauiApp1.Pages
             if (tapCount == 1)
             {
                 _sort = 1;
+                UpdateSortIndicator("▼");
             }
             else if (tapCount == 2)
             {
                 _sort = 2;
+                UpdateSortIndicator("▲");
             }
             else
             {
-                // Reset 
                 tapCount = 0;
                 _sort = 0;
+                UpdateSortIndicator("");
             }
 
             LoadItemCountData();
         }
+
+        private void UpdateSortIndicator(string indicator)
+        {
+            sortIndicator.Text = indicator;
+        }
+
 
         private async void LoadItemCountData()
         {
@@ -457,10 +465,10 @@ namespace MauiApp1.Pages
                 FormattedText = new FormattedString
                 {
                     Spans =
-        {
-            new Span { Text = "Code: ", FontAttributes = FontAttributes.Bold },
-            new Span { Text = ItemNumber }
-        }
+                    {
+                        new Span { Text = "Code: ", FontAttributes = FontAttributes.Bold },
+                        new Span { Text = ItemNumber }
+                    }
                 },
                 HorizontalOptions = LayoutOptions.Fill
             };
@@ -470,10 +478,10 @@ namespace MauiApp1.Pages
                 FormattedText = new FormattedString
                 {
                     Spans =
-        {
-            new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
-            new Span { Text = ItemDescription }
-        }
+                    {
+                        new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
+                        new Span { Text = ItemDescription }
+                    }
                 },
                 HorizontalOptions = LayoutOptions.Fill
             };
@@ -483,16 +491,16 @@ namespace MauiApp1.Pages
                 FormattedText = new FormattedString
                 {
                     Spans =
-        {
-            new Span { Text = "UOM: ", FontAttributes = FontAttributes.Bold },
-            new Span { Text = SellingUom }
-        }
+                    {
+                        new Span { Text = "UOM: ", FontAttributes = FontAttributes.Bold },
+                        new Span { Text = SellingUom }
+                    }
                 },
                 HorizontalOptions = LayoutOptions.Fill
             };
 
             var itemQuantityEntry = new Entry { Placeholder = "Enter quantity", HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
-            var itemBatchLotNumberEntry = new Entry { Placeholder = "Enter batch/lot number", HorizontalOptions = LayoutOptions.Fill };
+            var itemBatchLotNumberEntry = new Entry { Placeholder = "Enter batch & lot number", HorizontalOptions = LayoutOptions.Fill };
             var itemExpiryEntry = new Entry
             {
                 Placeholder = "YYYY-MM-DD",
@@ -532,19 +540,19 @@ namespace MauiApp1.Pages
                     {
                         Spacing = 10,
                         Children =
-            {
-                new Label { Text = "Add New Product", FontAttributes = FontAttributes.Bold, HorizontalOptions = LayoutOptions.Center, FontSize = 18},
-                itemCodeLabel,
-                itemDescriptionLabel,
-                itemUomLabel,
-                new Label { Text = "Quantity", FontAttributes = FontAttributes.Bold },
-                itemQuantityEntry,
-                new Label { Text = "Batch/Lot Number", FontAttributes = FontAttributes.Bold },
-                itemBatchLotNumberEntry,
-                new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
-                itemExpiryEntry,
-                buttonStack
-            }
+                        {
+                            new Label { Text = "Add New Product", FontAttributes = FontAttributes.Bold, HorizontalOptions = LayoutOptions.Center, FontSize = 18},
+                            itemCodeLabel,
+                            itemDescriptionLabel,
+                            itemUomLabel,
+                            new Label { Text = "Quantity", FontAttributes = FontAttributes.Bold },
+                            itemQuantityEntry,
+                            new Label { Text = "Batch & Lot Number", FontAttributes = FontAttributes.Bold },
+                            itemBatchLotNumberEntry,
+                            new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
+                            itemExpiryEntry,
+                            buttonStack
+                        }
                     }
                 }
             };

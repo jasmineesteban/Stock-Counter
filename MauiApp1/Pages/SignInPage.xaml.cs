@@ -17,7 +17,7 @@ namespace MauiApp1.Pages
 
             var items = new List<CarouselItem>
             {
-                new CarouselItem { Title = "Welcome to Stock Counter", Description = "Have and effortless inventory management by keeping your stocks organized. Track everything easily!", Image = "start.png"},
+                new CarouselItem { Title = "Welcome to Stock Counter", Description = "Have an effortless inventory management by keeping your stocks organized. Track everything easily!", Image = "start.png"},
                 new CarouselItem { Title = "Ready to Start?", Description = "Download the config file (in Downloads) to connect to your server.", Image = "downloadfile.png"},
                 new CarouselItem { Title = "Enable Barcode Searching", Description = "Grant camera permission for faster product search.", Image = "camera.jpg"}
 
