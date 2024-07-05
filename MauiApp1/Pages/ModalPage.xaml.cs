@@ -39,12 +39,24 @@ namespace MauiApp1.Pages
 
         private async void Save_Clicked(object sender, EventArgs e)
         {
-            var description = CountSheetEntry.Text;
-            var date = DateEntry.Date;
+            try
+            {
+                var description = CountSheetEntry.Text;
+                var date = DateEntry.Date;
 
-            await _countSheetViewModel.AddCountSheet(employeeId, description, date);
+                if (string.IsNullOrEmpty(description))
+                {
+                    await DisplayAlert("Error", "Please fill in all fields.", "OK");
+                    return;
+                }
 
-            await Shell.Current.Navigation.PopModalAsync();
+                await _countSheetViewModel.AddCountSheet(employeeId, description, date);
+                await Shell.Current.Navigation.PopModalAsync();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            }
         }
 
         private async Task FadeInModalFrame()

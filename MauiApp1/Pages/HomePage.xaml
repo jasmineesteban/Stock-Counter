@@ -3,16 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiApp1.Pages.HomePage"
-             Title="Count Sheets"
              Shell.NavBarIsVisible="True"
              Shell.TabBarIsVisible="False">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Date Counted"/>
-    </ContentPage.ToolbarItems>
+
+    <ContentPage.Title>
+        <MultiBinding StringFormat="Welcome,  {0}">
+            <Binding Path="EmployeeName" />
+        </MultiBinding>
+    </ContentPage.Title>
+    
     <AbsoluteLayout>
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All">
             <VerticalStackLayout>
+                <StackLayout>
+                    <Grid Padding="10"
+                          BackgroundColor="#0066CC">
+                        <Label Text="Count Sheets"
+                               FontSize="18"
+                               TextColor="White"
+                               HorizontalOptions="Start"/>
+                        <Label Text="Date Counted"
+                               FontSize="15"
+                               TextColor="White"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"
+                               FontAttributes="Italic"/>
+                    </Grid>
+                </StackLayout>
+
                 <CollectionView x:Name="CountSheetCollectionView"
                                 ItemsSource="{Binding CountSheets}"
                                 SelectionMode="None"
@@ -32,19 +51,23 @@
                         <DataTemplate>
                             <SwipeView>
                                 <SwipeView.LeftItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="Delete"
-                       BackgroundColor="LightPink"
-                       Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
-                       CommandParameter="{Binding .}"
-                       Invoked="OnDeleteClicked"/>
+                                    <SwipeItems >
                                         <SwipeItem Text="Edit"
-                       BackgroundColor="LightBlue"
-                       Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}"
-                       CommandParameter="{Binding .}"
-                       Invoked="OnEditClicked"/>
+                                                   BackgroundColor="#3399ff"
+                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}"
+                                                   CommandParameter="{Binding .}"
+                                                   Invoked="OnEditClicked"/>
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Delete"
+                                                   BackgroundColor="#ff6666"
+                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+                                                   CommandParameter="{Binding .}"
+                                                   Invoked="OnDeleteClicked"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
                                 <StackLayout>
                                     <Grid Padding="10"
                                           BackgroundColor="White">

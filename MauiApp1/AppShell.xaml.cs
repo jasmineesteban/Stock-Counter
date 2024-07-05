@@ -43,9 +43,12 @@ namespace MauiApp1
             if (answer)
             {
 #if ANDROID
-                Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+        var activity = Platform.CurrentActivity;
+        activity.FinishAndRemoveTask();
+        Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+        Java.Lang.JavaSystem.Exit(0);
 #elif WINDOWS
-                System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+        System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
 #endif
             }
         }

@@ -19,7 +19,7 @@ namespace MauiApp1.Pages
             {
                 new CarouselItem { Title = "Welcome to Stock Counter", Description = "Have an effortless inventory management by keeping your stocks organized. Track everything easily!", Image = "start.png"},
                 new CarouselItem { Title = "Ready to Start?", Description = "Download the configuration file (config.bgc) to connect to your server.", Image = "downloadfile.png"},
-                new CarouselItem { Title = "Enable Barcode Searching", Description = "Grant camera permission for faster product search.", Image = "camera.jpg"}
+                new CarouselItem { Title = "Scan Barcodes", Description = "Find products faster by scanning barcodes.", Image = "camera.png"}
 
             };
 
