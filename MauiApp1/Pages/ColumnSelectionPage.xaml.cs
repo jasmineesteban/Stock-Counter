@@ -83,32 +83,32 @@ namespace MauiApp1.Pages
 
         private async void Save_Clicked(object sender, EventArgs e)
         {
-            // Disable the save button to prevent multiple clicks
+          
             ((Button)sender).IsEnabled = false;
 
-            // Show loading indicator
+         
             SaveLoadingIndicator.IsRunning = true;
             SaveLoadingIndicator.IsVisible = true;
 
             try
             {
-                // Apply settings asynchronously
+             
                 await Task.Run(() => _countSheetsPage.ApplyColumnSettings(_tempSettings));
-                // Close the modal page
+               
                 await Shell.Current.Navigation.PopModalAsync(true);
             }
             catch (Exception ex)
             {
-                // Handle any errors
+            
                 await DisplayAlert("Error", $"Failed to save settings: {ex.Message}", "OK");
             }
             finally
             {
-                // Hide loading indicator
+             
                 SaveLoadingIndicator.IsRunning = false;
                 SaveLoadingIndicator.IsVisible = false;
 
-                // Re-enable the save button
+           
                 ((Button)sender).IsEnabled = true;
             }
         }

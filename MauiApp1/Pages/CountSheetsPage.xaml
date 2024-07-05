@@ -15,14 +15,13 @@
         <!-- Main Grid -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <!-- Row for Frame with Labels -->
+      
             <RowDefinition Height="*" />
-            <!-- Row for ScrollView with CollectionView -->
+        
             <RowDefinition Height="Auto" />
-            <!-- Row for Add Item Button -->
+     
         </Grid.RowDefinitions>
 
-        <!-- Frame with Labels -->
         <Frame Grid.Row="0"
                BackgroundColor="Transparent"
                BorderColor="LightGray"
@@ -80,44 +79,6 @@
                             <Label Text="NO ITEMS TO DISPLAY"  FontAttributes="Bold" FontSize="30" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,150,0,0" />
                         </StackLayout>
                     </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <SwipeView>
-                                <SwipeView.LeftItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="Edit" BackgroundColor="LightBlue" 
-                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}" 
-                               CommandParameter="{Binding .}" 
-                               Invoked="OnEditClicked"/>
-                                    </SwipeItems>
-                                </SwipeView.LeftItems>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="Delete" BackgroundColor="LightPink" 
-                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}" 
-                               CommandParameter="{Binding .}" 
-                               Invoked="OnDeleteClicked"/>
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
-
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="White" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="Selected">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="LightGray" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-
-                            </SwipeView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
                 </CollectionView>
                 <AbsoluteLayout Grid.RowSpan="3">
                     <ActivityIndicator x:Name="LoadingIndicator" 

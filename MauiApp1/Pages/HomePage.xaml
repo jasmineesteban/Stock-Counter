@@ -33,22 +33,18 @@
                             <SwipeView>
                                 <SwipeView.LeftItems>
                                     <SwipeItems>
+                                        <SwipeItem Text="Delete"
+                       BackgroundColor="LightPink"
+                       Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+                       CommandParameter="{Binding .}"
+                       Invoked="OnDeleteClicked"/>
                                         <SwipeItem Text="Edit"
-                                                   BackgroundColor="LightBlue"
-                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}"
-                                                   CommandParameter="{Binding .}"
-                                                   Invoked="OnEditClicked"/>
+                       BackgroundColor="LightBlue"
+                       Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditCommand}"
+                       CommandParameter="{Binding .}"
+                       Invoked="OnEditClicked"/>
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="Delete"
-                                                   BackgroundColor="LightPink"
-                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
-                                                   CommandParameter="{Binding .}"
-                                                   Invoked="OnDeleteClicked"/>
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
                                 <StackLayout>
                                     <Grid Padding="10"
                                           BackgroundColor="White">
