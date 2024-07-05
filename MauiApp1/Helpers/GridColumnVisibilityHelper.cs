@@ -69,7 +69,6 @@ namespace MauiApp1.Helpers
         {
             var itemGrid = new Grid { ColumnSpacing = 0 };
             int columnIndex = 0;
-
             foreach (var (name, isVisible) in columnsToShow)
             {
                 if (isVisible)
@@ -78,20 +77,17 @@ namespace MauiApp1.Helpers
                     columnIndex++;
                 }
             }
-
             var swipeView = new SwipeView { Content = itemGrid };
-
-            var leftSwipeItems = new SwipeItems { new SwipeItem { Text = "Edit", BackgroundColor = Colors.LightBlue } };
-            leftSwipeItems[0].Invoked += (s, e) => page.OnEditClicked(s, e);
+            var leftSwipeItems = new SwipeItems
+{
+    new SwipeItem { Text = "Delete", BackgroundColor = Colors.LightPink },
+    new SwipeItem { Text = "Edit", BackgroundColor = Colors.LightBlue }
+};
+            leftSwipeItems[0].Invoked += (s, e) => page.OnDeleteClicked(s, e);
+            leftSwipeItems[1].Invoked += (s, e) => page.OnEditClicked(s, e);
             swipeView.LeftItems = leftSwipeItems;
-
-            var rightSwipeItems = new SwipeItems { new SwipeItem { Text = "Delete", BackgroundColor = Colors.LightPink } };
-            rightSwipeItems[0].Invoked += (s, e) => page.OnDeleteClicked(s, e);
-            swipeView.RightItems = rightSwipeItems;
-
             return swipeView;
         }
-
         private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, string name, int columnIndex)
         {
             if (isVisible)

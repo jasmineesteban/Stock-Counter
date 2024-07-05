@@ -1,5 +1,6 @@
 using MauiApp1.Services;
 using MauiApp1.Helpers;
+using System.Net.Http;
 
 namespace MauiApp1.Pages
 {
@@ -33,6 +34,12 @@ namespace MauiApp1.Pages
             {
                 LoadingIndicator.IsVisible = true;
                 LoadingIndicator.IsRunning = true;
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await DisplayAlert("No Internet Connection",
+                        "You're offline. Check your connection and try again.\nHow to fix:\n1. Ensure Wi-Fi or mobile data is on.\n2. Verify airplane mode is off.", "OK");
+                    return;
+                }
 
                 if (!string.IsNullOrEmpty(encryptedConnectionString))
                 {
@@ -51,17 +58,25 @@ namespace MauiApp1.Pages
                     }
                     else
                     {
-                        await DisplayAlert("Connection failed.", "The connection string is invalid or connection cannot be established!", "OK");
+                        await DisplayAlert("Invalid Connection String",
+                            "The connection string is invalid. Please verify it.\nHow to fix:\n1. Ensure the string is correctly formatted.", "OK");
                     }
                 }
                 else
                 {
-                    await DisplayAlert("No Connection String", "No connection string found in secure storage or config file.", "OK");
+                    await DisplayAlert("Missing config.bgc file",
+                        "Check the config file\nHow to fix:\n1. Check the config.bgc file in the download directory.\n2. Verify the file content.", "OK");
                 }
+            }
+            catch (HttpRequestException)
+            {
+                await DisplayAlert("API Connection Failed",
+                    "Unable to connect to the API. Please ensure the server is running and reachable\nHow to fix:\n1. Ensure the server is online.", "OK");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+                await DisplayAlert("Unexpected Error",
+                    $"An unexpected error occurred: {ex.Message}. Try again or contact support.", "OK");
             }
             finally
             {
