@@ -1,4 +1,3 @@
-
 using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.Services;
@@ -256,10 +255,16 @@ namespace MauiApp1.Pages
         {
             var itemViewModel2 = new ItemViewModel2(_httpClientService);
             var itemSelectorPage2 = new ItemSelectorPage2(itemViewModel2);
-            itemSelectorPage2.Disappearing += (s, args) =>
+
+            itemSelectorPage2.Disappearing += async (s, args) =>
             {
-                AddItem();
+                // Check if any item is selected
+                if (itemSelectorPage2.SelectedItem != null)
+                {
+                    AddItem();
+                }
             };
+
             await Shell.Current.Navigation.PushAsync(itemSelectorPage2);
         }
 
@@ -277,7 +282,7 @@ namespace MauiApp1.Pages
         }
 
 
-        internal async void OnEditClicked(object sender, EventArgs e)
+       internal async void OnEditClicked(object sender, EventArgs e)
         {
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is ItemCount selectedItemCount)
             {
@@ -309,34 +314,57 @@ namespace MauiApp1.Pages
                     Spacing = 20,
                     Children = { saveButton }
                 };
-
                 var page = new ContentPage
                 {
-                    BackgroundColor = new Color(0, 0, 0, 0.1f), // Semi-transparent black
+                    BackgroundColor = new Color(0, 0, 0, 0.1f),
                     Content = new Frame
                     {
                         BackgroundColor = Colors.White,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
                         Padding = new Thickness(20),
-                        WidthRequest = 300, // Set a fixed width for the frame
+                        WidthRequest = 300,
                         Content = new StackLayout
                         {
                             Spacing = 10,
                             Children =
+            {
+                                new Label
                     {
-                        new Label { Text = $"Editing\n{selectedItemCount.ItemCode}\t{selectedItemCount.ItemDescription}", FontAttributes = FontAttributes.Bold },
-                        new Label { Text = "Batch & Lot" },
-                        batchAndLotEntry,
-                        new Label { Text = "Expiry (YYYY-MM-DD)" },
-                        expiryEntry,
-                        new Label { Text = "Quantity" },
-                        quantityEntry,
-                        buttonStack
+                        Text = "Editing Product",
+                        FontAttributes = FontAttributes.Bold,
+                        HorizontalOptions = LayoutOptions.Center,
+                        FontSize = 18 
+                    },
+                new Label
+                {
+                    FormattedText = new FormattedString
+                    {
+
+                        Spans =
+                        {
+
+                            new Span { Text = "Code: ", FontAttributes = FontAttributes.Bold },
+                            new Span { Text = $"{selectedItemCount.ItemCode}\n\n" },
+                            new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
+                            new Span { Text = $"{selectedItemCount.ItemDescription}\n\n" },
+                            new Span { Text = "Uom: ", FontAttributes = FontAttributes.Bold },
+                            new Span { Text = $"{selectedItemCount.ItemUom}" }
+                        }
                     }
+                },
+                new Label { Text = "Batch & Lot", FontAttributes = FontAttributes.Bold },
+                batchAndLotEntry,
+                new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
+                expiryEntry,
+                new Label { Text = "Quantity", FontAttributes = FontAttributes.Bold },
+                quantityEntry,
+                buttonStack
+            }
                         }
                     }
                 };
+
 
                 var tcs = new TaskCompletionSource<bool>();
 
@@ -380,16 +408,13 @@ namespace MauiApp1.Pages
             var entry = (Entry)sender;
             var text = entry.Text;
 
-            // Remove any non-numeric characters
             string cleanedText = new string(text.Where(char.IsDigit).ToArray());
 
-            // Handle max length
             if (cleanedText.Length > 8)
             {
                 cleanedText = cleanedText.Substring(0, 8);
             }
 
-            // Format the cleaned text to YYYY-MM-DD
             if (cleanedText.Length > 4)
             {
                 cleanedText = cleanedText.Insert(4, "-");
@@ -399,7 +424,6 @@ namespace MauiApp1.Pages
                 cleanedText = cleanedText.Insert(7, "-");
             }
 
-            // Update the Entry text and cursor position
             entry.Text = cleanedText;
             entry.CursorPosition = cleanedText.Length;
         }
@@ -426,27 +450,49 @@ namespace MauiApp1.Pages
        
         }
 
-        private async void AddItem()
+        internal async void AddItem()
         {
-            var itemCodeEntry = new Entry
+            var itemCodeLabel = new Label
             {
-                Text = ItemNumber,
-                IsReadOnly = true,
+                FormattedText = new FormattedString
+                {
+                    Spans =
+        {
+            new Span { Text = "Code: ", FontAttributes = FontAttributes.Bold },
+            new Span { Text = ItemNumber }
+        }
+                },
                 HorizontalOptions = LayoutOptions.Fill
             };
-            var itemDescriptionEntry = new Entry
+
+            var itemDescriptionLabel = new Label
             {
-                Text = ItemDescription,
-                IsReadOnly = true,
+                FormattedText = new FormattedString
+                {
+                    Spans =
+        {
+            new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
+            new Span { Text = ItemDescription }
+        }
+                },
                 HorizontalOptions = LayoutOptions.Fill
             };
-            var itemUomEntry = new Entry
+
+            var itemUomLabel = new Label
             {
-                Text = SellingUom,
-                IsReadOnly = true,
+                FormattedText = new FormattedString
+                {
+                    Spans =
+        {
+            new Span { Text = "UOM: ", FontAttributes = FontAttributes.Bold },
+            new Span { Text = SellingUom }
+        }
+                },
                 HorizontalOptions = LayoutOptions.Fill
             };
-            var itemBatchLotNumberEntry = new Entry { Placeholder = "ItemBatchLotNumber", HorizontalOptions = LayoutOptions.Fill };
+
+            var itemQuantityEntry = new Entry { Placeholder = "Enter quantity", HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
+            var itemBatchLotNumberEntry = new Entry { Placeholder = "Enter batch/lot number", HorizontalOptions = LayoutOptions.Fill };
             var itemExpiryEntry = new Entry
             {
                 Placeholder = "YYYY-MM-DD",
@@ -454,7 +500,6 @@ namespace MauiApp1.Pages
                 Keyboard = Keyboard.Numeric
             };
             itemExpiryEntry.TextChanged += ExpiryEntry_TextChanged;
-            var itemQuantityEntry = new Entry { Placeholder = "ItemQuantity", HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
 
             var saveButton = new Button
             {
@@ -475,37 +520,35 @@ namespace MauiApp1.Pages
 
             var page = new ContentPage
             {
-                BackgroundColor = new Color(0, 0, 0, 0.1f), // Semi-transparent black
+                BackgroundColor = new Color(0, 0, 0, 0.1f),
                 Content = new Frame
                 {
                     BackgroundColor = Colors.White,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                     Padding = new Thickness(20),
-                    WidthRequest = 300, // Set a fixed width for the frame
+                    WidthRequest = 300,
                     Content = new StackLayout
                     {
                         Spacing = 10,
                         Children =
-                        {
-                            new Label { Text = "Add New Item", FontAttributes = FontAttributes.Bold },
-                            new Label { Text = "ItemCode" },
-                            itemCodeEntry,
-                            new Label { Text = "ItemDescription" },
-                            itemDescriptionEntry,
-                            new Label { Text = "ItemUom" },
-                            itemUomEntry,
-                            new Label { Text = "ItemQuantity" },
-                            itemQuantityEntry,
-                            new Label { Text = "ItemBatchLotNumber" },
-                            itemBatchLotNumberEntry,
-                            new Label { Text = "Expiry (YYYY-MM-DD)" },
-                            itemExpiryEntry,
-                            buttonStack
-                        }
+            {
+                new Label { Text = "Add New Product", FontAttributes = FontAttributes.Bold, HorizontalOptions = LayoutOptions.Center, FontSize = 18},
+                itemCodeLabel,
+                itemDescriptionLabel,
+                itemUomLabel,
+                new Label { Text = "Quantity", FontAttributes = FontAttributes.Bold },
+                itemQuantityEntry,
+                new Label { Text = "Batch/Lot Number", FontAttributes = FontAttributes.Bold },
+                itemBatchLotNumberEntry,
+                new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
+                itemExpiryEntry,
+                buttonStack
+            }
                     }
                 }
             };
+
 
             var tcs = new TaskCompletionSource<bool>();
 
@@ -518,7 +561,16 @@ namespace MauiApp1.Pages
                 string itemExpiry = itemExpiryEntry.Text;
                 string itemQuantityString = itemQuantityEntry.Text;
 
-                if (!string.IsNullOrEmpty(itemCode) && !string.IsNullOrEmpty(itemDescription) && !string.IsNullOrEmpty(itemUom) && !string.IsNullOrEmpty(itemBatchLotNumber) && !string.IsNullOrEmpty(itemExpiry) && int.TryParse(itemQuantityString, out int itemQuantity))
+                if (string.IsNullOrEmpty(itemBatchLotNumber))
+                {
+                    itemBatchLotNumber = "N.A";
+                }
+                if (string.IsNullOrEmpty(itemExpiry))
+                {
+                    itemExpiry = "N.A";
+                }
+
+                if (!string.IsNullOrEmpty(itemCode) && !string.IsNullOrEmpty(itemDescription) && !string.IsNullOrEmpty(itemUom) && int.TryParse(itemQuantityString, out int itemQuantity))
                 {
                     if (itemQuantity < 0)
                     {
@@ -548,7 +600,6 @@ namespace MauiApp1.Pages
             bool result = await tcs.Task;
             await Navigation.PopModalAsync();
         }
-
 
         private void PanGesture_PanUpdated(object sender, PanUpdatedEventArgs e)
         {

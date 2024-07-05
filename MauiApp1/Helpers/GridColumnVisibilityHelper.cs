@@ -92,7 +92,10 @@ namespace MauiApp1.Helpers
             return swipeView;
         }
 
-        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, string name, int columnIndex)
+
+        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex)
+
+
         {
             if (isVisible)
             {
@@ -105,9 +108,10 @@ namespace MauiApp1.Helpers
                 };
                 var label = new Label
                 {
-                    VerticalOptions = GetVerticalOptions(name),
-                    HorizontalOptions = GetHorizontalOptions(name),
-                    FontAttributes = GetFontAttributes(name)
+                    VerticalOptions = LayoutOptions.Center,
+                  
+
+
                 };
                 label.SetBinding(Label.TextProperty, bindingPath);
                 border.Content = label;
