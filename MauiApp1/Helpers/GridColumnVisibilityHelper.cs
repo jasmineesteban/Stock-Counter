@@ -92,10 +92,7 @@ namespace MauiApp1.Helpers
             return swipeView;
         }
 
-
-        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, int columnIndex)
-
-
+        private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, string name, int columnIndex)
         {
             if (isVisible)
             {
@@ -108,10 +105,9 @@ namespace MauiApp1.Helpers
                 };
                 var label = new Label
                 {
-                    VerticalOptions = LayoutOptions.Center,
-                  
-
-
+                    VerticalOptions = GetVerticalOptions(name),
+                    HorizontalOptions = GetHorizontalOptions(name),
+                    FontAttributes = GetFontAttributes(name)
                 };
                 label.SetBinding(Label.TextProperty, bindingPath);
                 border.Content = label;
@@ -188,9 +184,9 @@ namespace MauiApp1.Helpers
             {
                 "Counter" => new GridLength(50),
                 "Item No." => new GridLength(60),
-                "Description" => new GridLength(225),
+                "Description" => new GridLength(250),
                 "UOM" => new GridLength(80),
-                "Quantity" => new GridLength(80),
+                "Quantity" => new GridLength(75),
                 "Batch&Lot" => new GridLength(100),
                 "Expiry" => new GridLength(100),
                 _ => new GridLength(100)
@@ -203,9 +199,9 @@ namespace MauiApp1.Helpers
             {
                 "Counter" => new GridLength(50),
                 "Item No." => new GridLength(60),
-                "Description" => new GridLength(225),
+                "Description" => new GridLength(250),
                 "UOM" => new GridLength(80),
-                "Quantity" => new GridLength(80),
+                "Quantity" => new GridLength(75),
                 "Batch&Lot" => new GridLength(100),
                 "Expiry" => new GridLength(100),
                 _ => new GridLength(100)

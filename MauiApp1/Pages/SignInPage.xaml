@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.SignInPage"
-             Title="Sign In"
-             Shell.FlyoutBehavior="Disabled">
+             Title="Start Up"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False">
     <Grid>
         <!-- ActivityIndicator for loading transition -->
         <ActivityIndicator x:Name="LoadingIndicator"
