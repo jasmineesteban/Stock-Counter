@@ -4,6 +4,7 @@ using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using System.Collections.ObjectModel;
 
+
 namespace MauiApp1.Pages
 {
     [QueryProperty(nameof(ItemDescription), "ItemDescription")]
@@ -123,7 +124,7 @@ namespace MauiApp1.Pages
         }
 
         private string _employeeDetails;
-        private string _employeeId;
+        private string _employeeId;  
         public string EmployeeDetails
         {
             get => _employeeDetails;
@@ -142,8 +143,13 @@ namespace MauiApp1.Pages
         public ObservableCollection<ItemCount> ItemCount { get; set; }
         private ItemCountViewModel _itemCountViewModel;
         private readonly string _countCode;
+
         private int _sort = 0;
         private int tapCount = 0;
+
+        double panX, panY;
+
+
 
         private readonly HttpClientService _httpClientService;
 
@@ -158,19 +164,20 @@ namespace MauiApp1.Pages
 
             UpdateColumnVisibility();
         }
-        
         private Label loadedItemCount;
         public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue, HttpClientService httpClientService)
+
         {
             InitializeComponent();
+            loadedItemCount = this.FindByName<Label>("LoadedItemCount");
             _itemCountViewModel = itemCountViewModel;
             ItemCount = new ObservableCollection<ItemCount>();
             _countCode = countCode;
             _httpClientService = httpClientService;
             BindingContext = this;
 
-            ShowCtr = true;
-            ShowItemNo = true;
+            ShowCtr = false;
+            ShowItemNo = false;
             ShowDescription = true;
             ShowUom = true;
             ShowBatchLot = true;
@@ -185,6 +192,10 @@ namespace MauiApp1.Pages
             HeaderGrid.GestureRecognizers.Add(tapGesture);
 
             _sort = sortValue;
+
+            PanGestureRecognizer panGesture = new PanGestureRecognizer();
+            panGesture.PanUpdated += PanGesture_PanUpdated;
+            zoomableGrid.GestureRecognizers.Add(panGesture);
         }
 
         private void OnHeaderGridTapped(object sender, EventArgs e)
@@ -224,6 +235,9 @@ namespace MauiApp1.Pages
                 {
                     ItemCount.Add(item);
                 }
+
+                int itemCount = items.Count(); // Invoke the Count method
+                loadedItemCount.Text = $"Items Counted: {itemCount}";
             }
             catch (Exception ex)
             {
@@ -362,6 +376,7 @@ namespace MauiApp1.Pages
 
                     if (!string.IsNullOrEmpty(newBatchAndLot) || !string.IsNullOrEmpty(newExpiry) || !string.IsNullOrEmpty(newQuantityString))
                     {
+
                         if (int.TryParse(newQuantityString, out int newQuantity))
                         {
                             if (newQuantity < 0)
@@ -432,7 +447,7 @@ namespace MauiApp1.Pages
                     }
                 }
             }
-
+       
         }
 
         internal async void AddItem()
@@ -586,5 +601,25 @@ namespace MauiApp1.Pages
             await Navigation.PopModalAsync();
         }
 
+        private void PanGesture_PanUpdated(object sender, PanUpdatedEventArgs e)
+        {
+            switch (e.StatusType)
+            {
+                case GestureStatus.Running:
+                    double boundsX = Content.Width;
+                    double boundsY = Content.Height;
+                    Content.TranslationX = Math.Clamp(panX + e.TotalX, -boundsX, boundsX);
+                    Content.TranslationY = Math.Clamp(panY + e.TotalY, -boundsY, boundsY);
+                    break;
+
+                case GestureStatus.Completed:
+                    panX = Content.TranslationX;
+                    panY = Content.TranslationY;
+                    break;
+            }
+
+            this.InvalidateMeasure();
+        }
     }
+
 }

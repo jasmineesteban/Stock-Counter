@@ -187,8 +187,6 @@ namespace MauiApp1.Pages
             }
         }
 
-
-
         private async void OnDeleteClicked(object sender, EventArgs e)
         {
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is CountSheet selectedCountSheet)
