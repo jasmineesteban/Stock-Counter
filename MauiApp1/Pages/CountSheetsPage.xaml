@@ -71,8 +71,13 @@
                       BackgroundColor="#0066CC"
                       HeightRequest="30"
                       Margin="0,0,0,0"
-                      IsClippedToBounds="True" >
+                      IsClippedToBounds="True">
                 </Grid>
+                <Label x:Name="sortIndicator" Text=" "
+                        TextColor="White"
+                       VerticalOptions="Center"
+                       FontSize="Medium"
+                       Margin="0,0,0,5"/>
                 <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand" SelectionMode="Single">
                     <CollectionView.EmptyView>
                         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
