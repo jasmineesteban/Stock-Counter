@@ -1,6 +1,6 @@
 using MauiApp1.Services;
 using MauiApp1.Helpers;
-using System.Net.Http;
+using MauiApp1.Models;
 
 namespace MauiApp1.Pages
 {
@@ -14,6 +14,16 @@ namespace MauiApp1.Pages
         {
             InitializeComponent();
             _httpClientService = httpClientService;
+
+            var items = new List<CarouselItem>
+            {
+                new CarouselItem { Title = "Welcome to Stock Counter", Description = "Have and effortless inventory management by keeping your stocks organized. Track everything easily!", Image = "start.png"},
+                new CarouselItem { Title = "Ready to Start?", Description = "Download the config file (in Downloads) to connect to your server.", Image = "downloadfile.png"},
+                new CarouselItem { Title = "Enable Barcode Searching", Description = "Grant camera permission for faster product search.", Image = "camera.jpg"}
+
+            };
+
+            carouselView.ItemsSource = items;
         }
 
         private async void Button_Clicked(object sender, EventArgs e)
