@@ -79,10 +79,10 @@ namespace MauiApp1.Helpers
             }
             var swipeView = new SwipeView { Content = itemGrid };
             var leftSwipeItems = new SwipeItems
-{
-    new SwipeItem { Text = "Delete", BackgroundColor = Colors.LightPink },
-    new SwipeItem { Text = "Edit", BackgroundColor = Colors.LightBlue }
-};
+            {
+                new SwipeItem { Text = "Delete", BackgroundColor = Color.FromHex("#FF6666") },
+                new SwipeItem { Text = "Edit", BackgroundColor = Color.FromHex("#3399FF") }
+            };
             leftSwipeItems[0].Invoked += (s, e) => page.OnDeleteClicked(s, e);
             leftSwipeItems[1].Invoked += (s, e) => page.OnEditClicked(s, e);
             swipeView.LeftItems = leftSwipeItems;

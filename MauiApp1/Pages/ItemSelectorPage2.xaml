@@ -60,6 +60,16 @@
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                             SelectionChanged="OnSelectionChanged">
+            <CollectionView.EmptyView>
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="No Items Found"  
+                           FontSize="20" 
+                           TextColor="Gray" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center"
+                           Margin="0,50,0,0"/>
+                </StackLayout>
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">

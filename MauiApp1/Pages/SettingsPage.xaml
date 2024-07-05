@@ -4,10 +4,21 @@
              x:Class="MauiApp1.Pages.SettingsPage"
              Title="Settings"
              Shell.TabBarIsVisible="False">
-    <VerticalStackLayout>
-        <Label 
-            Text="This is Settings Page"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ListView x:Name="settingsListView"
+              ItemTapped="OnItemTapped">
+        <ListView.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>Change User</x:String>
+                <x:String>Contact Us</x:String>
+            </x:Array>
+        </ListView.ItemsSource>
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Text="{Binding}"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
 </ContentPage>

@@ -15,11 +15,11 @@
         <!-- Main Grid -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-      
+
             <RowDefinition Height="*" />
-        
+
             <RowDefinition Height="Auto" />
-     
+
         </Grid.RowDefinitions>
 
         <Frame Grid.Row="0"
@@ -54,7 +54,7 @@
             </Grid>
         </Frame>
 
-            <!-- ScrollView with CollectionView -->
+        <!-- ScrollView with CollectionView -->
         <ScrollView x:Name="Zoom"
                     Grid.Row="1"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"

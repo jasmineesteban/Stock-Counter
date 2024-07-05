@@ -24,10 +24,12 @@ namespace MauiApp1.Pages
                 var details = value.Split(new[] { " - " }, StringSplitOptions.None);
                 employeeId = details[0];
                 employeeName = details.Length > 1 ? details[1] : string.Empty;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(EmployeeName));
                 LoadCountSheets();
             }
         }
+
+        public string EmployeeName => employeeName;
 
         public ObservableCollection<CountSheet> CountSheets { get; set; } = new ObservableCollection<CountSheet>();
 

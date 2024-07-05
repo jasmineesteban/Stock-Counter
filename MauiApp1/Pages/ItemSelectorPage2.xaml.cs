@@ -58,22 +58,36 @@ public partial class ItemSelectorPage2 : ContentPage
 
     private async void ScanBarcode_Clicked(object sender, EventArgs e)
     {
-        var options = new MobileBarcodeScanningOptions
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+        if (status != PermissionStatus.Granted)
         {
-            AutoRotate = true,
-            UseFrontCameraIfAvailable = false,
-        };
+            status = await Permissions.RequestAsync<Permissions.Camera>();
+        }
 
-        var scanner = new MobileBarcodeScanner
+        if (status == PermissionStatus.Granted)
         {
-            TopText = "Hold the camera up to the barcode",
-            BottomText = "Scanning will happen automatically",
-        };
+            var options = new MobileBarcodeScanningOptions
+            {
+                AutoRotate = true,
+                UseFrontCameraIfAvailable = false,
+            };
 
-        var result = await scanner.Scan(options);
-        if (result != null)
+            var scanner = new MobileBarcodeScanner
+            {
+                TopText = "Hold the camera up to the barcode",
+                BottomText = "Scanning will happen automatically",
+            };
+
+            var result = await scanner.Scan(options);
+            if (result != null)
+            {
+                ItemSearchBar.Text = result.Text;
+            }
+        }
+        else
         {
-            ItemSearchBar.Text = result.Text;
+            // Handle the scenario when the user denies the permission
+            await Application.Current.MainPage.DisplayAlert("Permission Denied", "Camera permission is required to scan barcodes.", "OK");
         }
     }
 

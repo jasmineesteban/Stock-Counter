@@ -4,7 +4,8 @@
              x:Class="MauiApp1.Pages.SignInPage"
              Title="Sign In"
              Shell.FlyoutBehavior="Disabled"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
     <Grid>
         <!-- ActivityIndicator for loading transition -->
         <ActivityIndicator x:Name="LoadingIndicator"

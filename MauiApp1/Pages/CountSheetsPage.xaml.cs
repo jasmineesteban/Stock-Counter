@@ -147,10 +147,6 @@ namespace MauiApp1.Pages
         private int _sort = 0;
         private int tapCount = 0;
 
-        double panX, panY;
-
-
-
         private readonly HttpClientService _httpClientService;
 
         public void ApplyColumnSettings(Dictionary<string, bool> settings)
@@ -305,7 +301,7 @@ namespace MauiApp1.Pages
                 var saveButton = new Button
                 {
                     Text = "Save",
-                    BackgroundColor = Color.FromRgb(173, 216, 230),
+                    BackgroundColor = Color.FromHex("#0066CC"),
                     TextColor = Colors.White,
                     WidthRequest = 100,
                     HeightRequest = 40
@@ -335,7 +331,7 @@ namespace MauiApp1.Pages
             {
                                 new Label
                     {
-                        Text = "Editing Product",
+                        Text = "Edit Product",
                         FontAttributes = FontAttributes.Bold,
                         HorizontalOptions = LayoutOptions.Center,
                         FontSize = 18 
@@ -352,17 +348,17 @@ namespace MauiApp1.Pages
                             new Span { Text = $"{selectedItemCount.ItemCode}\n\n" },
                             new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
                             new Span { Text = $"{selectedItemCount.ItemDescription}\n\n" },
-                            new Span { Text = "Uom: ", FontAttributes = FontAttributes.Bold },
+                            new Span { Text = "UOM: ", FontAttributes = FontAttributes.Bold },
                             new Span { Text = $"{selectedItemCount.ItemUom}" }
                         }
                     }
                 },
+                 new Label { Text = "Quantity", FontAttributes = FontAttributes.Bold },
+                quantityEntry,
                 new Label { Text = "Batch & Lot", FontAttributes = FontAttributes.Bold },
                 batchAndLotEntry,
                 new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
                 expiryEntry,
-                new Label { Text = "Quantity", FontAttributes = FontAttributes.Bold },
-                quantityEntry,
                 buttonStack
             }
                         }
@@ -396,7 +392,7 @@ namespace MauiApp1.Pages
                         }
                         else
                         {
-                            await DisplayAlert("Error", "Invalid quantity entered", "OK");
+                            await DisplayAlert("Error", "Invalid quantity.", "OK");
                         }
                     }
                 };
@@ -508,7 +504,7 @@ namespace MauiApp1.Pages
             var saveButton = new Button
             {
                 Text = "Save",
-                BackgroundColor = Color.FromRgb(173, 216, 230),
+                BackgroundColor = Color.FromHex("#0066CC"),
                 TextColor = Colors.White,
                 WidthRequest = 100,
                 HeightRequest = 40
@@ -571,7 +567,7 @@ namespace MauiApp1.Pages
                 }
                 if (string.IsNullOrEmpty(itemExpiry))
                 {
-                    itemExpiry = "N.A";
+                    itemExpiry = "0000-00-00";
                 }
 
                 if (!string.IsNullOrEmpty(itemCode) && !string.IsNullOrEmpty(itemDescription) && !string.IsNullOrEmpty(itemUom) && int.TryParse(itemQuantityString, out int itemQuantity))
