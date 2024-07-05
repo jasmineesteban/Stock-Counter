@@ -178,7 +178,7 @@ namespace MauiApp1.Pages
             BindingContext = this;
 
             ShowCtr = false;
-            ShowItemNo = true;
+            ShowItemNo = false;
             ShowDescription = true;
             ShowUom = true;
             ShowBatchLot = true;
