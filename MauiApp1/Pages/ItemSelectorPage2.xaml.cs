@@ -86,7 +86,6 @@ public partial class ItemSelectorPage2 : ContentPage
         }
         else
         {
-            // Handle the scenario when the user denies the permission
             await Application.Current.MainPage.DisplayAlert("Permission Denied", "Camera permission is required to scan barcodes.", "OK");
         }
     }

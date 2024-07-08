@@ -81,7 +81,12 @@
                 <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand" SelectionMode="Single">
                     <CollectionView.EmptyView>
                         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label Text="NO ITEMS TO DISPLAY"  FontAttributes="Bold" FontSize="30" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,150,0,0" />
+                            <Label Text="No Items to Display"  
+                                   FontSize="20" 
+                                   TextColor="Gray" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Center"
+                                   Margin="0,50,0,0"/>
                         </StackLayout>
                     </CollectionView.EmptyView>
                 </CollectionView>

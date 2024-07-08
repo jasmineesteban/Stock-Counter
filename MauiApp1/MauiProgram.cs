@@ -26,12 +26,14 @@ namespace MauiApp1
 
             builder.Services.AddSingleton<SignInPage>();
             builder.Services.AddSingleton<EmployeeSelectorPage>();
-            builder.Services.AddTransient<EmployeeViewModel>();
+            builder.Services.AddTransient<SettingsPage>();
 
-            builder.Services.AddTransient<HomePage>(); 
-            builder.Services.AddTransient<ModalPage>(); 
+            builder.Services.AddTransient<EmployeeViewModel>();
+            builder.Services.AddTransient<HomePage>();
+            builder.Services.AddTransient<ModalPage>();
             builder.Services.AddTransient<CountSheetViewModel>();
             builder.Services.AddTransient<ItemCountViewModel>();
+            
 
             RegisterHttpClient<TokenService>(builder);
             RegisterHttpClient<HttpClientService>(builder);
