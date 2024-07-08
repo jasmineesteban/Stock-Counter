@@ -4,8 +4,6 @@ using MauiApp1.Pages;
 using MauiApp1.Services;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
-using Microsoft.Maui.Hosting;
-using System;
 using MauiApp1.ViewModels;
 
 namespace MauiApp1
@@ -30,8 +28,8 @@ namespace MauiApp1
             builder.Services.AddSingleton<EmployeeSelectorPage>();
             builder.Services.AddTransient<EmployeeViewModel>();
 
-            builder.Services.AddTransient<HomePage>(); // Register HomePage
-            builder.Services.AddTransient<ModalPage>(); // Register ModalPage
+            builder.Services.AddTransient<HomePage>(); 
+            builder.Services.AddTransient<ModalPage>(); 
             builder.Services.AddTransient<CountSheetViewModel>();
             builder.Services.AddTransient<ItemCountViewModel>();
 
