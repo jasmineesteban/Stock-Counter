@@ -1,4 +1,6 @@
-﻿using MauiApp1.Helpers;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
@@ -190,7 +192,7 @@ namespace MauiApp1.Pages
             _sort = sortValue;
         }
 
-        private void OnHeaderGridTapped(object sender, EventArgs e)
+        private async void OnHeaderGridTapped(object sender, EventArgs e)
         {
             tapCount++;
 
@@ -198,11 +200,15 @@ namespace MauiApp1.Pages
             {
                 _sort = 1;
                 UpdateSortIndicator("▼");
+                var toast = Toast.Make("Sorted Down", ToastDuration.Short);
+                await toast.Show();
             }
             else if (tapCount == 2)
             {
                 _sort = 2;
                 UpdateSortIndicator("▲");
+                var toast = Toast.Make("Sorted Up", ToastDuration.Short);
+                await toast.Show();
             }
             else
             {
@@ -224,7 +230,6 @@ namespace MauiApp1.Pages
         {
             try
             {
-                // Show loading indicator
                 LoadingIndicator.IsRunning = true;
                 LoadingIndicator.IsVisible = true;
 
@@ -271,7 +276,6 @@ namespace MauiApp1.Pages
 
         private async void Filter_Clicked(object sender, EventArgs e)
         {
-            // Implement your filter logic here
             await Shell.Current.Navigation.PushModalAsync(new ColumnSelectionPage(this));
         }
 
@@ -328,39 +332,49 @@ namespace MauiApp1.Pages
                         {
                             Spacing = 10,
                             Children =
-            {
+                            {
+                               new Label
+                                    {
+                                        Text = "Edit Product",
+                                        FontAttributes = FontAttributes.Bold,
+                                        HorizontalOptions = LayoutOptions.Center,
+                                        FontSize = 18 
+                                    },
                                 new Label
-                    {
-                        Text = "Edit Product",
-                        FontAttributes = FontAttributes.Bold,
-                        HorizontalOptions = LayoutOptions.Center,
-                        FontSize = 18 
-                    },
-                new Label
-                {
-                    FormattedText = new FormattedString
-                    {
+                                {
+                                    FormattedText = new FormattedString
+                                    {
 
-                        Spans =
-                        {
+                                        Spans =
+                                        {
 
-                            new Span { Text = "Code: ", FontAttributes = FontAttributes.Bold },
-                            new Span { Text = $"{selectedItemCount.ItemCode}\n\n" },
-                            new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
-                            new Span { Text = $"{selectedItemCount.ItemDescription}\n\n" },
-                            new Span { Text = "UOM: ", FontAttributes = FontAttributes.Bold },
-                            new Span { Text = $"{selectedItemCount.ItemUom}" }
-                        }
-                    }
-                },
-                 new Label { Text = "Quantity", FontAttributes = FontAttributes.Bold },
-                quantityEntry,
-                new Label { Text = "Batch & Lot", FontAttributes = FontAttributes.Bold },
-                batchAndLotEntry,
-                new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
-                expiryEntry,
-                buttonStack
-            }
+                                            new Span { Text = "Code: ", FontAttributes = FontAttributes.Bold },
+                                            new Span { Text = $"{selectedItemCount.ItemCode}\n\n" },
+                                            new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
+                                            new Span { Text = $"{selectedItemCount.ItemDescription}\n\n" },
+                                            new Span { Text = "UOM: ", FontAttributes = FontAttributes.Bold },
+                                            new Span { Text = $"{selectedItemCount.ItemUom}" }
+                                        }
+                                    }
+                                },
+                                new Label
+                                {
+                                    FormattedText = new FormattedString
+                                    {
+                                        Spans =
+                                        {
+                                            new Span { Text = "Quantity", FontAttributes = FontAttributes.Bold },
+                                            new Span { Text = " *", TextColor = Colors.Red }
+                                        }
+                                    }
+                                },
+                                quantityEntry,
+                                new Label { Text = "Batch & Lot", FontAttributes = FontAttributes.Bold },
+                                batchAndLotEntry,
+                                new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
+                                expiryEntry,
+                                buttonStack
+                            }
                         }
                     }
                 };
@@ -386,7 +400,8 @@ namespace MauiApp1.Pages
                             }
 
                             await _itemCountViewModel.EditItemCount(selectedItemCount.ItemKey, newBatchAndLot, newExpiry, newQuantity);
-                            await DisplayAlert("Success", $"Updated {selectedItemCount.ItemDescription}", "OK");
+                            var toast = Toast.Make($"{selectedItemCount.ItemDescription} updated", ToastDuration.Short);
+                            await toast.Show();
                             LoadItemCountData();
                             tcs.SetResult(true);
                         }
@@ -537,7 +552,17 @@ namespace MauiApp1.Pages
                             itemCodeLabel,
                             itemDescriptionLabel,
                             itemUomLabel,
-                            new Label { Text = "Quantity", FontAttributes = FontAttributes.Bold },
+                            new Label
+                            {
+                                FormattedText = new FormattedString
+                                {
+                                    Spans =
+                                    {
+                                        new Span { Text = "Quantity", FontAttributes = FontAttributes.Bold },
+                                        new Span { Text = " *", TextColor = Colors.Red }
+                                    }
+                                }
+                            },
                             itemQuantityEntry,
                             new Label { Text = "Batch & Lot Number", FontAttributes = FontAttributes.Bold },
                             itemBatchLotNumberEntry,
@@ -581,9 +606,11 @@ namespace MauiApp1.Pages
                     bool success = await _itemCountViewModel.AddItemCount(_countCode, itemCode, itemDescription, itemUom, itemBatchLotNumber, itemExpiry, itemQuantity);
                     if (success)
                     {
-                        await DisplayAlert("Success", "Item added successfully", "OK");
+                        var toast = Toast.Make($"{itemDescription} added", ToastDuration.Short);
+                        await toast.Show();
                         tcs.SetResult(true);
                         LoadItemCountData();
+
                     }
                     else
                     {

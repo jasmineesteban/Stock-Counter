@@ -38,13 +38,12 @@
                                 VerticalScrollBarVisibility="Always">
                     <CollectionView.EmptyView>
                         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label Text="NO ITEMS TO DISPLAY"  
-                                   FontAttributes="Bold" 
-                                   FontSize="30" 
+                            <Label Text="No Items to Display"  
+                                   FontSize="20" 
                                    TextColor="Gray" 
                                    VerticalOptions="Center" 
-                                   HorizontalOptions="Center" 
-                                   Margin="0,300,0,0" />
+                                   HorizontalOptions="Center"
+                                   Margin="0,50,0,0"/>
                         </StackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>

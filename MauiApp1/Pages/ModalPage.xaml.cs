@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using MauiApp1.ViewModels;
 
 namespace MauiApp1.Pages
@@ -46,11 +48,16 @@ namespace MauiApp1.Pages
 
                 if (string.IsNullOrEmpty(description))
                 {
-                    await DisplayAlert("Error", "Please fill in all fields.", "OK");
+                    await DisplayAlert("Error", "The description cannot be empty.", "OK");
                     return;
                 }
 
                 await _countSheetViewModel.AddCountSheet(employeeId, description, date);
+
+                // Display a toast message on success
+                var toast = Toast.Make("Count sheet added!", ToastDuration.Short);
+                await toast.Show();
+
                 await Shell.Current.Navigation.PopModalAsync();
             }
             catch (Exception ex)
