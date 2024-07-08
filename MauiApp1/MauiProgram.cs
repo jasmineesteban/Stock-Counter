@@ -4,8 +4,6 @@ using MauiApp1.Pages;
 using MauiApp1.Services;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
-using Microsoft.Maui.Hosting;
-using System;
 using MauiApp1.ViewModels;
 
 namespace MauiApp1
