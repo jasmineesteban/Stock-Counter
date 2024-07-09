@@ -111,6 +111,8 @@ namespace MauiApp1.Pages
            
                 ((Button)sender).IsEnabled = true;
             }
+
+            await FadeOutModalFrame();
         }
 
         private async void OnAppearing(object sender, EventArgs e)
@@ -123,6 +125,11 @@ namespace MauiApp1.Pages
         {
             this.Opacity = 0;
             await this.FadeTo(1, 500, Easing.CubicInOut);
+        }
+
+        private async Task FadeOutModalFrame()
+        {
+            await this.FadeTo(0, 500, Easing.CubicInOut);
         }
     }
 }

@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using MauiApp1.Models;
 using MauiApp1.Services;
 using MauiApp1.ViewModels;
@@ -173,7 +175,9 @@ namespace MauiApp1.Pages
                     if (!string.IsNullOrEmpty(newDescription))
                     {
                         await _countSheetViewModel.EditCountSheet(selectedCountSheet.CountCode, newDescription);
-                        await DisplayAlert("Success", $"Updated {selectedCountSheet.CountDescription} to {newDescription}", "OK");
+                        var toast = Toast.Make($"Updated {selectedCountSheet.CountDescription} to {newDescription}", ToastDuration.Short);
+                        await toast.Show();
+                        //await DisplayAlert("Success", $"Updated {selectedCountSheet.CountDescription} to {newDescription}", "OK");
                         LoadCountSheets();
                         tcs.SetResult(true);
                     }
@@ -199,7 +203,10 @@ namespace MauiApp1.Pages
                     try
                     {
                         await _countSheetViewModel.DeleteCountSheet(selectedCountSheet.CountCode);
-                        await DisplayAlert("Success", $"Deleted {selectedCountSheet.CountDescription}", "OK");
+                        var toast = Toast.Make($"Deleted {selectedCountSheet.CountDescription}", ToastDuration.Short);
+                        await toast.Show();
+
+                        //await DisplayAlert("Success", $"Deleted {selectedCountSheet.CountDescription}", "OK");
                         LoadCountSheets(); 
                     }
                     catch (Exception ex)

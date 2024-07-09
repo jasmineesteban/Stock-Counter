@@ -107,6 +107,13 @@ public partial class ItemSelectorPage2 : ContentPage
         {
             SelectedItem = null;
         }
+
+        await FadeOutPage();
+    }
+
+    private async Task FadeOutPage()
+    {
+        await this.FadeTo(0, 500, Easing.CubicInOut);
     }
 }
 

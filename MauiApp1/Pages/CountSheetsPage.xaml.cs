@@ -453,7 +453,10 @@ namespace MauiApp1.Pages
                     try
                     {
                         await _itemCountViewModel.DeleteItemCount(selectedItemCount.ItemKey);
-                        await DisplayAlert("Success", $"Deleted {selectedItemCount.ItemDescription}", "OK");
+                        var toast = Toast.Make($"Deleted {selectedItemCount.ItemDescription}", ToastDuration.Short);
+                        await toast.Show();
+
+                        //await DisplayAlert("Success", $"Deleted {selectedItemCount.ItemDescription}", "OK");
                         LoadItemCountData();
                     }
                     catch (Exception ex)
