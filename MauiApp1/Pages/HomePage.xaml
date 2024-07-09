@@ -7,7 +7,7 @@
              Shell.TabBarIsVisible="False">
 
     <ContentPage.Title>
-        <MultiBinding StringFormat="Welcome,  {0}">
+        <MultiBinding StringFormat="Welcome, {0}">
             <Binding Path="EmployeeName" />
         </MultiBinding>
     </ContentPage.Title>

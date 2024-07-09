@@ -17,7 +17,14 @@
             MinimumWidthRequest="250"
             MinimumHeightRequest="300"
             HorizontalOptions="FillAndExpand">
-            <Label Text="Column Sheet Name" Margin="0,20,0,0"/>
+            <Label Margin="0,20,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Column Sheet Name"/>
+                        <Span Text=" *" TextColor="Red"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
             <Entry x:Name="CountSheetEntry" Placeholder="Enter Count Sheet Name" HorizontalOptions="FillAndExpand"/>
             <Label Text="Date" Margin="0,20,0,0"/>
             <DatePicker x:Name="DateEntry" HorizontalOptions="FillAndExpand"  IsEnabled="False"/>
