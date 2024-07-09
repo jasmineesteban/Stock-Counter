@@ -3,37 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.ModalPage"
              Title="Start Inventory"
-             BackgroundColor="#60000000">
+             BackgroundColor="#1A000000">
     <Frame
         BackgroundColor="White"
-        CornerRadius="0"
-        BorderColor="LightGray"
+        CornerRadius="10"
+        BorderColor="Black"
         Padding="20"
-        HasShadow="True"
         IsClippedToBounds="True"
+        WidthRequest="300"
         VerticalOptions="CenterAndExpand"
         HorizontalOptions="FillAndExpand">
         <VerticalStackLayout
             MinimumWidthRequest="250"
             MinimumHeightRequest="300"
             HorizontalOptions="FillAndExpand">
+            <Label Text="Add Count Sheet" FontAttributes="Bold"/>
             <Label Margin="0,20,0,0">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Column Sheet Name"/>
-                        <Span Text=" *" TextColor="Red"/>
+                        <Span Text="Column Sheet Name" FontAttributes="Bold"/>
+                        <Span Text=" *" TextColor="Red" FontAttributes="Bold"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
             <Entry x:Name="CountSheetEntry" Placeholder="Enter Count Sheet Name" HorizontalOptions="FillAndExpand"/>
-            <Label Text="Date" Margin="0,20,0,0"/>
+            <Label Text="Date" Margin="0,20,0,0" FontAttributes="Bold"/>
             <DatePicker x:Name="DateEntry" HorizontalOptions="FillAndExpand"  IsEnabled="False"/>
 
-            <Label Text="Employee" Margin="0,20,0,0"/>
+            <Label Text="Employee" Margin="0,20,0,0" FontAttributes="Bold"/>
             <Entry x:Name="EmployeeEntry" HorizontalOptions="FillAndExpand" IsReadOnly="True"/>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="20">
-                <Button Text="Save" WidthRequest="150" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="Save_Clicked" Margin="0,0,20,0"/>
-                <Button Text="Cancel" WidthRequest="150" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Clicked="Cancel_Clicked" Margin="20,0,0,0"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,10,0,0">
+                <Button Text="Save" WidthRequest="100" HorizontalOptions="Center" VerticalOptions="Center" Clicked="Save_Clicked" />
             </StackLayout>
         </VerticalStackLayout>
     </Frame>
