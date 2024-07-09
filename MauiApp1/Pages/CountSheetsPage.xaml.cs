@@ -200,14 +200,14 @@ namespace MauiApp1.Pages
             {
                 _sort = 1;
                 UpdateSortIndicator("▼");
-                var toast = Toast.Make("Sorted Down", ToastDuration.Short);
+                var toast = Toast.Make("Sorted 0 - Z", ToastDuration.Short);
                 await toast.Show();
             }
             else if (tapCount == 2)
             {
                 _sort = 2;
                 UpdateSortIndicator("▲");
-                var toast = Toast.Make("Sorted Up", ToastDuration.Short);
+                var toast = Toast.Make("Sorted Z - 0", ToastDuration.Short);
                 await toast.Show();
             }
             else

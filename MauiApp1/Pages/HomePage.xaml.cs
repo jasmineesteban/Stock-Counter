@@ -127,7 +127,7 @@ namespace MauiApp1.Pages
                 var saveButton = new Button
                 {
                     Text = "Save",
-                    BackgroundColor = Color.FromRgb(173, 216, 230),
+                    BackgroundColor = Color.FromHex("#0066CC"),
                     TextColor = Colors.White,
                     WidthRequest = 100,
                     HeightRequest = 40

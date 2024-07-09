@@ -34,11 +34,6 @@ namespace MauiApp1.Pages
             await FadeInModalFrame();
         }
 
-        private async void Cancel_Clicked(object sender, EventArgs e)
-        {
-            await Shell.Current.Navigation.PopModalAsync();
-        }
-
         private async void Save_Clicked(object sender, EventArgs e)
         {
             try
@@ -48,14 +43,14 @@ namespace MauiApp1.Pages
 
                 if (string.IsNullOrEmpty(description))
                 {
-                    await DisplayAlert("Error", "The description cannot be empty.", "OK");
+                    await DisplayAlert("Oops", "The description cannot be empty.", "OK");
                     return;
                 }
 
                 await _countSheetViewModel.AddCountSheet(employeeId, description, date);
 
                 // Display a toast message on success
-                var toast = Toast.Make("Count sheet added!", ToastDuration.Short);
+                var toast = Toast.Make("Count sheet added !", ToastDuration.Short);
                 await toast.Show();
 
                 await Shell.Current.Navigation.PopModalAsync();
