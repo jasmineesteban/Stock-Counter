@@ -50,19 +50,22 @@ namespace MauiApp1.Helpers
             return files.FirstOrDefault(f => string.Equals(Path.GetFileName(f), fileName, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static async Task<string> GetConnectionStringAsync(string downloadPath, string fileName)
+        public static async Task<(string ConnectionString, bool FromFile)> GetConnectionStringAsync(string downloadPath, string fileName)
         {
             string filePath = FindFileCaseInsensitive(downloadPath, fileName);
 
             if (filePath != null)
             {
                 var encryptedConnectionString = await File.ReadAllTextAsync(filePath);
-                return encryptedConnectionString;
+                return (encryptedConnectionString, true);
             }
             else
             {
-                return await SecureStorage.GetAsync("connectionString");
+                var connectionString = await SecureStorage.GetAsync("connectionString");
+                return (connectionString, false);
             }
         }
+
+
     }
 }

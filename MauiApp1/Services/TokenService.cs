@@ -1,4 +1,5 @@
 ﻿using MauiApp1.Models;
+using MauiApp1.Helpers;
 using Newtonsoft.Json;
 
 namespace MauiApp1.Services
@@ -17,7 +18,8 @@ namespace MauiApp1.Services
         {
             if (string.IsNullOrEmpty(_token))
             {
-                var response = await _httpClient.PostAsync("api/Token/generate", null);
+                var baseUrl = GlobalVariable.BaseAddress.ToString();
+                var response = await _httpClient.PostAsync($"{baseUrl}api/Token/generate", null);
                 response.EnsureSuccessStatusCode();
                 var json = await response.Content.ReadAsStringAsync();
                 _token = JsonConvert.DeserializeObject<TokenResponse>(json)?.Token;

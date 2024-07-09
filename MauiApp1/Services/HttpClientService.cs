@@ -7,6 +7,7 @@ namespace MauiApp1.Services
 {
     public class HttpClientService : HttpServiceBase
     {
+      
         public HttpClientService(HttpClient httpClient, TokenService tokenService)
             : base(httpClient, tokenService)
         {
@@ -14,8 +15,9 @@ namespace MauiApp1.Services
 
         public async Task<IEnumerable<Employee>> GetEmployeesAsync(string pattern)
         {
+            var _baseUrl = GlobalVariable.BaseAddress.ToString();
             await SetAuthorizationHeaderAsync();
-            var response = await _httpClient.GetAsync($"api/Employee/GetEmployees?databaseName=&pattern={pattern}");
+            var response = await _httpClient.GetAsync($"{_baseUrl}api/Employee/GetEmployees?databaseName=&pattern={pattern}");
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<IEnumerable<Employee>>(json);
@@ -23,8 +25,9 @@ namespace MauiApp1.Services
 
         public async Task<IEnumerable<Item>> GetItemsAsync(string pattern)
         {
+            var _baseUrl = GlobalVariable.BaseAddress.ToString();
             await SetAuthorizationHeaderAsync();
-            var response = await _httpClient.GetAsync($"api/Item/GetItems?databaseName=&pattern={pattern}");
+            var response = await _httpClient.GetAsync($"{_baseUrl}api/Item/GetItems?databaseName=&pattern={pattern}");
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<IEnumerable<Item>>(json);
@@ -32,10 +35,11 @@ namespace MauiApp1.Services
 
         public async Task<bool> SetConnectionStringAsync(string connectionString)
         {
+            var _baseUrl = GlobalVariable.BaseAddress.ToString();
             await SetAuthorizationHeaderAsync();
             var encodedConnectionString = System.Net.WebUtility.UrlEncode(connectionString);
             var content = new StringContent(JsonConvert.SerializeObject(new { ConnectionString = encodedConnectionString }), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/Database/SetConnectionString", content);
+            var response = await _httpClient.PostAsync($"{_baseUrl}api/Database/SetConnectionString", content);
             if (!response.IsSuccessStatusCode)
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
