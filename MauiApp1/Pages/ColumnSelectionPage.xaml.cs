@@ -122,7 +122,7 @@ namespace MauiApp1.Pages
         private async Task FadeInModalFrame()
         {
             this.Opacity = 0;
-            await this.FadeTo(1, 250, Easing.Linear);
+            await this.FadeTo(1, 500, Easing.CubicInOut);
         }
     }
 }

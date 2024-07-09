@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.ColumnSelectionPage"
              Title="Select Columns"
-             BackgroundColor="#60000000"
+             BackgroundColor="#1A000000"
              Appearing="OnAppearing">
     <Frame HorizontalOptions="Center"
        VerticalOptions="Center"
@@ -11,7 +11,7 @@
        Padding="20"
        CornerRadius="10"
        WidthRequest="300"
-       HeightRequest="400"
+       HeightRequest="410"
        HasShadow="True">
         <Grid>
             <ScrollView>
