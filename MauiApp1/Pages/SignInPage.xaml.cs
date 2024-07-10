@@ -66,7 +66,7 @@ namespace MauiApp1.Pages
             string portNumber = ConnectionStringHelper.GetPortNumber(decryptedConnectionString);
             
 
-            var toast = Toast.Make($"Server: {server}", ToastDuration.Long);
+            var toast = Toast.Make($"Server: {server},{portNumber}", ToastDuration.Long);
             await toast.Show();
 
             GlobalVariable.BaseAddress = GetBaseAddress(server,portNumber);

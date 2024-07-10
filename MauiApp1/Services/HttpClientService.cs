@@ -36,7 +36,6 @@ namespace MauiApp1.Services
         public async Task<bool> SetConnectionStringAsync(string connectionString)
         {
             var _baseUrl = GlobalVariable.BaseAddress.ToString();
-            await SetAuthorizationHeaderAsync();
             var encodedConnectionString = System.Net.WebUtility.UrlEncode(connectionString);
             var content = new StringContent(JsonConvert.SerializeObject(new { ConnectionString = encodedConnectionString }), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync($"{_baseUrl}api/Database/SetConnectionString", content);
