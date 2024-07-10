@@ -12,5 +12,6 @@
         public string? ItemExpiry { get; set; } 
         public int? ItemQuantity { get; set; }
         public DateTime? ItemDateLog { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

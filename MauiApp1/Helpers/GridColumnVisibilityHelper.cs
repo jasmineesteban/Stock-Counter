@@ -1,4 +1,5 @@
-﻿using MauiApp1.Pages;
+﻿using MauiApp1.Models;
+using MauiApp1.Pages;
 
 namespace MauiApp1.Helpers
 {
@@ -77,12 +78,24 @@ namespace MauiApp1.Helpers
                     columnIndex++;
                 }
             }
+
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += (s, e) =>
+            {
+                if (itemGrid.BindingContext is ItemCount item)
+                {
+                    item.IsSelected = !item.IsSelected;
+                    itemGrid.BackgroundColor = item.IsSelected ? Colors.LightGray : Colors.Transparent;
+                }
+            };
+            itemGrid.GestureRecognizers.Add(tapGestureRecognizer);
+
             var swipeView = new SwipeView { Content = itemGrid };
             var leftSwipeItems = new SwipeItems
-            {
-                new SwipeItem { Text = "Delete", BackgroundColor = Color.FromHex("#FF6666") },
-                new SwipeItem { Text = "Edit", BackgroundColor = Color.FromHex("#3399FF") }
-            };
+    {
+        new SwipeItem { Text = "Delete", BackgroundColor = Color.FromHex("#FF6666") },
+        new SwipeItem { Text = "Edit", BackgroundColor = Color.FromHex("#3399FF") }
+    };
             leftSwipeItems[0].Invoked += (s, e) => page.OnDeleteClicked(s, e);
             leftSwipeItems[1].Invoked += (s, e) => page.OnEditClicked(s, e);
             swipeView.LeftItems = leftSwipeItems;

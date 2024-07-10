@@ -154,9 +154,12 @@ namespace MauiApp1.Pages
 
                 var items = await _itemCountViewModel.ShowItemCount(_countCode, _sort);
 
+                var selectedItems = ItemCount.Where(i => i.IsSelected).Select(i => i.ItemKey).ToList();
+
                 ItemCount.Clear();
                 foreach (var item in items)
                 {
+                    item.IsSelected = selectedItems.Contains(item.ItemKey);
                     ItemCount.Add(item);
                 }
 
@@ -169,7 +172,6 @@ namespace MauiApp1.Pages
             }
             finally
             {
-                // Hide loading indicator
                 LoadingIndicator.IsRunning = false;
                 LoadingIndicator.IsVisible = false;
             }
