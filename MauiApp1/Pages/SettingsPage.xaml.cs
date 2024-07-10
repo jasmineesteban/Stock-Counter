@@ -16,7 +16,7 @@ namespace MauiApp1.Pages
                 switch (selectedOption)
                 {
                     case "Change User":
-                        bool userConfirmed = await DisplayAlert("Change User", "Are you sure you want to switch user?", "Yes", "No");
+                        bool userConfirmed = await DisplayAlert("Confirm User Change", "Are you sure you want to switch user?", "Yes", "No");
 
                         if (userConfirmed)
                         {

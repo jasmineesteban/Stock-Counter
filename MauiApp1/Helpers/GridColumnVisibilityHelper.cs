@@ -49,7 +49,7 @@ namespace MauiApp1.Helpers
         {
             if (isVisible)
             {
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GetHeaderColumnWidth(text) });
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GetColumnWidth(text) });
                 var label = new Label
                 {
                     Text = text,
@@ -92,7 +92,7 @@ namespace MauiApp1.Helpers
         {
             if (isVisible)
             {
-                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GetDataColumnWidth(name) });
+                itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GetColumnWidth(name) });
                 var border = new Border
                 {
                     Stroke = Colors.Gray,
@@ -101,7 +101,7 @@ namespace MauiApp1.Helpers
                 };
                 var label = new Label
                 {
-                    VerticalOptions = GetVerticalOptions(name),
+                    VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = GetHorizontalOptions(name),
                     FontAttributes = GetFontAttributes(name)
                 };
@@ -144,21 +144,6 @@ namespace MauiApp1.Helpers
             };
         }
 
-        private static LayoutOptions GetVerticalOptions(string columnName)
-        {
-            return columnName switch
-            {
-                "Counter" => LayoutOptions.Center,
-                "Item No." => LayoutOptions.Center,
-                "Description" => LayoutOptions.Center,
-                "UOM" => LayoutOptions.Center,
-                "Quantity" => LayoutOptions.Center,
-                "Batch&Lot" => LayoutOptions.Center,
-                "Expiry" => LayoutOptions.Center,
-                _ => LayoutOptions.Center
-            };
-        }
-
         private static FontAttributes GetFontAttributes(string columnName)
         {
             return columnName switch
@@ -174,22 +159,7 @@ namespace MauiApp1.Helpers
             };
         }
 
-        private static GridLength GetHeaderColumnWidth(string columnName)
-        {
-            return columnName switch
-            {
-                "Counter" => new GridLength(50),
-                "Item No." => new GridLength(60),
-                "Description" => new GridLength(250),
-                "UOM" => new GridLength(80),
-                "Quantity" => new GridLength(75),
-                "Batch&Lot" => new GridLength(100),
-                "Expiry" => new GridLength(100),
-                _ => new GridLength(100)
-            };
-        }
-
-        private static GridLength GetDataColumnWidth(string columnName)
+        private static GridLength GetColumnWidth(string columnName)
         {
             return columnName switch
             {

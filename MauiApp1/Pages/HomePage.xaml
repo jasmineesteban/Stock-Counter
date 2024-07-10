@@ -11,7 +11,7 @@
             <Binding Path="EmployeeName" />
         </MultiBinding>
     </ContentPage.Title>
-    
+
     <AbsoluteLayout>
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All">
@@ -35,17 +35,8 @@
                 <CollectionView x:Name="CountSheetCollectionView"
                                 ItemsSource="{Binding CountSheets}"
                                 SelectionMode="None"
-                                VerticalScrollBarVisibility="Always">
-                    <CollectionView.EmptyView>
-                        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label Text="No Items to Display"  
-                                   FontSize="20" 
-                                   TextColor="Gray" 
-                                   VerticalOptions="Center" 
-                                   HorizontalOptions="Center"
-                                   Margin="0,50,0,0"/>
-                        </StackLayout>
-                    </CollectionView.EmptyView>
+                                VerticalScrollBarVisibility="Always"
+                                EmptyView="No Count Sheets to Display">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <SwipeView>
@@ -88,8 +79,10 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+
             </VerticalStackLayout>
         </ScrollView>
+
 
         <Button x:Name="inventoryStack" Padding="10"
                 Text="+"

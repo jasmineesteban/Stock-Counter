@@ -1,6 +1,4 @@
-﻿using MauiApp1.Pages;
-
-namespace MauiApp1.Helpers
+﻿namespace MauiApp1.Helpers
 {
     public static class BaseUrlHelper
     {

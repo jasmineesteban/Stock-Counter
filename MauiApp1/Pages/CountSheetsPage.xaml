@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.ApplicationModel;assembly=CommunityToolkit.Maui.Core"
              x:Class="MauiApp1.Pages.CountSheetsPage"
-             Title="Count Sheet"
+             Title="{Binding CountDescription}"
              Shell.TabBarIsVisible="False">
 
     <ContentPage.ToolbarItems>
@@ -32,7 +32,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -40,17 +39,13 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Text="Description" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="0" Grid.Column="0" Text="Date" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="0" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
-                <Label Grid.Row="0" Grid.Column="2" Text="{Binding CountDescription}" VerticalOptions="Center" Padding="0,0,0,3"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="{Binding CountDate, StringFormat='{0:MM/dd/yyyy}'}" VerticalOptions="Center" Padding="0,0,0,3"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Text="Date" VerticalOptions="Center" Padding="0,0,5,3"/>
+                <Label Grid.Row="1" Grid.Column="0" Text="Employee Name" VerticalOptions="Center" Padding="0,0,5,3"/>
                 <Label Grid.Row="1" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
-                <Label Grid.Row="1" Grid.Column="2" Text="{Binding CountDate, StringFormat='{0:MM/dd/yyyy}'}" VerticalOptions="Center" Padding="0,0,0,3"/>
-
-                <Label Grid.Row="2" Grid.Column="0" Text="Employee Name" VerticalOptions="Center" Padding="0,0,5,3"/>
-                <Label Grid.Row="2" Grid.Column="1" Text=":" VerticalOptions="Center" Padding="4,0,20,3"/>
-                <Label x:Name="EmployeeDetailsLabel" Grid.Row="2" Grid.Column="2" VerticalOptions="Center" Padding="0,0,0,3"/>
+                <Label x:Name="EmployeeDetailsLabel" Grid.Row="1" Grid.Column="2" VerticalOptions="Center" Padding="0,0,0,3"/>
             </Grid>
         </Frame>
 
@@ -78,17 +73,7 @@
                        VerticalOptions="Center"
                        FontSize="Medium"
                        Margin="0,0,0,5"/>
-                <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand" SelectionMode="Single">
-                    <CollectionView.EmptyView>
-                        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                            <Label Text="No Items to Display"  
-                                   FontSize="20" 
-                                   TextColor="Gray" 
-                                   VerticalOptions="Center" 
-                                   HorizontalOptions="Center"
-                                   Margin="0,50,0,0"/>
-                        </StackLayout>
-                    </CollectionView.EmptyView>
+                <CollectionView Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ItemCount}" VerticalOptions="FillAndExpand" SelectionMode="Single" EmptyView="No Items to Display">
                 </CollectionView>
                 <AbsoluteLayout Grid.RowSpan="3">
                     <ActivityIndicator x:Name="LoadingIndicator" 
@@ -119,7 +104,7 @@
                VerticalOptions="Center"
                TextColor="Black"
                Grid.Row="2"
-               FontSize="Medium"
+               FontSize="Subtitle"
                Margin="10"/>
     </Grid>
 </ContentPage>

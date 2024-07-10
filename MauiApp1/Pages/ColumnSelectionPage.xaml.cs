@@ -11,12 +11,12 @@ namespace MauiApp1.Pages
             _countSheetsPage = countSheetsPage;
             _tempSettings = new Dictionary<string, bool>
             {
-                {"ShowItemNo", _countSheetsPage.ShowItemNo},
-                {"ShowDescription", _countSheetsPage.ShowDescription},
-                {"ShowUom", _countSheetsPage.ShowUom},
-                {"ShowBatchLot", _countSheetsPage.ShowBatchLot},
-                {"ShowExpiry", _countSheetsPage.ShowExpiry},
-                {"ShowQuantity", _countSheetsPage.ShowQuantity}
+                {"ShowItemNo", _countSheetsPage.ColumnVisibility.ShowItemNo},
+                {"ShowDescription", _countSheetsPage.ColumnVisibility.ShowDescription},
+                {"ShowUom", _countSheetsPage.ColumnVisibility.ShowUom},
+                {"ShowBatchLot", _countSheetsPage.ColumnVisibility.ShowBatchLot},
+                {"ShowExpiry", _countSheetsPage.ColumnVisibility.ShowExpiry},
+                {"ShowQuantity", _countSheetsPage.ColumnVisibility.ShowQuantity}
             };
             BindingContext = this;
         }
