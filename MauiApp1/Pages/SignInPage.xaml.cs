@@ -2,6 +2,8 @@
 using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.Interfaces;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace MauiApp1.Pages
 {
@@ -64,8 +66,8 @@ namespace MauiApp1.Pages
             string portNumber = ConnectionStringHelper.GetPortNumber(decryptedConnectionString);
             
 
-
-            await DisplayAlert("Server Name", $"{server},{portNumber}", "OK");
+            var toast = Toast.Make($"Server: {server}", ToastDuration.Long);
+            await toast.Show();
 
             GlobalVariable.BaseAddress = GetBaseAddress(server,portNumber);
 

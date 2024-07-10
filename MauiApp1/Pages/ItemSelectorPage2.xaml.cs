@@ -1,4 +1,3 @@
-using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using System.Collections.ObjectModel;
 using MauiApp1.Models;
@@ -107,6 +106,13 @@ public partial class ItemSelectorPage2 : ContentPage
         {
             SelectedItem = null;
         }
+
+        await FadeOutPage();
+    }
+
+    private async Task FadeOutPage()
+    {
+        await this.FadeTo(0, 500, Easing.CubicInOut);
     }
 }
 

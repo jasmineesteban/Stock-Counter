@@ -36,93 +36,20 @@ namespace MauiApp1.Pages
             set => _itemNumber = value;
         }
 
-        private bool _showCtr;
-        public bool ShowCtr
+        private ColumnVisibilityHelper _columnVisibility;
+        public ColumnVisibilityHelper ColumnVisibility
         {
-            get => _showCtr;
+            get => _columnVisibility;
             set
             {
-                _showCtr = value;
-                OnPropertyChanged(nameof(ShowCtr));
-                UpdateColumnVisibility();
-            }
-        }
-
-        private bool _showItemNo;
-        public bool ShowItemNo
-        {
-            get => _showItemNo;
-            set
-            {
-                _showItemNo = value;
-                OnPropertyChanged(nameof(ShowItemNo));
-                UpdateColumnVisibility();
-            }
-        }
-
-        private bool _showDescription;
-        public bool ShowDescription
-        {
-            get => _showDescription;
-            set
-            {
-                _showDescription = value;
-                OnPropertyChanged(nameof(ShowDescription));
-                UpdateColumnVisibility();
-            }
-        }
-
-        private bool _showUom;
-        public bool ShowUom
-        {
-            get => _showUom;
-            set
-            {
-                _showUom = value;
-                OnPropertyChanged(nameof(ShowUom));
-                UpdateColumnVisibility();
-            }
-        }
-
-        private bool _showBatchLot;
-        public bool ShowBatchLot
-        {
-            get => _showBatchLot;
-            set
-            {
-                _showBatchLot = value;
-                OnPropertyChanged(nameof(ShowBatchLot));
-                UpdateColumnVisibility();
-            }
-        }
-
-        private bool _showExpiry;
-        public bool ShowExpiry
-        {
-            get => _showExpiry;
-            set
-            {
-                _showExpiry = value;
-                OnPropertyChanged(nameof(ShowExpiry));
-                UpdateColumnVisibility();
-            }
-        }
-
-        private bool _showQuantity;
-        public bool ShowQuantity
-        {
-            get => _showQuantity;
-            set
-            {
-                _showQuantity = value;
-                OnPropertyChanged(nameof(ShowQuantity));
-                UpdateColumnVisibility();
+                _columnVisibility = value;
+                OnPropertyChanged(nameof(ColumnVisibility));
             }
         }
 
         private void UpdateColumnVisibility()
         {
-            GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ShowCtr, ShowItemNo, ShowDescription, ShowUom, ShowBatchLot, ShowExpiry, ShowQuantity, this);
+            GridColumnVisibilityHelper.UpdateColumnVisibility(HeaderGrid, dataGrid, ColumnVisibility.ShowCtr, ColumnVisibility.ShowItemNo, ColumnVisibility.ShowDescription, ColumnVisibility.ShowUom, ColumnVisibility.ShowBatchLot, ColumnVisibility.ShowExpiry, ColumnVisibility.ShowQuantity, this);
         }
 
         private string _employeeDetails;
@@ -145,86 +72,78 @@ namespace MauiApp1.Pages
         public ObservableCollection<ItemCount> ItemCount { get; set; }
         private ItemCountViewModel _itemCountViewModel;
         private readonly string _countCode;
-
-        private int _sort = 0;
-        private int tapCount = 0;
-
+        private Label loadedItemCount;
+        private int _sort = 0; 
         private readonly HttpClientService _httpClientService;
 
         public void ApplyColumnSettings(Dictionary<string, bool> settings)
         {
-            ShowItemNo = settings["ShowItemNo"];
-            ShowDescription = settings["ShowDescription"];
-            ShowUom = settings["ShowUom"];
-            ShowBatchLot = settings["ShowBatchLot"];
-            ShowExpiry = settings["ShowExpiry"];
-            ShowQuantity = settings["ShowQuantity"];
+            ColumnVisibility.ShowItemNo = settings["ShowItemNo"];
+            ColumnVisibility.ShowDescription = settings["ShowDescription"];
+            ColumnVisibility.ShowUom = settings["ShowUom"];
+            ColumnVisibility.ShowBatchLot = settings["ShowBatchLot"];
+            ColumnVisibility.ShowExpiry = settings["ShowExpiry"];
+            ColumnVisibility.ShowQuantity = settings["ShowQuantity"];
 
             UpdateColumnVisibility();
         }
-        private Label loadedItemCount;
+        
         public CountSheetsPage(ItemCountViewModel itemCountViewModel, string countCode, int sortValue, HttpClientService httpClientService)
-
         {
             InitializeComponent();
-            loadedItemCount = this.FindByName<Label>("LoadedItemCount");
-            _itemCountViewModel = itemCountViewModel;
-            ItemCount = new ObservableCollection<ItemCount>();
-            _countCode = countCode;
+
+            // Services and View Models
             _httpClientService = httpClientService;
+            _itemCountViewModel = itemCountViewModel;
+            _countCode = countCode;
+
+            // Data Collections and Bindings
+            ItemCount = new ObservableCollection<ItemCount>();
+            dataGrid.ItemsSource = ItemCount;
             BindingContext = this;
 
-            ShowCtr = false;
-            ShowItemNo = false;
-            ShowDescription = true;
-            ShowUom = true;
-            ShowBatchLot = true;
-            ShowExpiry = true;
-            ShowQuantity = true;
-            dataGrid.ItemsSource = ItemCount;
+            // UI Components
+            loadedItemCount = this.FindByName<Label>("LoadedItemCount");
+
+            // Column Visibility Helper
+            ColumnVisibility = new ColumnVisibilityHelper();
+            ColumnVisibility.PropertyChanged += (sender, e) => UpdateColumnVisibility();
+            InitializeVisibilitySettings();
             UpdateColumnVisibility();
 
+            // Initial Data
             LoadItemCountData();
+
+            // tap Gesture for Header Grid
             var tapGesture = new TapGestureRecognizer();
             tapGesture.Tapped += OnHeaderGridTapped;
             HeaderGrid.GestureRecognizers.Add(tapGesture);
 
+            // Sorting
             _sort = sortValue;
+        }
+
+        private void InitializeVisibilitySettings()
+        {
+            ColumnVisibility.ShowCtr = false;
+            ColumnVisibility.ShowItemNo = false;
+            ColumnVisibility.ShowDescription = true;
+            ColumnVisibility.ShowUom = true;
+            ColumnVisibility.ShowBatchLot = true;
+            ColumnVisibility.ShowExpiry = true;
+            ColumnVisibility.ShowQuantity = true;
+            UpdateColumnVisibility();
         }
 
         private async void OnHeaderGridTapped(object sender, EventArgs e)
         {
-            tapCount++;
-
-            if (tapCount == 1)
+            await SortingHelper.HandleHeaderGridTap(HeaderGrid, async sortValue =>
             {
-                _sort = 1;
-                UpdateSortIndicator("▼");
-                var toast = Toast.Make("Sorted 0 - Z", ToastDuration.Short);
-                await toast.Show();
-            }
-            else if (tapCount == 2)
-            {
-                _sort = 2;
-                UpdateSortIndicator("▲");
-                var toast = Toast.Make("Sorted Z - 0", ToastDuration.Short);
-                await toast.Show();
-            }
-            else
-            {
-                tapCount = 0;
-                _sort = 0;
-                UpdateSortIndicator("");
-            }
-
-            LoadItemCountData();
+                _sort = sortValue;
+                LoadItemCountData();
+                return await _itemCountViewModel.ShowItemCount(_countCode, _sort);
+            });
         }
-
-        private void UpdateSortIndicator(string indicator)
-        {
-            sortIndicator.Text = indicator;
-        }
-
 
         private async void LoadItemCountData()
         {
@@ -241,7 +160,7 @@ namespace MauiApp1.Pages
                     ItemCount.Add(item);
                 }
 
-                int itemCount = items.Count(); // Invoke the Count method
+                int itemCount = items.Count();
                 loadedItemCount.Text = $"Items Counted: {itemCount}";
             }
             catch (Exception ex)
@@ -263,16 +182,18 @@ namespace MauiApp1.Pages
 
             itemSelectorPage2.Disappearing += async (s, args) =>
             {
-                // Check if any item is selected
                 if (itemSelectorPage2.SelectedItem != null)
                 {
-                    AddItem();
+                    var result = await AddItemDialogHelper.AddItem(ItemNumber, ItemDescription, SellingUom, _countCode, _itemCountViewModel, _httpClientService);
+                    if (result)
+                    {
+                        LoadItemCountData();
+                    }
                 }
             };
 
             await Shell.Current.Navigation.PushAsync(itemSelectorPage2);
         }
-
 
         private async void Filter_Clicked(object sender, EventArgs e)
         {
@@ -285,162 +206,13 @@ namespace MauiApp1.Pages
             await Shell.Current.Navigation.PushModalAsync(new NavigationPage(columnSelectionPage));
         }
 
-
-       internal async void OnEditClicked(object sender, EventArgs e)
+        internal async void OnEditClicked(object sender, EventArgs e)
         {
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is ItemCount selectedItemCount)
             {
-                var batchAndLotEntry = new Entry { Text = selectedItemCount.ItemBatchLotNumber, HorizontalOptions = LayoutOptions.Fill };
-                var expiryEntry = new Entry
-                {
-                    Text = selectedItemCount.ItemExpiry,
-                    HorizontalOptions = LayoutOptions.Fill,
-                    Placeholder = "YYYY-MM-DD",
-                    Keyboard = Keyboard.Numeric
-                };
-                expiryEntry.TextChanged += ExpiryEntry_TextChanged;
-
-                var quantityEntry = new Entry { Text = selectedItemCount.ItemQuantity.ToString(), HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
-
-                var saveButton = new Button
-                {
-                    Text = "Save",
-                    BackgroundColor = Color.FromHex("#0066CC"),
-                    TextColor = Colors.White,
-                    WidthRequest = 100,
-                    HeightRequest = 40
-                };
-
-                var buttonStack = new StackLayout
-                {
-                    Orientation = StackOrientation.Horizontal,
-                    HorizontalOptions = LayoutOptions.Center,
-                    Spacing = 20,
-                    Children = { saveButton }
-                };
-                var page = new ContentPage
-                {
-                    BackgroundColor = new Color(0, 0, 0, 0.1f),
-                    Content = new Frame
-                    {
-                        BackgroundColor = Colors.White,
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalOptions = LayoutOptions.Center,
-                        Padding = new Thickness(20),
-                        WidthRequest = 300,
-                        Content = new StackLayout
-                        {
-                            Spacing = 10,
-                            Children =
-                            {
-                               new Label
-                                    {
-                                        Text = "Edit Product",
-                                        FontAttributes = FontAttributes.Bold,
-                                        HorizontalOptions = LayoutOptions.Center,
-                                        FontSize = 18 
-                                    },
-                                new Label
-                                {
-                                    FormattedText = new FormattedString
-                                    {
-
-                                        Spans =
-                                        {
-
-                                            new Span { Text = "Code: ", FontAttributes = FontAttributes.Bold },
-                                            new Span { Text = $"{selectedItemCount.ItemCode}\n\n" },
-                                            new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
-                                            new Span { Text = $"{selectedItemCount.ItemDescription}\n\n" },
-                                            new Span { Text = "UOM: ", FontAttributes = FontAttributes.Bold },
-                                            new Span { Text = $"{selectedItemCount.ItemUom}" }
-                                        }
-                                    }
-                                },
-                                new Label
-                                {
-                                    FormattedText = new FormattedString
-                                    {
-                                        Spans =
-                                        {
-                                            new Span { Text = "Quantity", FontAttributes = FontAttributes.Bold },
-                                            new Span { Text = " *", TextColor = Colors.Red }
-                                        }
-                                    }
-                                },
-                                quantityEntry,
-                                new Label { Text = "Batch & Lot", FontAttributes = FontAttributes.Bold },
-                                batchAndLotEntry,
-                                new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
-                                expiryEntry,
-                                buttonStack
-                            }
-                        }
-                    }
-                };
-
-
-                var tcs = new TaskCompletionSource<bool>();
-
-                saveButton.Clicked += async (s, args) =>
-                {
-                    string newBatchAndLot = batchAndLotEntry.Text;
-                    string newExpiry = expiryEntry.Text;
-                    string newQuantityString = quantityEntry.Text;
-
-                    if (!string.IsNullOrEmpty(newBatchAndLot) || !string.IsNullOrEmpty(newExpiry) || !string.IsNullOrEmpty(newQuantityString))
-                    {
-
-                        if (int.TryParse(newQuantityString, out int newQuantity))
-                        {
-                            if (newQuantity < 0)
-                            {
-                                await DisplayAlert("Error", "Quantity cannot be negative.", "OK");
-                                return;
-                            }
-
-                            await _itemCountViewModel.EditItemCount(selectedItemCount.ItemKey, newBatchAndLot, newExpiry, newQuantity);
-                            var toast = Toast.Make($"{selectedItemCount.ItemDescription} updated", ToastDuration.Short);
-                            await toast.Show();
-                            LoadItemCountData();
-                            tcs.SetResult(true);
-                        }
-                        else
-                        {
-                            await DisplayAlert("Error", "Invalid quantity.", "OK");
-                        }
-                    }
-                };
-
-                await Navigation.PushModalAsync(page);
-                bool result = await tcs.Task;
-                await Navigation.PopModalAsync();
+                await EditItemDialogHelper.EditItem(selectedItemCount, _itemCountViewModel);
+                LoadItemCountData();
             }
-        }
-
-        private void ExpiryEntry_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var entry = (Entry)sender;
-            var text = entry.Text;
-
-            string cleanedText = new string(text.Where(char.IsDigit).ToArray());
-
-            if (cleanedText.Length > 8)
-            {
-                cleanedText = cleanedText.Substring(0, 8);
-            }
-
-            if (cleanedText.Length > 4)
-            {
-                cleanedText = cleanedText.Insert(4, "-");
-            }
-            if (cleanedText.Length > 7)
-            {
-                cleanedText = cleanedText.Insert(7, "-");
-            }
-
-            entry.Text = cleanedText;
-            entry.CursorPosition = cleanedText.Length;
         }
 
         internal async void OnDeleteClicked(object sender, EventArgs e)
@@ -453,7 +225,8 @@ namespace MauiApp1.Pages
                     try
                     {
                         await _itemCountViewModel.DeleteItemCount(selectedItemCount.ItemKey);
-                        await DisplayAlert("Success", $"Deleted {selectedItemCount.ItemDescription}", "OK");
+                        var toast = Toast.Make($"Deleted {selectedItemCount.ItemDescription}", ToastDuration.Short);
+                        await toast.Show();
                         LoadItemCountData();
                     }
                     catch (Exception ex)
@@ -462,171 +235,6 @@ namespace MauiApp1.Pages
                     }
                 }
             }
-       
-        }
-
-        internal async void AddItem()
-        {
-            var itemCodeLabel = new Label
-            {
-                FormattedText = new FormattedString
-                {
-                    Spans =
-                    {
-                        new Span { Text = "Code: ", FontAttributes = FontAttributes.Bold },
-                        new Span { Text = ItemNumber }
-                    }
-                },
-                HorizontalOptions = LayoutOptions.Fill
-            };
-
-            var itemDescriptionLabel = new Label
-            {
-                FormattedText = new FormattedString
-                {
-                    Spans =
-                    {
-                        new Span { Text = "Description: ", FontAttributes = FontAttributes.Bold },
-                        new Span { Text = ItemDescription }
-                    }
-                },
-                HorizontalOptions = LayoutOptions.Fill
-            };
-
-            var itemUomLabel = new Label
-            {
-                FormattedText = new FormattedString
-                {
-                    Spans =
-                    {
-                        new Span { Text = "UOM: ", FontAttributes = FontAttributes.Bold },
-                        new Span { Text = SellingUom }
-                    }
-                },
-                HorizontalOptions = LayoutOptions.Fill
-            };
-
-            var itemQuantityEntry = new Entry { Placeholder = "Enter quantity", HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
-            var itemBatchLotNumberEntry = new Entry { Placeholder = "Enter batch & lot number", HorizontalOptions = LayoutOptions.Fill };
-            var itemExpiryEntry = new Entry
-            {
-                Placeholder = "YYYY-MM-DD",
-                HorizontalOptions = LayoutOptions.Fill,
-                Keyboard = Keyboard.Numeric
-            };
-            itemExpiryEntry.TextChanged += ExpiryEntry_TextChanged;
-
-            var saveButton = new Button
-            {
-                Text = "Save",
-                BackgroundColor = Color.FromHex("#0066CC"),
-                TextColor = Colors.White,
-                WidthRequest = 100,
-                HeightRequest = 40
-            };
-
-            var buttonStack = new StackLayout
-            {
-                Orientation = StackOrientation.Horizontal,
-                HorizontalOptions = LayoutOptions.Center,
-                Spacing = 20,
-                Children = { saveButton }
-            };
-
-            var page = new ContentPage
-            {
-                BackgroundColor = new Color(0, 0, 0, 0.1f),
-                Content = new Frame
-                {
-                    BackgroundColor = Colors.White,
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center,
-                    Padding = new Thickness(20),
-                    WidthRequest = 300,
-                    Content = new StackLayout
-                    {
-                        Spacing = 10,
-                        Children =
-                        {
-                            new Label { Text = "Add New Product", FontAttributes = FontAttributes.Bold, HorizontalOptions = LayoutOptions.Center, FontSize = 18},
-                            itemCodeLabel,
-                            itemDescriptionLabel,
-                            itemUomLabel,
-                            new Label
-                            {
-                                FormattedText = new FormattedString
-                                {
-                                    Spans =
-                                    {
-                                        new Span { Text = "Quantity", FontAttributes = FontAttributes.Bold },
-                                        new Span { Text = " *", TextColor = Colors.Red }
-                                    }
-                                }
-                            },
-                            itemQuantityEntry,
-                            new Label { Text = "Batch & Lot Number", FontAttributes = FontAttributes.Bold },
-                            itemBatchLotNumberEntry,
-                            new Label { Text = "Expiry (YYYY-MM-DD)", FontAttributes = FontAttributes.Bold },
-                            itemExpiryEntry,
-                            buttonStack
-                        }
-                    }
-                }
-            };
-
-
-            var tcs = new TaskCompletionSource<bool>();
-
-            saveButton.Clicked += async (s, args) =>
-            {
-                string itemCode = ItemNumber;
-                string itemDescription = ItemDescription;
-                string itemUom = SellingUom;
-                string itemBatchLotNumber = itemBatchLotNumberEntry.Text;
-                string itemExpiry = itemExpiryEntry.Text;
-                string itemQuantityString = itemQuantityEntry.Text;
-
-                if (string.IsNullOrEmpty(itemBatchLotNumber))
-                {
-                    itemBatchLotNumber = "N.A";
-                }
-                if (string.IsNullOrEmpty(itemExpiry))
-                {
-                    itemExpiry = "0000-00-00";
-                }
-
-                if (!string.IsNullOrEmpty(itemCode) && !string.IsNullOrEmpty(itemDescription) && !string.IsNullOrEmpty(itemUom) && int.TryParse(itemQuantityString, out int itemQuantity))
-                {
-                    if (itemQuantity < 0)
-                    {
-                        await DisplayAlert("Error", "Quantity cannot be negative.", "OK");
-                        return;
-                    }
-
-                    bool success = await _itemCountViewModel.AddItemCount(_countCode, itemCode, itemDescription, itemUom, itemBatchLotNumber, itemExpiry, itemQuantity);
-                    if (success)
-                    {
-                        var toast = Toast.Make($"{itemDescription} added", ToastDuration.Short);
-                        await toast.Show();
-                        tcs.SetResult(true);
-                        LoadItemCountData();
-
-                    }
-                    else
-                    {
-                        await DisplayAlert("Error", "Failed to add item", "OK");
-                    }
-                }
-                else
-                {
-                    await DisplayAlert("Error", "Please fill all fields correctly.", "OK");
-                }
-            };
-
-            await Navigation.PushModalAsync(page);
-            bool result = await tcs.Task;
-            await Navigation.PopModalAsync();
         }
     }
-
 }

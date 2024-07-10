@@ -11,12 +11,12 @@ namespace MauiApp1.Pages
             _countSheetsPage = countSheetsPage;
             _tempSettings = new Dictionary<string, bool>
             {
-                {"ShowItemNo", _countSheetsPage.ShowItemNo},
-                {"ShowDescription", _countSheetsPage.ShowDescription},
-                {"ShowUom", _countSheetsPage.ShowUom},
-                {"ShowBatchLot", _countSheetsPage.ShowBatchLot},
-                {"ShowExpiry", _countSheetsPage.ShowExpiry},
-                {"ShowQuantity", _countSheetsPage.ShowQuantity}
+                {"ShowItemNo", _countSheetsPage.ColumnVisibility.ShowItemNo},
+                {"ShowDescription", _countSheetsPage.ColumnVisibility.ShowDescription},
+                {"ShowUom", _countSheetsPage.ColumnVisibility.ShowUom},
+                {"ShowBatchLot", _countSheetsPage.ColumnVisibility.ShowBatchLot},
+                {"ShowExpiry", _countSheetsPage.ColumnVisibility.ShowExpiry},
+                {"ShowQuantity", _countSheetsPage.ColumnVisibility.ShowQuantity}
             };
             BindingContext = this;
         }
@@ -111,6 +111,8 @@ namespace MauiApp1.Pages
            
                 ((Button)sender).IsEnabled = true;
             }
+
+            await FadeOutModalFrame();
         }
 
         private async void OnAppearing(object sender, EventArgs e)
@@ -123,6 +125,11 @@ namespace MauiApp1.Pages
         {
             this.Opacity = 0;
             await this.FadeTo(1, 500, Easing.CubicInOut);
+        }
+
+        private async Task FadeOutModalFrame()
+        {
+            await this.FadeTo(0, 500, Easing.CubicInOut);
         }
     }
 }

@@ -59,12 +59,19 @@ namespace MauiApp1.Pages
             {
                 await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
+
+            await FadeOutModalFrame();
         }
 
         private async Task FadeInModalFrame()
         {
             this.Opacity = 0;
             await this.FadeTo(1, 500, Easing.CubicInOut);
+        }
+
+        private async Task FadeOutModalFrame()
+        {
+            await this.FadeTo(0, 500, Easing.CubicInOut);
         }
 
     }
