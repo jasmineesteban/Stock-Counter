@@ -5,6 +5,7 @@ namespace MauiApp1.Helpers
 {
     public static class GridColumnVisibilityHelper
     {
+        private static ItemCount _previousSelectedItem;
         public static void UpdateColumnVisibility(Grid headerGrid, CollectionView dataGrid, bool showCtr, bool showItemNo, bool showDescription, bool showUom, bool showBatchLot, bool showExpiry, bool showQuantity, CountSheetsPage page)
         {
             var columnsToShow = new List<(string Name, bool IsVisible)>
@@ -84,8 +85,30 @@ namespace MauiApp1.Helpers
             {
                 if (itemGrid.BindingContext is ItemCount item)
                 {
+                    // Reset the previously selected item
+                    if (_previousSelectedItem != null && _previousSelectedItem != item)
+                    {
+                        if (_previousSelectedItem.ItemGrid != null)
+                        {
+                            _previousSelectedItem.IsSelected = false;
+                            _previousSelectedItem.ItemGrid.BackgroundColor = Colors.Transparent;
+                        }
+                    }
+
+                    // Select the new item
                     item.IsSelected = !item.IsSelected;
                     itemGrid.BackgroundColor = item.IsSelected ? Colors.LightGray : Colors.Transparent;
+
+                    // Update the previous selected item
+                    if (item.IsSelected)
+                    {
+                        _previousSelectedItem = item;
+                        _previousSelectedItem.ItemGrid = itemGrid;
+                    }
+                    else
+                    {
+                        _previousSelectedItem = null;
+                    }
                 }
             };
             itemGrid.GestureRecognizers.Add(tapGestureRecognizer);
@@ -101,6 +124,7 @@ namespace MauiApp1.Helpers
             swipeView.LeftItems = leftSwipeItems;
             return swipeView;
         }
+
         private static int AddItemColumn(Grid itemGrid, bool isVisible, string bindingPath, string name, int columnIndex)
         {
             if (isVisible)
