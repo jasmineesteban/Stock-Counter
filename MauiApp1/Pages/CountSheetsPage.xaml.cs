@@ -143,7 +143,10 @@ namespace MauiApp1.Pages
 
         private async void LoadItemCountData()
         {
+            var items = await _itemCountViewModel.ShowItemCount(_countCode, _sort);
             await DataLoader.LoadDataAsync(ItemCount, () => _itemCountViewModel.ShowItemCount(_countCode, _sort), LoadingIndicator);
+            int itemCount = items.Count();
+            loadedItemCount.Text = $"Items Counted: {itemCount}";
         }
 
         private async void AddItem_Clicked(object sender, EventArgs e)
