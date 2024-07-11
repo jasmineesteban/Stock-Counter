@@ -49,7 +49,6 @@ namespace MauiApp1.Pages
 
                 await _countSheetViewModel.AddCountSheet(employeeId, description, date);
 
-                // Display a toast message on success
                 var toast = Toast.Make("Count sheet added !", ToastDuration.Short);
                 await toast.Show();
 

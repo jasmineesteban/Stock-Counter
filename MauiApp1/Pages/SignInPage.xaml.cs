@@ -64,12 +64,7 @@ namespace MauiApp1.Pages
 
             string server = ConnectionStringHelper.GetServerValue(decryptedConnectionString);
             string portNumber = ConnectionStringHelper.GetPortNumber(decryptedConnectionString);
-            
-
-            var toast = Toast.Make($"Server: {server},{portNumber}", ToastDuration.Long);
-            await toast.Show();
-
-            GlobalVariable.BaseAddress = GetBaseAddress(server,portNumber);
+            GlobalVariable.BaseAddress = ConnectionStringHelper.GetBaseAddress(server,portNumber);
 
             try
             {
@@ -125,13 +120,6 @@ namespace MauiApp1.Pages
                 LoadingIndicator.IsRunning = false;
                 _isNavigating = false;
             }
-        }
-
-        public static Uri GetBaseAddress(string serverName, string portNumber)
-        {
-            return DeviceInfo.Platform == DevicePlatform.Android
-                ? new Uri($"http://{serverName}:{portNumber}/")
-                : new Uri($"http://{serverName}:{portNumber}/");
         }
     }
 }

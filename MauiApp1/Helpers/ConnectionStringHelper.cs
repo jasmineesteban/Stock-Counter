@@ -27,5 +27,13 @@
             }
             return null;
         }
+
+        public static Uri GetBaseAddress(string serverName, string portNumber)
+        {
+            return DeviceInfo.Platform == DevicePlatform.Android
+                ? new Uri($"http://{serverName}:{portNumber}/")
+                : new Uri($"http://{serverName}:{portNumber}/");
+        }
+
     }
 }
