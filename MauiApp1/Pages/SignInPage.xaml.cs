@@ -49,7 +49,7 @@ namespace MauiApp1.Pages
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                await StartupHelper.ShowAlert(this, "Missing Connection String", "No connection string found. Please check the config.bgc file or secure storage.", "OK");
+                await StartupHelper.ShowAlert(this, "Missing config.bgc file", "No connection string found. Please check the config.bgc file or secure storage.", "OK");
                 _isNavigating = false;
                 return;
             }
