@@ -102,24 +102,19 @@ namespace MauiApp1.Pages
             dataGrid.ItemsSource = ItemCount;
             BindingContext = this;
 
-            // UI Components
+         
             loadedItemCount = this.FindByName<Label>("LoadedItemCount");
-
-            // Column Visibility Helper
             ColumnVisibility = new ColumnVisibilityHelper();
             ColumnVisibility.PropertyChanged += (sender, e) => UpdateColumnVisibility();
             InitializeVisibilitySettings();
             UpdateColumnVisibility();
 
-            // Initial Data
+         
             LoadItemCountData();
 
-            // tap Gesture for Header Grid
             var tapGesture = new TapGestureRecognizer();
             tapGesture.Tapped += OnHeaderGridTapped;
             HeaderGrid.GestureRecognizers.Add(tapGesture);
-
-            // Sorting
             _sort = sortValue;
         }
 
@@ -145,36 +140,10 @@ namespace MauiApp1.Pages
             });
         }
 
+
         private async void LoadItemCountData()
         {
-            try
-            {
-                LoadingIndicator.IsRunning = true;
-                LoadingIndicator.IsVisible = true;
-
-                var items = await _itemCountViewModel.ShowItemCount(_countCode, _sort);
-
-                var selectedItems = ItemCount.Where(i => i.IsSelected).Select(i => i.ItemKey).ToList();
-
-                ItemCount.Clear();
-                foreach (var item in items)
-                {
-                    item.IsSelected = selectedItems.Contains(item.ItemKey);
-                    ItemCount.Add(item);
-                }
-
-                int itemCount = items.Count();
-                loadedItemCount.Text = $"Items Counted: {itemCount}";
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Failed to load items: {ex.Message}", "OK");
-            }
-            finally
-            {
-                LoadingIndicator.IsRunning = false;
-                LoadingIndicator.IsVisible = false;
-            }
+            await DataLoader.LoadDataAsync(ItemCount, () => _itemCountViewModel.ShowItemCount(_countCode, _sort), LoadingIndicator);
         }
 
         private async void AddItem_Clicked(object sender, EventArgs e)

@@ -1,4 +1,6 @@
-﻿namespace MauiApp1.Helpers
+﻿using MauiApp1.Models;
+
+namespace MauiApp1.Helpers
 {
     public static class ConnectionStringHelper
     {
@@ -35,5 +37,11 @@
                 : new Uri($"http://{serverName}:{portNumber}/");
         }
 
+        public static void SetGlobalBaseAddress(string connectionString)
+        {
+            var server = GetServerValue(connectionString);
+            var portNumber = GetPortNumber(connectionString);
+            GlobalVariable.BaseAddress = GetBaseAddress(server, portNumber);
+        }
     }
 }

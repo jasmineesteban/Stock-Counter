@@ -2,17 +2,15 @@
 using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.Interfaces;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 
 namespace MauiApp1.Pages
 {
     public partial class SignInPage : ContentPage
     {
         private readonly HttpClientService _httpClientService;
+        private readonly ISecurity _securityService;
         private readonly string _fileName = "config.bgc";
         private bool _isNavigating;
-        private readonly ISecurity _securityService;
 
         public SignInPage(HttpClientService httpClientService, ISecurity securityService)
         {
@@ -20,6 +18,11 @@ namespace MauiApp1.Pages
             _httpClientService = httpClientService;
             _securityService = securityService;
 
+            InitializeCarouselItems();
+        }
+
+        private void InitializeCarouselItems()
+        {
             var items = new List<CarouselItem>
             {
                 new CarouselItem { Title = "Welcome to Stock Counter", Description = "Have an effortless inventory management by keeping your stocks organized. Track everything easily!", Image = "start.png"},
@@ -41,85 +44,65 @@ namespace MauiApp1.Pages
             await StartupHelper.CheckAndRequestStoragePermissions();
 #endif
 
-            string downloadPath = await StartupHelper.GetDownloadPath();
+            var downloadPath = await StartupHelper.GetDownloadPath();
             var (connectionString, fromFile) = await StartupHelper.GetConnectionStringAsync(downloadPath, _fileName);
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                await DisplayAlert("Missing Connection String",
-                    "No connection string found. Please check the config.bgc file or secure storage.", "OK");
+                await StartupHelper.ShowAlert(this, "Missing Connection String", "No connection string found. Please check the config.bgc file or secure storage.", "OK");
                 _isNavigating = false;
                 return;
             }
 
-            string decryptedConnectionString;
-            if (fromFile)
-            {
-                decryptedConnectionString = await _securityService.DecryptAsync(connectionString);
-            }
-            else
-            {
-                decryptedConnectionString = connectionString;
-            }
+            var decryptedConnectionString = fromFile
+                ? await _securityService.DecryptAsync(connectionString)
+                : connectionString;
 
-            string server = ConnectionStringHelper.GetServerValue(decryptedConnectionString);
-            string portNumber = ConnectionStringHelper.GetPortNumber(decryptedConnectionString);
-            GlobalVariable.BaseAddress = ConnectionStringHelper.GetBaseAddress(server,portNumber);
+
+            ConnectionStringHelper.SetGlobalBaseAddress(decryptedConnectionString);
 
             try
             {
-                LoadingIndicator.IsVisible = true;
-                LoadingIndicator.IsRunning = true;
                 if (Connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await DisplayAlert("No Internet Connection",
-                        "You're offline. Check your connection and try again.\nHow to fix:\n• Ensure Wi-Fi or mobile data is on.\n• Verify airplane mode is off.", "OK");
+                    await StartupHelper.ShowAlert(this, "No Internet Connection", "You're offline. Check your connection and try again.\nHow to fix:\n• Ensure Wi-Fi or mobile data is on.\n• Verify airplane mode is off.", "OK");
                     return;
                 }
+
+                ShowLoadingIndicator(true);
 
                 var apiResult = await _httpClientService.SetConnectionStringAsync(decryptedConnectionString);
 
                 if (apiResult)
                 {
                     await SecureStorage.SetAsync("connectionString", decryptedConnectionString);
-
-                    if (fromFile)
-                    {
-                        string filePath = StartupHelper.FindFileCaseInsensitive(downloadPath, _fileName);
-                        if (filePath != null)
-                        {
-                            File.Delete(filePath);
-                        }
-                    }
-
+                    await StartupHelper.DeleteConfigFileIfNeeded(downloadPath, _fileName, fromFile);
                     await Shell.Current.GoToAsync(nameof(EmployeeSelectorPage));
                 }
                 else
                 {
-                    await DisplayAlert("Invalid config.bgc file content",
-                        "The connection string is invalid.\nHow to fix:\n" +
-                        "• Ensure the config.bgc file is correctly formatted.\n" +
-                        "• Double-check for any typos or missing characters.\n" +
-                        "• Verify that the server address, database name, username, and password are correct.",
-                        "OK");
+                    await StartupHelper.ShowAlert(this, "Invalid config.bgc file content", "The connection string is invalid.\nHow to fix:\n• Ensure the config.bgc file is correctly formatted.\n• Double-check for any typos or missing characters.\n• Verify that the server address, database name, username, and password are correct.", "OK");
                 }
             }
             catch (HttpRequestException)
             {
-                await DisplayAlert("Host is offline or unreachable",
-                    "Unable to connect to the Host.\nHow to fix:\n• Ensure the server is online.\n• Ensure the server host is running and reachable.", "OK");
+                await StartupHelper.ShowAlert(this, "Host is offline or unreachable", "Unable to connect to the Host.\nHow to fix:\n• Ensure the server is online.\n• Ensure the server host is running and reachable.", "OK");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Unexpected Error",
-                    $"An unexpected error occurred: {ex.Message}. Try again later", "OK");
+                await StartupHelper.ShowAlert(this, "Unexpected Error", $"An unexpected error occurred: {ex.Message}. Try again later", "OK");
             }
             finally
             {
-                LoadingIndicator.IsVisible = false;
-                LoadingIndicator.IsRunning = false;
+                ShowLoadingIndicator(false);
                 _isNavigating = false;
             }
+        }
+
+        private void ShowLoadingIndicator(bool show)
+        {
+            LoadingIndicator.IsVisible = show;
+            LoadingIndicator.IsRunning = show;
         }
     }
 }

@@ -53,28 +53,9 @@ namespace MauiApp1.Pages
 
         private async void LoadCountSheets()
         {
-            try
-            {
-                LoadingIndicator.IsRunning = true;
-                LoadingIndicator.IsVisible = true;
-
-                var countSheets = await _countSheetViewModel.ShowCountSheet(employeeId);
-                CountSheets.Clear();
-                foreach (var sheet in countSheets)
-                {
-                    CountSheets.Add(sheet);
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Failed to load count sheets: {ex.Message}", "OK");
-            }
-            finally
-            {
-                LoadingIndicator.IsRunning = false;
-                LoadingIndicator.IsVisible = false;
-            }
+            await DataLoader.LoadDataAsync(CountSheets, () => _countSheetViewModel.ShowCountSheet(employeeId), LoadingIndicator);
         }
+
 
         private async void Form_Clicked(object sender, EventArgs e)
         {
