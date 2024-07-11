@@ -27,28 +27,9 @@ public partial class ItemSelectorPage2 : ContentPage
 
     private async Task LoadItems(string pattern = "")
     {
-        LoadingIndicator.IsVisible = true;
-        LoadingIndicator.IsRunning = true;
-
-        try
-        {
-            var items = await _viewModel.GetItem(pattern);
-            _items.Clear();
-            foreach (var item in items)
-            {
-                _items.Add(item);
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", $"Failed to load items: {ex.Message}", "OK");
-        }
-        finally
-        {
-            LoadingIndicator.IsVisible = false;
-            LoadingIndicator.IsRunning = false;
-        }
+        await DataLoader.LoadDataAsync(_items, () => _viewModel.GetItem(pattern), LoadingIndicator);
     }
+
 
     private async void OnSearchBarTextChanged(object sender, TextChangedEventArgs e)
     {
