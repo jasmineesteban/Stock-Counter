@@ -15,7 +15,7 @@
     </Shell.Behaviors>
 
 
-    <ShellContent ContentTemplate="{DataTemplate pages:OnboardingPage}"
+    <ShellContent ContentTemplate="{DataTemplate pages:SignInPage}"
                   Shell.FlyoutBehavior="Disabled"
                   Shell.FlyoutItemIsVisible="False"/>
 
