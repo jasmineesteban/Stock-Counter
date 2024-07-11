@@ -1,99 +1,74 @@
 using MauiApp1.ViewModels;
+using MauiApp1.Helpers;
 using System.Collections.ObjectModel;
 using MauiApp1.Models;
-using ZXing.Mobile;
 
-namespace MauiApp1.Pages;
-public partial class ItemSelectorPage2 : ContentPage
+namespace MauiApp1.Pages
 {
-    private readonly ItemViewModel2 _viewModel;
-    private ObservableCollection<Item> _items;
-    public Item SelectedItem { get; private set; }
-
-    public ItemSelectorPage2(ItemViewModel2 viewModel)
+    public partial class ItemSelectorPage2 : ContentPage
     {
-        InitializeComponent();
-        _viewModel = viewModel;
-        _items = new ObservableCollection<Item>();
-        ItemsCollectionView.ItemsSource = _items;
-        BindingContext = _viewModel;
-    }
+        private readonly ItemViewModel2 _viewModel;
+        private readonly ObservableCollection<Item> _items;
+        public Item SelectedItem { get; private set; }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await LoadItems();
-    }
-
-    private async Task LoadItems(string pattern = "")
-    {
-        await DataLoader.LoadDataAsync(_items, () => _viewModel.GetItem(pattern), LoadingIndicator);
-    }
-
-
-    private async void OnSearchBarTextChanged(object sender, TextChangedEventArgs e)
-    {
-        await LoadItems(e.NewTextValue);
-    }
-
-    private async void ScanBarcode_Clicked(object sender, EventArgs e)
-    {
-        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
-        if (status != PermissionStatus.Granted)
+        public ItemSelectorPage2(ItemViewModel2 viewModel)
         {
-            status = await Permissions.RequestAsync<Permissions.Camera>();
+            InitializeComponent();
+            _viewModel = viewModel;
+            _items = new ObservableCollection<Item>();
+            ItemsCollectionView.ItemsSource = _items;
+            BindingContext = _viewModel;
         }
 
-        if (status == PermissionStatus.Granted)
+        protected override async void OnAppearing()
         {
-            var options = new MobileBarcodeScanningOptions
-            {
-                AutoRotate = true,
-                UseFrontCameraIfAvailable = false,
-            };
+            base.OnAppearing();
+            await LoadItems();
+        }
 
-            var scanner = new MobileBarcodeScanner
-            {
-                TopText = "Hold the camera up to the barcode",
-                BottomText = "Scanning will happen automatically",
-            };
+        private async Task LoadItems(string pattern = "")
+        {
+            await DataLoader.LoadDataAsync(_items, () => _viewModel.GetItem(pattern), LoadingIndicator);
+        }
 
-            var result = await scanner.Scan(options);
-            if (result != null)
+        private async void OnSearchBarTextChanged(object sender, TextChangedEventArgs e)
+        {
+            await LoadItems(e.NewTextValue);
+        }
+
+        private async void ScanBarcode_Clicked(object sender, EventArgs e)
+        {
+            var result = await BarcodeHelper.ScanBarcodeAsync();
+            if (!string.IsNullOrEmpty(result))
             {
-                ItemSearchBar.Text = result.Text;
+                ItemSearchBar.Text = result;
             }
         }
-        else
-        {
-            await Application.Current.MainPage.DisplayAlert("Permission Denied", "Camera permission is required to scan barcodes.", "OK");
-        }
-    }
 
-    private async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.FirstOrDefault() is Item selectedItem)
+        private async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedItem = selectedItem;
-            var parameters = new Dictionary<string, object>
+            if (e.CurrentSelection.FirstOrDefault() is Item selectedItem)
             {
-                { "ItemDescription", selectedItem.ItemDescription },
-                { "SellingUom", selectedItem.SellingUom },
-                { "ItemNumber", selectedItem.ItemNumber }
-            };
-            await Shell.Current.GoToAsync("..", parameters);
+                SelectedItem = selectedItem;
+                var parameters = new Dictionary<string, object>
+                {
+                    { "ItemDescription", selectedItem.ItemDescription },
+                    { "SellingUom", selectedItem.SellingUom },
+                    { "ItemNumber", selectedItem.ItemNumber }
+                };
+                await Shell.Current.GoToAsync("..", parameters);
+            }
+            else
+            {
+                SelectedItem = null;
+            }
+
+            await FadeOutPage();
         }
-        else
+
+        private async Task FadeOutPage()
         {
-            SelectedItem = null;
+            await this.FadeTo(0, 500, Easing.CubicInOut);
         }
-
-        await FadeOutPage();
-    }
-
-    private async Task FadeOutPage()
-    {
-        await this.FadeTo(0, 500, Easing.CubicInOut);
     }
 }
-
