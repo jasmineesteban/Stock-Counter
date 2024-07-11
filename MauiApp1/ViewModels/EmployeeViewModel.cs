@@ -35,17 +35,9 @@ namespace MauiApp1.ViewModels
 
         private async Task LoadEmployeesAsync(string pattern)
         {
-            try
-            {
-                var employees = await _httpClientService.GetEmployeesAsync(pattern);
-                PopulateEmployeesList(employees);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error loading employees: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to load employees.", "OK");
-            }
+            await DataLoader.LoadDataAsync(Employees, () => _httpClientService.GetEmployeesAsync(pattern));
         }
+
 
         private void PopulateEmployeesList(IEnumerable<Employee> employees)
         {

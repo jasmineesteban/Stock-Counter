@@ -1,4 +1,6 @@
-﻿namespace MauiApp1.Helpers
+﻿using MauiApp1.Models;
+
+namespace MauiApp1.Helpers
 {
     public static class ConnectionStringHelper
     {
@@ -26,6 +28,20 @@
                 }
             }
             return null;
+        }
+
+        public static Uri GetBaseAddress(string serverName, string portNumber)
+        {
+            return DeviceInfo.Platform == DevicePlatform.Android
+                ? new Uri($"http://{serverName}:{portNumber}/")
+                : new Uri($"http://{serverName}:{portNumber}/");
+        }
+
+        public static void SetGlobalBaseAddress(string connectionString)
+        {
+            var server = GetServerValue(connectionString);
+            var portNumber = GetPortNumber(connectionString);
+            GlobalVariable.BaseAddress = GetBaseAddress(server, portNumber);
         }
     }
 }

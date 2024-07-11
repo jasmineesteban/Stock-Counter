@@ -66,6 +66,21 @@ namespace MauiApp1.Helpers
             }
         }
 
+        public static async Task DeleteConfigFileIfNeeded(string downloadPath, string fileName, bool fromFile)
+        {
+            if (fromFile)
+            {
+                var filePath = FindFileCaseInsensitive(downloadPath, fileName);
+                if (filePath != null)
+                {
+                    File.Delete(filePath);
+                }
+            }
+        }
 
+        public static async Task ShowAlert(Page page, string title, string message, string cancel)
+        {
+            await page.DisplayAlert(title, message, cancel);
+        }
     }
 }
