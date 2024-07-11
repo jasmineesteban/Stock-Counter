@@ -83,9 +83,10 @@ namespace MauiApp1.Pages
                     await StartupHelper.ShowAlert(this, "Invalid config.bgc file content", "The connection string is invalid.\nHow to fix:\n• Ensure the config.bgc file is correctly formatted.\n• Double-check for any typos or missing characters.\n• Verify that the server address, database name, username, and password are correct.", "OK");
                 }
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException ex)
             {
-                await StartupHelper.ShowAlert(this, "Host is offline or unreachable", "Unable to connect to the Host.\nHow to fix:\n• Ensure the server is online.\n• Ensure the server host is running and reachable.", "OK");
+                string errorDetails = $"Error: {ex.Message}\nInner Exception: {ex.InnerException?.Message}\nStack Trace: {ex.StackTrace}";
+                await StartupHelper.ShowAlert(this, "Host is offline or unreachable", $"Unable to connect to the Host.\nHow to fix:\n• Ensure the server is online.\n• Ensure the server host is running and reachable.\n\nError Details:\n{errorDetails}", "OK");
             }
             catch (Exception ex)
             {
