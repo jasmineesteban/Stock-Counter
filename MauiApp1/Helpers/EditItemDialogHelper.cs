@@ -118,7 +118,7 @@ namespace MauiApp1.Helpers
                         }
 
                         await itemCountViewModel.EditItemCount(selectedItemCount.ItemKey, newBatchAndLot, newExpiry, newQuantity);
-                        var toast = Toast.Make($"{selectedItemCount.ItemDescription} updated", ToastDuration.Short);
+                        var toast = Toast.Make($"{selectedItemCount.ItemDescription} Updated", ToastDuration.Short);
                         await toast.Show();
                         tcs.SetResult(true);
                     }
