@@ -58,7 +58,6 @@ namespace MauiApp1.Pages
                 ? await _securityService.DecryptAsync(connectionString)
                 : connectionString;
 
-
             ConnectionStringHelper.SetGlobalBaseAddress(decryptedConnectionString);
 
             try
