@@ -73,7 +73,7 @@ namespace MauiApp1.Pages
                 if (Connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
                     await DisplayAlert("No Internet Connection",
-                        "You're offline. Check your connection and try again.\nHow to fix:\n� Ensure Wi-Fi or mobile data is on.\n� Verify airplane mode is off.", "OK");
+                        "You're offline. Check your connection and try again.\nHow to fix:\n• Ensure Wi-Fi or mobile data is on.\n• Verify airplane mode is off.", "OK");
                     return;
                 }
 
@@ -98,16 +98,16 @@ namespace MauiApp1.Pages
                 {
                     await DisplayAlert("Invalid config.bgc file content",
                         "The connection string is invalid.\nHow to fix:\n" +
-                        "� Ensure the config.bgc file is correctly formatted.\n" +
-                        "� Double-check for any typos or missing characters.\n" +
-                        "� Verify that the server address, database name, username, and password are correct.",
+                        "• Ensure the config.bgc file is correctly formatted.\n" +
+                        "• Double-check for any typos or missing characters.\n" +
+                        "• Verify that the server address, database name, username, and password are correct.",
                         "OK");
                 }
             }
             catch (HttpRequestException)
             {
                 await DisplayAlert("Host is offline or unreachable",
-                    "Unable to connect to the Host.\nHow to fix:\n�Ensure the server is online.\n�Ensure the server host is running and reachable.", "OK");
+                    "Unable to connect to the Host.\nHow to fix:\n• Ensure the server is online.\n• Ensure the server host is running and reachable.", "OK");
             }
             catch (Exception ex)
             {
