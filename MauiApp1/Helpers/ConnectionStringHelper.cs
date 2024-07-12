@@ -17,15 +17,9 @@
 
         public static Uri GetBaseAddress(string serverName, string portNumber)
         {
-            try
-            {
-                string serverTemp = serverName.Trim();
-                return new Uri($"http://{serverTemp}:{portNumber}");
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Invalid server address.", ex);
-            }
+          
+            return new Uri($"http://{serverName}:{portNumber}");
         }
+
     }
 }
