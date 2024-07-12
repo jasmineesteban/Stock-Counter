@@ -59,8 +59,8 @@ namespace MauiApp1.Pages
                 ? await _securityService.DecryptAsync(connectionString)
                 : connectionString;
 
-            var server = ConnectionStringHelper.GetConnectionStringParameter(connectionString, "Server");
-            var portNumber = ConnectionStringHelper.GetConnectionStringParameter(connectionString, "PortNumber");
+            var server = ConnectionStringHelper.GetConnectionStringParameter(decryptedConnectionString, "Server");
+            var portNumber = ConnectionStringHelper.GetConnectionStringParameter(decryptedConnectionString, "PortNumber");
 
             GlobalVariable.BaseAddress = ConnectionStringHelper.GetBaseAddress(server, portNumber);
 
