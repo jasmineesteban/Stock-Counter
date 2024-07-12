@@ -2,6 +2,7 @@
 using MauiApp1.Helpers;
 using MauiApp1.Models;
 using MauiApp1.Interfaces;
+using StockCounterBackOffice.Helpers;
 
 namespace MauiApp1.Pages
 {
@@ -58,7 +59,11 @@ namespace MauiApp1.Pages
                 ? await _securityService.DecryptAsync(connectionString)
                 : connectionString;
 
-            ConnectionStringHelper.SetGlobalBaseAddress(decryptedConnectionString);
+            var server = ConnectionStringHelper.GetConnectionStringParameter(connectionString, "Server");
+            var portNumber = ConnectionStringHelper.GetConnectionStringParameter(connectionString, "PortNumber");
+
+            GlobalVariable.BaseAddress = ConnectionStringHelper.GetBaseAddress(server, portNumber);
+
 
             try
             {

@@ -1,30 +1,15 @@
-﻿using MauiApp1.Models;
-
-namespace MauiApp1.Helpers
+﻿namespace StockCounterBackOffice.Helpers
 {
     public static class ConnectionStringHelper
     {
-        public static string GetServerValue(string connectionString)
+        public static string GetConnectionStringParameter(string connectionString, string parameterName)
         {
             var parameters = connectionString.Split(';');
             foreach (var parameter in parameters)
             {
-                if (parameter.StartsWith("Server=", StringComparison.OrdinalIgnoreCase))
+                if (parameter.StartsWith($"{parameterName}=", StringComparison.OrdinalIgnoreCase))
                 {
-                    return parameter.Substring("Server=".Length);
-                }
-            }
-            return null;
-        }
-
-        public static string GetPortNumber(string connectionString)
-        {
-            var parameters = connectionString.Split(';');
-            foreach (var parameter in parameters)
-            {
-                if (parameter.StartsWith("PortNumber=", StringComparison.OrdinalIgnoreCase))
-                {
-                    return parameter.Substring("PortNumber=".Length);
+                    return parameter.Substring($"{parameterName}=".Length);
                 }
             }
             return null;
@@ -32,16 +17,15 @@ namespace MauiApp1.Helpers
 
         public static Uri GetBaseAddress(string serverName, string portNumber)
         {
-            return DeviceInfo.Platform == DevicePlatform.Android
-                ? new Uri($"http://{serverName}:{portNumber}/")
-                : new Uri($"http://{serverName}:{portNumber}/");
-        }
-
-        public static void SetGlobalBaseAddress(string connectionString)
-        {
-            var server = GetServerValue(connectionString);
-            var portNumber = GetPortNumber(connectionString);
-            GlobalVariable.BaseAddress = GetBaseAddress(server, portNumber);
+            try
+            {
+                string serverTemp = serverName.Trim();
+                return new Uri($"http://{serverTemp}:{portNumber}");
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Invalid server address.", ex);
+            }
         }
     }
 }
