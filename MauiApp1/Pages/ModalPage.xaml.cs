@@ -32,6 +32,13 @@ namespace MauiApp1.Pages
         {
             base.OnAppearing();
             await FadeInModalFrame();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                CountSheetEntry.Focus();
+            });
+
+            CountSheetEntry.Completed += (s, e) => { CountSheetEntry.Unfocus(); };
+
         }
 
         private async void Save_Clicked(object sender, EventArgs e)
@@ -51,6 +58,7 @@ namespace MauiApp1.Pages
 
                 var toast = Toast.Make("Count sheet added !", ToastDuration.Short);
                 await toast.Show();
+                CountSheetEntry.Unfocus();
 
                 await Shell.Current.Navigation.PopModalAsync();
             }

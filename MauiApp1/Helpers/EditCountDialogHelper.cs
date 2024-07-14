@@ -75,6 +75,7 @@ namespace MauiApp1.Helpers
                         await _countSheetViewModel.EditCountSheet(selectedCountSheet.CountCode, newDescription);
                         var toast = Toast.Make($"Updated {selectedCountSheet.CountDescription} to {newDescription}", ToastDuration.Short);
                         await toast.Show();
+                        descriptionEntry.Unfocus();
                         tcs.SetResult(true);
                     }
                     catch (Exception ex)
@@ -89,6 +90,14 @@ namespace MauiApp1.Helpers
             };
 
             await Application.Current.MainPage.Navigation.PushModalAsync(page);
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                descriptionEntry.Focus();
+                descriptionEntry.CursorPosition = 0;
+                descriptionEntry.SelectionLength = descriptionEntry.Text.Length;
+            });
+
             await tcs.Task;
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }

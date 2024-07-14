@@ -9,6 +9,7 @@ namespace MauiApp1.Helpers
     {
         public static async Task<bool> AddItem(string itemCode, string itemDescription, string itemUom, string countCode, ItemCountViewModel itemCountViewModel, HttpClientService httpClientService)
         {
+
             var itemQuantityEntry = new Entry { Placeholder = "Enter quantity", HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
             var itemBatchLotNumberEntry = new Entry { Placeholder = "Enter batch & lot number", HorizontalOptions = LayoutOptions.Fill };
             var itemExpiryEntry = new Entry
@@ -17,6 +18,12 @@ namespace MauiApp1.Helpers
                 HorizontalOptions = LayoutOptions.Fill,
                 Keyboard = Keyboard.Numeric,
             };
+
+            itemQuantityEntry.Focus();
+
+            itemQuantityEntry.Completed += (s, e) => itemBatchLotNumberEntry.Focus();
+            itemBatchLotNumberEntry.Completed += (s, e) => itemExpiryEntry.Focus();
+            itemExpiryEntry.Completed += (s, e) => { itemExpiryEntry.Unfocus(); };
 
             itemExpiryEntry.TextChanged += ExpiryEntry_TextChanged;
 
@@ -108,6 +115,11 @@ namespace MauiApp1.Helpers
                     {
                         var toast = Toast.Make($"{itemDescription} added", ToastDuration.Short);
                         await toast.Show();
+
+                        itemQuantityEntry.Unfocus();
+                        itemBatchLotNumberEntry.Unfocus();
+                        itemExpiryEntry.Unfocus();
+
                         tcs.SetResult(true);
                     }
                     else
@@ -122,6 +134,12 @@ namespace MauiApp1.Helpers
             };
 
             await Application.Current.MainPage.Navigation.PushModalAsync(page);
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                itemQuantityEntry.Focus();
+            });
+
             bool result = await tcs.Task;
             await Application.Current.MainPage.Navigation.PopModalAsync();
 

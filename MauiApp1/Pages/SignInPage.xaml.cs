@@ -91,7 +91,7 @@ namespace MauiApp1.Pages
             catch (HttpRequestException ex)
             {
                 string errorDetails = $"Error: {ex.Message}\nInner Exception: {ex.InnerException?.Message}\nStack Trace: {ex.StackTrace}";
-                await StartupHelper.ShowAlert(this, "Host is offline or unreachable", $"Unable to connect to the Host.\nHow to fix:\n• Ensure the server is online.\n• Ensure the server host is running and reachable.\n\nError Details:\n{errorDetails}", "OK");
+                await StartupHelper.ShowAlert(this, "Host is offline or unreachable", $"Unable to connect to the Host.\nHow to fix:\n• Ensure the server is online.\n• Ensure the server host is running and reachable.\n\nError Details:\n{ex.Message}", "OK");
             }
             catch (Exception ex)
             {

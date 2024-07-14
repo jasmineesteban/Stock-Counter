@@ -22,6 +22,28 @@ namespace MauiApp1.Helpers
 
             var quantityEntry = new Entry { Text = selectedItemCount.ItemQuantity.ToString(), HorizontalOptions = LayoutOptions.Fill, Keyboard = Keyboard.Numeric };
 
+            quantityEntry.Focus();
+            quantityEntry.Completed += (s, e) =>
+            {
+                batchAndLotEntry.Focus();
+                batchAndLotEntry.CursorPosition = 0;
+                batchAndLotEntry.SelectionLength = batchAndLotEntry.Text.Length;
+            };
+            batchAndLotEntry.Completed += (s, e) =>
+            {
+                expiryEntry.Focus();
+                expiryEntry.CursorPosition = 0;
+                expiryEntry.SelectionLength = expiryEntry.Text.Length;
+            };
+            expiryEntry.Completed += (s, e) =>
+            {
+                expiryEntry.Unfocus();
+                expiryEntry.CursorPosition = 0;
+                expiryEntry.SelectionLength = expiryEntry.Text.Length;
+            };
+
+
+
             var saveButton = new Button
             {
                 Text = "Save",
@@ -120,6 +142,11 @@ namespace MauiApp1.Helpers
                         await itemCountViewModel.EditItemCount(selectedItemCount.ItemKey, newBatchAndLot, newExpiry, newQuantity);
                         var toast = Toast.Make($"{selectedItemCount.ItemDescription} Updated", ToastDuration.Short);
                         await toast.Show();
+
+                        quantityEntry.Unfocus();
+                        batchAndLotEntry.Unfocus();
+                        expiryEntry.Unfocus();
+
                         tcs.SetResult(true);
                     }
                     else
@@ -130,6 +157,14 @@ namespace MauiApp1.Helpers
             };
 
             await Application.Current.MainPage.Navigation.PushModalAsync(page);
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                quantityEntry.Focus();
+                quantityEntry.CursorPosition = 0;
+                quantityEntry.SelectionLength = quantityEntry.Text.Length;
+            });
+
             bool result = await tcs.Task;
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
